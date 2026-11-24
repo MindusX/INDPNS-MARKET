@@ -5,15 +5,16 @@
 <section class="hero2">
   <div class="hero-grid">
     <div class="hero-copy">
-      <span class="kicker">{% trans "The marketplace for builders" %}</span>
+      <span class="pill"><i></i>{% trans "Moderated marketplace for builders" %}</span>
       <h1>{% trans "Ship faster with professional digital products" %}</h1>
       <p class="lead">{% trans "Source code, templates, plugins, SDKs and AI tools from independent creators — reviewed before publication and sold with clear licenses." %}</p>
       <form class="hero-search" action="{% url 'products:search' %}" method="get" role="search">
         <label class="sr-only" for="hq">{% trans "Search" %}</label>
         <input id="hq" type="search" name="q" placeholder="{% trans 'Search scripts, templates, plugins, AI agents…' %}" maxlength="100" autocomplete="off">
-        <button class="btn btn-primary" type="submit">{% icon "search" 18 %} {% trans "Search" %}</button>
+        <button class="btn btn-primary" type="submit" aria-label="{% trans 'Search' %}">{% icon "search" 18 %}</button>
       </form>
       <div class="hero-tags"><span>{% trans "Popular:" %}</span>{% for c in categories|slice:":5" %}<a href="{{ c.get_absolute_url }}">{{ c.name }}</a>{% endfor %}</div>
+      <div class="hero-cta"><a class="btn btn-primary" href="{% url 'products:explore' %}">{% trans "Explore products" %}</a><a class="btn" href="{% url 'accounts:become_seller' %}">{% trans "Become a seller" %}</a></div>
     </div>
     <div class="hero-art"><img src="{% static 'images/hero/hero.svg' %}" alt="{% trans 'Illustration of the INDPNS Market catalog' %}" width="720" height="560" fetchpriority="high"></div>
   </div>
@@ -28,10 +29,8 @@
 
 <section class="section reveal" aria-labelledby="h-cats">
   <div class="section-head"><div><h2 id="h-cats">{% trans "Browse by category" %}</h2><p>{% trans "Find exactly what your project needs." %}</p></div><a href="{% url 'products:explore' %}">{% trans "View all" %} →</a></div>
-  <div class="cat-grid">
-    {% for c in categories %}<a class="cat-card" href="{{ c.get_absolute_url }}"><div class="cat-art-wrap"><div class="cat-art cat-{{ c.slug }}"></div></div><div class="cat-info"><strong>{{ c.name }}</strong><span>{{ c.description|default:_("Explore products") }}</span></div></a>
-    {% empty %}<div class="card empty" style="grid-column:1/-1"><h3>{% trans "No categories yet" %}</h3></div>{% endfor %}
-  </div>
+  {% if categories %}<div class="bento">{% for c in categories %}<a class="cat-card" href="{{ c.get_absolute_url }}"><div class="cat-art-wrap"><div class="cat-art cat-{{ c.slug }}"></div></div><div class="cat-info"><strong>{{ c.name }}</strong><span>{{ c.description|default:_("Explore products") }}</span></div></a>{% endfor %}</div>
+  {% else %}<div class="card empty"><h3>{% trans "No categories yet" %}</h3></div>{% endif %}
 </section>
 
 {% if recommended %}<section class="section reveal"><div class="section-head"><h2>{% trans "Recommended for you" %}</h2></div><div class="grid grid-products">{% for p in recommended %}{% include "public/components/product_card.html" %}{% endfor %}</div></section>{% endif %}
@@ -39,8 +38,7 @@
 <section class="section reveal">
   <div class="section-head"><div><h2>{% trans "New releases" %}</h2><p>{% trans "Fresh from our community of creators." %}</p></div><a href="{% url 'products:new' %}">{% trans "See more" %} →</a></div>
   {% if newest %}<div class="grid grid-products">{% for p in newest %}{% include "public/components/product_card.html" %}{% endfor %}</div>
-  {% else %}<div class="card empty"><h3>{% trans "No products published yet" %}</h3><p>{% trans "The first products will appear here once sellers publish and moderators approve them." %}</p>
-    <a class="btn btn-primary" href="{% url 'accounts:become_seller' %}">{% trans "Be the first seller" %}</a></div>{% endif %}
+  {% else %}<div class="card empty"><h3>{% trans "No products published yet" %}</h3><p>{% trans "The first products will appear here once sellers publish and moderators approve them." %}</p><a class="btn btn-primary" href="{% url 'accounts:become_seller' %}">{% trans "Be the first seller" %}</a></div>{% endif %}
 </section>
 {% if popular %}<section class="section reveal"><div class="section-head"><h2>{% trans "Popular" %}</h2><a href="{% url 'products:popular' %}">{% trans "See more" %} →</a></div><div class="grid grid-products">{% for p in popular %}{% include "public/components/product_card.html" %}{% endfor %}</div></section>{% endif %}
 {% if top_rated %}<section class="section reveal"><div class="section-head"><h2>{% trans "Top rated" %}</h2><a href="{% url 'products:top_rated' %}">{% trans "See more" %} →</a></div><div class="grid grid-products">{% for p in top_rated %}{% include "public/components/product_card.html" %}{% endfor %}</div></section>{% endif %}
@@ -54,25 +52,39 @@
   </div>
 </section>
 
-<section class="feature-row reveal">
-  <div class="feature-art"><img src="{% static 'images/illustrations/license.svg' %}" alt="" loading="lazy" width="420" height="320"></div>
-  <div class="feature-copy"><span class="kicker">{% trans "Licenses" %}</span><h2>{% trans "Know exactly what you are allowed to do" %}</h2>
-    <p>{% trans "No legal guesswork. Each product offers explicit licenses so you can ship with confidence." %}</p>
-    <ul class="check-list"><li>{% icon "check" 18 %}<span>{% trans "Personal, Commercial and Extended licenses" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "License key issued with every purchase" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Permanent access to updates while your license is active" %}</span></li></ul>
-    <a class="btn" href="{% url 'core:license_guide' %}">{% trans "Read the license guide" %}</a></div>
+<section class="section reveal" aria-labelledby="h-split">
+  <div class="split2">
+    <div><span class="kicker">{% trans "For buyers" %}</span><h3 id="h-split">{% trans "Buy with confidence" %}</h3><p>{% trans "Explicit licenses, verified-purchase reviews and secure delivery so you can ship without guesswork." %}</p>
+      <ul class="check-list"><li>{% icon "check" 18 %}<span>{% trans "Personal, Commercial and Extended licenses" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "License key issued with every purchase" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Updates included while your license is active" %}</span></li></ul>
+      <a class="btn" href="{% url 'core:license_guide' %}">{% trans "Read the license guide" %}</a></div>
+    <div><span class="kicker">{% trans "For creators" %}</span><h3>{% trans "Turn your code into a business" %}</h3><p>{% trans "Open a free shop, publish with a guided workflow and keep a transparent ledger of every sale and commission." %}</p>
+      <ul class="check-list"><li>{% icon "check" 18 %}<span>{% trans "Free Starter plan" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Commission shown before you sell" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Payouts after identity verification" %}</span></li></ul>
+      <a class="btn btn-primary" href="{% url 'sellers:pricing' %}">{% trans "See seller pricing" %}</a></div>
+  </div>
 </section>
-<section class="feature-row rev reveal">
-  <div class="feature-art"><img src="{% static 'images/illustrations/secure.svg' %}" alt="" loading="lazy" width="420" height="320"></div>
-  <div class="feature-copy"><span class="kicker">{% trans "Security" %}</span><h2>{% trans "Files checked, downloads protected" %}</h2>
-    <p>{% trans "Uploads are validated, fingerprinted and scanned. Buyers download through short-lived links tied to their account." %}</p>
-    <ul class="check-list"><li>{% icon "check" 18 %}<span>{% trans "Moderation before any product goes public" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Files never exposed on public URLs" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Verified-purchase reviews only" %}</span></li></ul></div>
+
+<section class="section reveal" aria-labelledby="h-why">
+  <div class="section-head"><div><h2 id="h-why">{% trans "Built for trust" %}</h2><p>{% trans "Every step is designed to protect buyers and creators." %}</p></div></div>
+  <div class="value-grid">
+    <div><span class="ico">{% icon "shield" 22 %}</span><h3>{% trans "Moderation first" %}</h3><p>{% trans "Nothing goes public before a moderator approves it." %}</p></div>
+    <div><span class="ico">{% icon "file" 22 %}</span><h3>{% trans "Files verified" %}</h3><p>{% trans "Uploads are validated, fingerprinted and scanned." %}</p></div>
+    <div><span class="ico">{% icon "download" 22 %}</span><h3>{% trans "Protected delivery" %}</h3><p>{% trans "Short-lived links tied to your account and license." %}</p></div>
+    <div><span class="ico">{% icon "wallet" 22 %}</span><h3>{% trans "Transparent money flow" %}</h3><p>{% trans "An append-only ledger records every sale, refund and payout." %}</p></div>
+  </div>
 </section>
-<section class="feature-row reveal">
-  <div class="feature-art"><img src="{% static 'images/illustrations/seller.svg' %}" alt="" loading="lazy" width="520" height="380"></div>
-  <div class="feature-copy"><span class="kicker">{% trans "For creators" %}</span><h2>{% trans "Turn your code into a business" %}</h2>
-    <p>{% trans "Open a free shop, publish with a guided workflow and keep a transparent ledger of every sale and commission." %}</p>
-    <ul class="check-list"><li>{% icon "check" 18 %}<span>{% trans "Free Starter plan" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Clear commission shown before you sell" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Payouts after identity verification" %}</span></li></ul>
-    <a class="btn btn-primary" href="{% url 'sellers:pricing' %}">{% trans "See seller pricing" %}</a></div>
+
+<section class="feature-row reveal" aria-labelledby="h-api">
+  <div class="feature-copy"><span class="kicker">API</span><h2 id="h-api">{% trans "Built for developers, too" %}</h2>
+    <p>{% trans "Query the public catalog from your own tools with a simple read-only JSON API." %}</p>
+    <ul class="check-list"><li>{% icon "check" 18 %}<span>{% trans "Search and filter published products" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Paginated JSON responses" %}</span></li></ul>
+    <a class="btn" href="{% url 'core:docs' %}">{% trans "Read the documentation" %}</a></div>
+  <div class="code-win" aria-label="API example"><div class="bar"><i></i><i></i><i></i><span>GET /api/v1/products/</span></div>
+<pre><span class="c3"># {% trans "List published products" %}</span>
+<span class="c1">curl</span> {{ SITE_URL }}/api/v1/products/<span class="c4">?q=django</span>
+
+<span class="c3"># {% trans "Response" %}</span>
+{ <span class="c2">"count"</span>: <span class="c4">12</span>,
+  <span class="c2">"results"</span>: [{ <span class="c2">"title"</span>: <span class="c4">"…"</span>, <span class="c2">"slug"</span>: <span class="c4">"…"</span>, <span class="c2">"base_price"</span>: <span class="c4">"19.00"</span> }] }</pre></div>
 </section>
 
 {% if top_shops %}<section class="section reveal"><div class="section-head"><h2>{% trans "Sellers" %}</h2><a href="{% url 'sellers:list' %}">{% trans "All sellers" %} →</a></div>
