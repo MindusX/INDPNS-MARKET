@@ -1,10 +1,8 @@
 {% extends "auth/base_auth.html" %}
-{% load i18n %}
+{% load i18n static %}
 {% block title %}{% trans "Check your inbox" %}{% endblock %}
-{% block content %}
+{% block content %}<div class="auth-state"><img src="{% static 'images/illustrations/help.svg' %}" alt="" width="150" height="120">
 <h1>{% trans "Check your inbox" %}</h1>
-<p>{% blocktrans %}We sent a confirmation link to {{ email }}. It is valid for 48 hours.{% endblocktrans %}</p>
-<form method="post" action="{% url 'accounts:resend_verification' %}">{% csrf_token %}<input type="hidden" name="email" value="{{ email }}">
-  <button class="btn btn-block" type="submit">{% trans "Resend the email" %}</button></form>
-<p class="auth-foot"><a href="{% url 'accounts:login' %}">{% trans "Back to login" %}</a></p>
-{% endblock %}
+<p class="muted">{% blocktrans %}We sent a confirmation link to {{ email }}. It is valid for 48 hours.{% endblocktrans %}</p></div>
+<form method="post" action="{% url 'accounts:resend_verification' %}">{% csrf_token %}<input type="hidden" name="email" value="{{ email }}"><button class="btn btn-block" type="submit">{% trans "Resend the email" %}</button></form>
+<p class="auth-foot"><a href="{% url 'accounts:login' %}">{% trans "Back to login" %}</a></p>{% endblock %}

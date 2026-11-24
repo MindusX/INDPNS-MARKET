@@ -1,6 +1,6 @@
-{% load i18n static %}<!DOCTYPE html>
+{% load i18n static core_tags %}<!DOCTYPE html>
 {% get_current_language as LANG %}
-<html lang="{{ LANG }}" data-theme="light">
+<html lang="{{ LANG }}" data-theme="light" class="no-js">
 <head>
   {% include "components/head.html" %}
   <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
@@ -8,15 +8,19 @@
   <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
 <body>
-<div class="auth-shell">
-  {% include "auth/components/auth_header.html" %}
-  <main class="auth-main" id="main">
-    <div class="card auth-card">
-      {% include "components/messages.html" %}
-      {% block content %}{% endblock %}
-    </div>
-  </main>
-  {% include "auth/components/auth_footer.html" %}
+<div class="auth-split">
+  <aside class="auth-aside" aria-hidden="true">
+    <a class="brand" href="{% url 'core:home' %}" tabindex="-1">{% include "components/brand.html" %}</a>
+    <div><img class="art" src="{% static 'images/illustrations/auth.svg' %}" alt="" width="520" height="460">
+      <blockquote>{% trans "Professional digital products, delivered with clear licenses." %}</blockquote>
+      <ul><li>{% icon "check" 16 %} {% trans "Moderated listings" %}</li><li>{% icon "check" 16 %} {% trans "Secure, signed downloads" %}</li><li>{% icon "check" 16 %} {% trans "Verified-purchase reviews" %}</li></ul></div>
+    <small style="position:relative;opacity:.8">© <span data-year>{% now "Y" %}</span> INDPNS</small>
+  </aside>
+  <div class="auth-panel">
+    {% include "auth/components/auth_header.html" %}
+    <main class="auth-main" id="main"><div class="auth-card">{% include "components/messages.html" %}{% block content %}{% endblock %}</div></main>
+    {% include "auth/components/auth_footer.html" %}
+  </div>
 </div>
 <script type="module" src="{% static 'js/main.js' %}"></script>
 </body>
