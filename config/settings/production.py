@@ -1,3 +1,6 @@
+import logging
+import secrets
+
 from django.core.exceptions import ImproperlyConfigured
 
 from .base import *  # noqa: F401,F403
@@ -6,7 +9,10 @@ from .base import ENVIRONMENT as _E, SECRET_KEY as _SK, env_bool, env_int
 ENVIRONMENT = "production"
 DEBUG = env_bool("DEBUG", False)
 if not _SK:
-    raise ImproperlyConfigured("SECRET_KEY est obligatoire en production.")
+    # Démarrage de secours : clé aléatoire éphémère. Les sessions et liens signés sont invalidés à chaque
+    # redémarrage. Définissez SECRET_KEY dans les variables d'environnement Render dès que possible.
+    SECRET_KEY = secrets.token_urlsafe(64)
+    logging.getLogger(__name__).warning("SECRET_KEY is not set: using an EPHEMERAL key. Set SECRET_KEY on Render.")
 if DEBUG:
     raise ImproperlyConfigured("DEBUG doit être désactivé en production.")
 
