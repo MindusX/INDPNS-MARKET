@@ -20,8 +20,11 @@ Les valeurs d'exemple ci-dessous sont **fictives**.
 | `REDIS_URL` | Cache + Celery (sans Redis : cache mémoire, tâches synchrones) | Recommandée | Render Redis (liée dans `render.yaml`) | `redis://…` |
 | `WEB_CONCURRENCY` | Workers Gunicorn | Non | — | `2` |
 | `GUNICORN_TIMEOUT` | Timeout Gunicorn (s) | Non | — | `60` |
-| `EMAIL_HOST` `EMAIL_PORT` `EMAIL_HOST_USER` `EMAIL_HOST_PASSWORD` `EMAIL_USE_TLS` | SMTP (sans `EMAIL_HOST` : e-mails affichés en console → **les utilisateurs ne recevront rien**) | **Oui (prod)** | Votre fournisseur SMTP | `smtp.example.com` |
-| `DEFAULT_FROM_EMAIL` | Expéditeur | Oui | domaine vérifié (SPF/DKIM) | `INDPNS Market <no-reply@indpns.com>` |
+| `BREVO_API_KEY` | Clé API Brevo (envoi des e-mails en HTTPS ; sans elle, les e-mails ne sont qu'affichés en console → **les utilisateurs ne recevront rien**) | **Oui (prod)** | Brevo → SMTP & API → Clés API | `xkeysib-…` |
+| `MAIL_FROM` | Expéditeur des e-mails (doit être validé dans Brevo) | **Oui (prod)** | Brevo → Expéditeurs | `INDPNS Market <no-reply@indpns.com>` |
+| `DEFAULT_FROM_EMAIL` | Ancien nom de l'expéditeur, utilisé seulement si `MAIL_FROM` est vide | Non | — | `INDPNS Market <no-reply@indpns.com>` |
+| `BREVO_TIMEOUT` | Délai d'attente de l'API Brevo (secondes, défaut 15) | Non | — | `15` |
+| `EMAIL_HOST` `EMAIL_PORT` `EMAIL_HOST_USER` `EMAIL_HOST_PASSWORD` `EMAIL_USE_TLS` | SMTP historique, repli facultatif (ignoré dès que `BREVO_API_KEY` est définie) | Non | — | — |
 | `EMAIL_VERIFICATION_REQUIRED` | Confirmation e-mail obligatoire (défaut `true`) | Non | — | `true` |
 | `AWS_STORAGE_BUCKET_NAME` `AWS_ACCESS_KEY_ID` `AWS_SECRET_ACCESS_KEY` `AWS_S3_ENDPOINT_URL` `AWS_S3_REGION_NAME` | Stockage S3-compatible (fichiers vendus privés + visuels publics). Sans eux : disque local **éphémère sur Render** | **Oui (prod)** | AWS S3 / Cloudflare R2 / Backblaze B2 | |
 | `DOWNLOAD_LINK_TTL` | Durée de vie des liens de téléchargement (s) | Non | — | `300` |

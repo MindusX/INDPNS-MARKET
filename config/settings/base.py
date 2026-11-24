@@ -189,13 +189,25 @@ ANTIVIRUS_CLAMD_HOST = env("ANTIVIRUS_CLAMD_HOST", "127.0.0.1")
 ANTIVIRUS_CLAMD_PORT = env_int("ANTIVIRUS_CLAMD_PORT", 3310)
 
 # ---------- E-mail ----------
-EMAIL_BACKEND = env("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend" if env("EMAIL_HOST") else "django.core.mail.backends.console.EmailBackend")
+# Envoi par l'API HTTPS de Brevo (pas de SMTP) : BREVO_API_KEY + MAIL_FROM (voir BREVO_SETUP.md).
+BREVO_API_KEY = env("BREVO_API_KEY").strip()
+MAIL_FROM = env("MAIL_FROM").strip()                     # expéditeur validé dans Brevo, ex. « INDPNS Market <no-reply@indpns.com> »
+BREVO_TIMEOUT = env_int("BREVO_TIMEOUT", 15)             # secondes
+# Compatibilité : DEFAULT_FROM_EMAIL reste utilisé par Django ; MAIL_FROM, s'il est défini, a la priorité.
+DEFAULT_FROM_EMAIL = MAIL_FROM or env("DEFAULT_FROM_EMAIL", "INDPNS Market <no-reply@indpns.com>")
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+# Choix du backend : EMAIL_BACKEND explicite > Brevo (si clé) > SMTP historique (si EMAIL_HOST) > console (dev).
+EMAIL_BACKEND = env("EMAIL_BACKEND") or (
+    "apps.notifications.brevo.BrevoEmailBackend" if BREVO_API_KEY
+    else "django.core.mail.backends.smtp.EmailBackend" if env("EMAIL_HOST")
+    else "django.core.mail.backends.console.EmailBackend"
+)
+# SMTP historique : conservé uniquement comme solution de repli, non requis avec Brevo.
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_PORT = env_int("EMAIL_PORT", 587)
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", "INDPNS Market <no-reply@indpns.com>")
 EMAIL_VERIFICATION_REQUIRED = env_bool("EMAIL_VERIFICATION_REQUIRED", True)
 
 # ---------- Paiements ----------

@@ -23,10 +23,9 @@ services:
       - { key: REDIS_URL, fromService: { type: redis, name: indpns-market-redis, property: connectionString } }
       - { key: WEB_CONCURRENCY, value: "2" }
       - { key: BOOTSTRAP_MIGRATIONS, value: "0" }
-      - { key: EMAIL_HOST, sync: false }
-      - { key: EMAIL_HOST_USER, sync: false }
-      - { key: EMAIL_HOST_PASSWORD, sync: false }
-      - { key: DEFAULT_FROM_EMAIL, sync: false }
+      - { key: BREVO_API_KEY, sync: false }         # clé API Brevo (secret, à saisir dans Render)
+      - { key: MAIL_FROM, sync: false }             # expéditeur validé dans Brevo, ex. INDPNS Market <no-reply@indpns.com>
+      - { key: DEFAULT_FROM_EMAIL, sync: false }    # optionnel : ancien nom, utilisé seulement si MAIL_FROM est vide
       - { key: AWS_STORAGE_BUCKET_NAME, sync: false }
       - { key: AWS_ACCESS_KEY_ID, sync: false }
       - { key: AWS_SECRET_ACCESS_KEY, sync: false }
@@ -47,10 +46,9 @@ services:
       - { key: DATABASE_URL, sync: false }
       - { key: REDIS_URL, fromService: { type: redis, name: indpns-market-redis, property: connectionString } }
       - { key: SITE_URL, value: "https://market.indpns.com" }
-      - { key: EMAIL_HOST, sync: false }
-      - { key: EMAIL_HOST_USER, sync: false }
-      - { key: EMAIL_HOST_PASSWORD, sync: false }
-      - { key: DEFAULT_FROM_EMAIL, sync: false }
+      - { key: BREVO_API_KEY, sync: false }         # clé API Brevo (secret, à saisir dans Render)
+      - { key: MAIL_FROM, sync: false }             # expéditeur validé dans Brevo, ex. INDPNS Market <no-reply@indpns.com>
+      - { key: DEFAULT_FROM_EMAIL, sync: false }    # optionnel : ancien nom, utilisé seulement si MAIL_FROM est vide
       - { key: AWS_STORAGE_BUCKET_NAME, sync: false }
       - { key: AWS_ACCESS_KEY_ID, sync: false }
       - { key: AWS_SECRET_ACCESS_KEY, sync: false }

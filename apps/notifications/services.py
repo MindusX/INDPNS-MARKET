@@ -21,6 +21,7 @@ def _deliver(to, subject, text, html):
 
 
 def send_email(to, subject, template, context=None):
+    """Rend le gabarit et envoie l'e-mail (via Celery si activé). Retourne True si l'envoi a été accepté/mis en file."""
     ctx = {"SITE_NAME": settings.SITE_NAME, "SITE_URL": settings.SITE_URL, "subject": subject}
     ctx.update(context or {})
     html = render_to_string(template, ctx)
@@ -31,5 +32,7 @@ def send_email(to, subject, template, context=None):
             deliver_email.delay(to, subject, text, html)
         else:
             _deliver(to, subject, text, html)
+        return True
     except Exception:
         logger.exception("email delivery failed (%s)", subject)
+        return False

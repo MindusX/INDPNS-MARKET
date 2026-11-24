@@ -23,3 +23,6 @@ CSRF_COOKIE_SECURE = True
 SECURE_HSTS_SECONDS = env_int("SECURE_HSTS_SECONDS", 31536000)
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_REDIRECT_EXEMPT = [r"^healthz/?$"]   # le health check Render passe en HTTP interne
+
+if not (BREVO_API_KEY and MAIL_FROM) and EMAIL_BACKEND == "django.core.mail.backends.console.EmailBackend":  # noqa: F405
+    logging.getLogger(__name__).warning("BREVO_API_KEY / MAIL_FROM are not set: e-mails are only printed to the logs. Set them on Render.")

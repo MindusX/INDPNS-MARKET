@@ -13,8 +13,8 @@ Le disque Render est éphémère. Créez un bucket (AWS S3, Cloudflare R2, Backb
 Les fichiers vendus sont écrits sous le préfixe `private/` (ACL privée, URL présignée courte). Les covers/galeries sous `public/` (lecture publique) — vérifiez que votre fournisseur autorise les ACL publiques, sinon exposez `public/` via une politique de bucket/CDN.
 Docs : https://docs.aws.amazon.com/s3/ · https://developers.cloudflare.com/r2/
 
-## 4. SMTP
-Brevo, Postmark, SES, Mailgun… Renseignez `EMAIL_*` et `DEFAULT_FROM_EMAIL`, puis configurez SPF/DKIM/DMARC du domaine. Testez : inscription → réception du lien.
+## 4. E-mails (API Brevo)
+Renseignez `BREVO_API_KEY` et `MAIL_FROM` (voir `BREVO_SETUP.md`), puis configurez SPF/DKIM/DMARC du domaine. Testez : inscription → réception du lien.
 
 ## 5. Stripe (uniquement si votre pays d'entreprise est éligible)
 Vérifiez l'éligibilité : https://stripe.com/global — et Connect : https://docs.stripe.com/connect

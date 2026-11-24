@@ -16,7 +16,7 @@ Si `makemigrations` signale un problème de dépendance circulaire, relancez-le 
 Option de secours : `BOOTSTRAP_MIGRATIONS=1` sur Render génère les migrations initiales au build (non persistées : à éviter en régime normal).
 
 ## Étape 1 — Services
-Neon (`DATABASE_URL`), bucket S3, SMTP : voir `API_KEYS_SETUP.md`.
+Neon (`DATABASE_URL`), bucket S3, e-mails Brevo (`BREVO_API_KEY`, `MAIL_FROM`) : voir `API_KEYS_SETUP.md`.
 
 ## Étape 2 — Render
 *New → Blueprint* → sélectionner le dépôt. Renseigner les variables marquées `sync: false`.

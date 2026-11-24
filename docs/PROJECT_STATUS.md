@@ -28,7 +28,7 @@ Les 37 tests fournis (`tests/test_core_flows.py`) couvrent : pages publiques, in
 - Admin : pas d'interface dédiée pour traductions/CMS/litiges/abonnements (Django admin pour le reste).
 
 ## 🔑 Nécessite une clé / un service
-SMTP, S3, Redis, Neon, Sentry (optionnel), Stripe, ClamAV — voir `API_KEYS_SETUP.md`.
+Brevo (e-mails), S3, Redis, Neon, Sentry (optionnel), Stripe, ClamAV — voir `API_KEYS_SETUP.md`.
 
 ## ⚖️ Intervention juridique
 Les 8 textes légaux sont des **résumés brouillons** à faire rédiger/valider (CGU, vendeurs, confidentialité/RGPD, cookies, remboursement, PI, signalement, conservation). Aucune conformité n'est revendiquée. Consulter aussi sur la TVA/taxes de vente de produits numériques, les factures, et la détention de fonds de tiers (statut d'établissement de paiement).
@@ -47,7 +47,7 @@ Stripe (éligibilité du pays de l'entreprise à vérifier). **Stripe Connect Tr
 - Le code Mindus Forge (Flask) n'a **pas été réutilisé** : seules ses icônes PWA ont été regardées, puis remplacées par des icônes INDPNS générées.
 
 ## 🎯 Actions avant lancement commercial
-1. Générer/commiter les migrations, exécuter les tests, corriger. 2. Configurer Neon, S3, SMTP, Redis. 3. Valider les textes légaux et la fiscalité. 4. Choisir et configurer le prestataire de paiement, tester en sandbox (webhooks, remboursement). 5. Définir le processus KYC/reversements réel. 6. Test de charge, revue de sécurité (pentest), sauvegardes. 7. Compléter traductions, ajouter les icônes/branding finaux. 8. `python manage.py check --deploy`.
+1. Générer/commiter les migrations, exécuter les tests, corriger. 2. Configurer Neon, S3, Brevo, Redis. 3. Valider les textes légaux et la fiscalité. 4. Choisir et configurer le prestataire de paiement, tester en sandbox (webhooks, remboursement). 5. Définir le processus KYC/reversements réel. 6. Test de charge, revue de sécurité (pentest), sauvegardes. 7. Compléter traductions, ajouter les icônes/branding finaux. 8. `python manage.py check --deploy`.
 
 ## Taux de préparation (estimation honnête)
 Code écrit pour l'essentiel du périmètre, mais **non exécuté** : on ne peut pas affirmer ≥ 90 %. Estimation prudente : ~55–65 % du périmètre demandé est codé ; la part vérifiée en exécution est de 0 % tant que les tests n'ont pas tourné.
