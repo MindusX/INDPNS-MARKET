@@ -1,0 +1,30 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Product" %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% if product %}{{ product.title }}{% else %}{% trans "New product" %}{% endif %}</h1>{% if product %}<span class="badge">{{ product.get_status_display }}</span>{% endif %}</div>
+{% if product %}<nav class="stepper" aria-label="{% trans 'Steps' %}">{% for key, label in steps %}<a class="{% if key == step %}active{% endif %}" href="{% url 'dashboard:product_edit' product.pk key %}">{{ forloop.counter }}. {{ label }}</a>{% endfor %}</nav>{% endif %}
+{% if product.status == "rejected" %}<div class="message error"><strong>{% trans "Rejected" %}:</strong> {{ product.rejection_reason }}</div>{% endif %}
+{% if product.status == "pending" %}<div class="notice notice-info">{% trans "Under review. You cannot edit this product until the decision." %}</div>{% endif %}
+{% if not editable and step != "review" %}<div class="notice">{% trans "This step is read-only in the current status." %}</div>{% endif %}
+
+{% if step == "review" %}
+  <div class="card form-card"><h2>{% trans "Pre-submission checks" %}</h2>
+  {% if problems %}<ul>{% for p in problems %}<li>{{ p }}</li>{% endfor %}</ul>{% else %}<p><span class="badge badge-success">{% icon "check" 12 %} {% trans "Everything looks good" %}</span></p>{% endif %}
+  {% if product.status == "draft" or product.status == "rejected" %}<form method="post">{% csrf_token %}<button class="btn btn-primary" type="submit" {% if problems %}disabled{% endif %}>{% trans "Submit for moderation" %}</button></form>{% endif %}
+  <p class="muted">{% trans "A submitted product is never visible until a moderator approves it." %}</p>
+  {% if product.status != "draft" %}<a href="{{ product.get_absolute_url }}">{% trans "Preview page" %}</a>{% endif %}</div>
+{% elif step == "files" %}
+  <div class="card form-card"><h2>{% trans "Files" %}</h2>
+  <table class="table"><tbody>{% for v in product.versions.all %}<tr><td>v{{ v.version }}</td><td>{{ v.file_size|filesizeformat }}</td><td><span class="badge {% if v.is_safe %}badge-success{% else %}badge-warning{% endif %}">{{ v.get_scan_status_display }}</span></td></tr>{% empty %}<tr><td class="muted">{% trans "No file uploaded yet" %}</td></tr>{% endfor %}</tbody></table>
+  {% if editable %}<form method="post" enctype="multipart/form-data" novalidate style="margin-top:16px">{% csrf_token %}{% include "auth/_form.html" %}<button class="btn btn-primary" type="submit">{% trans "Upload" %}</button></form>{% endif %}
+  <p class="muted">{% trans "Files are never executed. They are validated, hashed and scanned before they can be published." %}</p></div>
+{% elif step == "media" %}
+  <form class="card form-card" method="post" enctype="multipart/form-data" novalidate>{% csrf_token %}{% include "auth/_form.html" %}{% if editable %}<button class="btn btn-primary" type="submit">{% trans "Save and continue" %}</button>{% endif %}</form>
+  {% if product %}<div class="card form-card" style="margin-top:16px"><h3>{% trans "Gallery" %}</h3>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">{% for i in product.images.all %}<form method="post" action="{% url 'dashboard:product_image_delete' product.pk i.pk %}">{% csrf_token %}<img src="{{ i.image.url }}" alt="" width="110" style="border-radius:6px"><button class="btn btn-sm btn-block" type="submit">{% trans "Remove" %}</button></form>{% endfor %}</div>
+  {% if editable %}<form method="post" enctype="multipart/form-data" novalidate>{% csrf_token %}<input type="hidden" name="action" value="gallery">{% with form=gform %}{% include "auth/_form.html" %}{% endwith %}<button class="btn" type="submit">{% trans "Add image" %}</button></form>{% endif %}</div>{% endif %}
+{% else %}
+  <form class="card form-card" method="post" novalidate>{% csrf_token %}{% include "auth/_form.html" %}{% if editable %}<button class="btn btn-primary" type="submit">{% trans "Save and continue" %}</button>{% endif %}</form>
+{% endif %}
+{% endblock %}

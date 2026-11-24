@@ -1,0 +1,17 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{{ product.title }}{% endblock %}
+{% block content %}<div class="page-head"><h1>{{ product.title }}</h1><span class="badge">{{ product.get_status_display }}</span></div>
+<div class="card card-pad" style="margin-bottom:16px"><p><strong>{{ product.shop.name }}</strong> · {{ product.category.name|default:"—" }} · {{ product.base_price|money }}</p>
+{% if product.cover %}<img src="{{ product.cover.url }}" alt="" style="max-width:360px;border-radius:8px">{% endif %}
+<p>{{ product.summary }}</p>{{ product.description|linebreaks }}
+<p>{% for t in product.technologies.all %}<span class="badge">{{ t.name }}</span> {% endfor %}</p>
+<h3>{% trans "Files" %}</h3><table class="table"><tbody>{% for v in product.versions.all %}<tr><td>v{{ v.version }}</td><td>{{ v.file_size|filesizeformat }}</td><td><code>{{ v.sha256|truncatechars:20 }}</code></td><td><span class="badge {% if v.is_safe %}badge-success{% else %}badge-warning{% endif %}">{{ v.get_scan_status_display }}</span> {{ v.scan_detail }}</td></tr>{% endfor %}</tbody></table>
+<p><a href="{{ product.get_absolute_url }}" target="_blank" rel="noopener">{% trans "Open public preview" %} ↗</a></p></div>
+<div class="card form-card" style="margin-bottom:16px"><h3>{% trans "Decision" %}</h3>
+<form method="post">{% csrf_token %}<div class="field"><label for="reason">{% trans "Reason (required to reject or suspend)" %}</label><textarea id="reason" name="reason" rows="3"></textarea></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+{% if product.status == "pending" %}<button class="btn btn-primary" name="decision" value="approved">{% trans "Approve" %}</button><button class="btn btn-danger" name="decision" value="rejected">{% trans "Reject" %}</button>{% endif %}
+{% if product.status == "approved" %}<button class="btn btn-danger" name="decision" value="suspended">{% trans "Suspend" %}</button>{% endif %}
+{% if product.status == "suspended" %}<button class="btn btn-primary" name="decision" value="reinstated">{% trans "Reinstate" %}</button>{% endif %}</div></form></div>
+<h3>{% trans "Decision history" %}</h3>{% for d in product.decisions.all %}<div class="card card-pad" style="margin-bottom:8px"><strong>{{ d.get_decision_display }}</strong> · {{ d.moderator.email|default:"—" }} · {{ d.created_at|date:"DATETIME_FORMAT" }}<div class="muted">{{ d.reason }}</div></div>{% empty %}<p class="muted">{% trans "No decisions yet" %}</p>{% endfor %}{% endblock %}

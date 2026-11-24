@@ -1,0 +1,25 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}" data-theme="light">
+<head>
+  {% include "components/head.html" %}
+  <title>{% block title %}{% trans "Dashboard" %}{% endblock %} · {{ SITE_NAME }}</title>
+  <link rel="stylesheet" href="{% static 'css/public.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+<div class="dash">
+  {% include "dashboard/components/sidebar.html" %}
+  <div class="dash-main">
+    {% include "dashboard/components/topbar.html" %}
+    <nav class="breadcrumb" aria-label="{% trans 'Breadcrumb' %}">{% block breadcrumb %}{{ space|capfirst }}{% endblock %}</nav>
+    <main class="dash-content" id="main">
+      {% include "components/messages.html" %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  {% include "dashboard/components/mobile_navigation.html" %}
+</div>
+<script type="module" src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

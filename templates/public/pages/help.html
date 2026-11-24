@@ -1,0 +1,9 @@
+{% extends "public/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Help center" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<article class="page-narrow prose"><h1>{% trans "Help center" %}</h1>
+  <p>Find answers about buying, selling, licenses, downloads and refunds.</p>
+  <p>Start with How to buy, How to sell or the License guide. If you cannot find an answer, contact us.</p>
+</article>
+{% endblock %}

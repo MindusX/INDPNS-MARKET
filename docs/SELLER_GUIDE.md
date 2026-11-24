@@ -1,0 +1,2 @@
+# Guide vendeur
+1. *Become a seller* (plan Starter gratuit). 2. *Products → Add product* : Basics → Description → Tech → Media → Files → Pricing → Review. 3. Fichiers : ZIP/PDF, validés (signature, chemins, extensions bloquées), hachés SHA-256 et scannés (si antivirus configuré). 4. Soumettez : le produit passe en *Pending* et n'est **jamais** public avant approbation. 5. Une version supplémentaire d'un produit publié est disponible dès qu'elle passe les contrôles. 6. Revenus : journal des écritures ; retrait possible après le délai de rétention et la vérification KYC.

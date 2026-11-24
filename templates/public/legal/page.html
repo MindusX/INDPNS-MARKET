@@ -1,0 +1,11 @@
+{% extends "public/base.html" %}
+{% load i18n %}
+{% block title %}{{ title }} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<article class="page-narrow prose legal"><h1>{{ title }}</h1>
+  <div class="notice">{% trans "Draft summary. This text must be reviewed and completed by a qualified lawyer before commercial launch." %}</div>
+  {% include body_template %}
+  <p class="muted">{% trans "Last updated" %}: {% now "DATE_FORMAT" %}</p>
+  <hr><p>{% for s, t in legal_pages.items %}<a href="{% url 'core:legal' s %}">{{ t }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}</p>
+</article>
+{% endblock %}

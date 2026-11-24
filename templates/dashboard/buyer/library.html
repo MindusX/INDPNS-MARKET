@@ -1,0 +1,17 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Library" %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% trans "Library & downloads" %}</h1></div>
+{% for r in rows %}
+<div class="card card-pad" style="margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><div><a href="{{ r.license.product.get_absolute_url }}"><strong>{{ r.license.product.title }}</strong></a>
+    <div class="muted">{{ r.license.license_type.name }} · {% trans "License key" %}: <code>{{ r.license.key }}</code>{% if not r.license.is_active %} <span class="badge badge-danger">{% trans "Revoked" %}</span>{% endif %}</div></div>
+    {% if r.license.is_active and not r.reviewed %}<a class="btn btn-sm" href="{{ r.license.product.get_absolute_url }}#reviews">{% trans "Write a review" %}</a>{% endif %}</div>
+  {% if r.license.is_active %}<div style="margin-top:10px">{% for v in r.versions %}
+    <form method="post" action="{% url 'downloads:request' r.license.pk v.pk %}" style="display:inline">{% csrf_token %}<button class="btn btn-sm {% if forloop.first %}btn-primary{% endif %}" type="submit">{% icon "download" 14 %} v{{ v.version }}</button></form>
+  {% empty %}<span class="muted">{% trans "No downloadable version yet." %}</span>{% endfor %}</div>{% endif %}
+</div>
+{% empty %}<div class="card empty"><h3>{% trans "Your library is empty" %}</h3><a class="btn btn-primary" href="{% url 'products:explore' %}">{% trans "Discover products" %}</a></div>{% endfor %}
+{% include "dashboard/components/pagination.html" %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Seller overview" %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{{ shop.name }}</h1><a class="btn btn-primary" href="{% url 'dashboard:product_new' %}">{% icon "plus" 16 %} {% trans "Add product" %}</a></div>
+{% if problems_hint %}<div class="notice">{% trans "Payouts are locked until your identity is verified (KYC) by the payment provider." %} <a href="{% url 'dashboard:seller_verification' %}">{% trans "Learn more" %}</a></div>{% endif %}
+<div class="stats">
+<div class="card stat"><div class="v">{{ n_sales }}</div><div class="l">{% trans "Sales" %}</div></div>
+<div class="card stat"><div class="v">{{ gross|money }}</div><div class="l">{% trans "Gross sales" %}</div></div>
+<div class="card stat"><div class="v">{{ net|money }}</div><div class="l">{% trans "Net earnings" %}</div></div>
+<div class="card stat"><div class="v">{{ balance|money }}</div><div class="l">{% trans "Ledger balance" %}</div></div>
+<div class="card stat"><div class="v">{{ available|money }}</div><div class="l">{% trans "Available for payout" %}</div></div></div>
+<h2>{% trans "Products by status" %}</h2>
+<div class="card card-pad">{% for k, v in by_status.items %}<span class="badge badge-muted" style="margin-right:8px">{{ k }}: {{ v }}</span>{% empty %}<span class="muted">{% trans "No products yet" %}</span>{% endfor %}</div>
+{% endblock %}

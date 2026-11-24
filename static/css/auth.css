@@ -1,0 +1,10 @@
+.auth-shell { min-height: 100vh; display: flex; flex-direction: column; background: var(--color-bg); }
+.auth-header { padding: 22px 20px; display: flex; justify-content: space-between; align-items: center; max-width: 960px; width: 100%; margin: 0 auto; }
+.auth-main { flex: 1; display: grid; place-items: start center; padding: 16px 16px 48px; }
+.auth-card { width: 100%; max-width: 440px; padding: 32px; }
+.auth-card h1 { font-size: 1.5rem; }
+.auth-foot { text-align: center; margin-top: 18px; color: var(--color-text-muted); font-size: .92rem; }
+.auth-footer { padding: 18px; text-align: center; color: var(--color-text-muted); font-size: .85rem; }
+.auth-footer a { color: var(--color-text-muted); margin: 0 8px; }
+.oauth-btn { margin-bottom: 8px; }
+.divider { text-align: center; color: var(--color-text-muted); font-size: .85rem; margin: 18px 0; }

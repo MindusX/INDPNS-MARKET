@@ -1,0 +1,17 @@
+{% load i18n core_tags %}
+<article class="card pcard">
+  <a class="pcard-cover" href="{{ p.get_absolute_url }}" tabindex="-1" aria-hidden="true">
+    {% if p.cover %}<img src="{{ p.cover.url }}" alt="" loading="lazy" width="640" height="400">{% endif %}
+  </a>
+  <button type="button" class="fav-btn {% if p.pk in fav_ids %}active{% endif %}" data-fav-url="{% url 'products:favorite' p.slug %}" data-auth="{% if user.is_authenticated %}1{% else %}0{% endif %}"
+          data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}" data-error="{% trans 'Something went wrong' %}" aria-label="{% trans 'Add to favorites' %}" aria-pressed="{% if p.pk in fav_ids %}true{% else %}false{% endif %}">{% icon "heart" 16 %}</button>
+  <div class="pcard-body">
+    <a class="pcard-title" href="{{ p.get_absolute_url }}">{{ p.title }}</a>
+    <span class="muted" style="font-size:.85rem">{% trans "by" %} <a href="{{ p.shop.get_absolute_url }}">{{ p.shop.name }}</a></span>
+    {% if p.summary %}<span class="muted" style="font-size:.88rem">{{ p.summary|truncatechars:90 }}</span>{% endif %}
+    <div class="pcard-meta">
+      <span class="price">{% if p.is_free %}{% trans "Free" %}{% else %}{% trans "From" %} {{ p.base_price|money }}{% endif %}</span>
+      {% if p.review_count %}<span class="muted" style="font-size:.85rem">{% icon "star" 14 "on" %} {{ p.avg_rating|floatformat:1 }} ({{ p.review_count }})</span>{% endif %}
+    </div>
+  </div>
+</article>

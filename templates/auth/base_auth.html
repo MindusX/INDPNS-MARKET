@@ -1,0 +1,23 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}" data-theme="light">
+<head>
+  {% include "components/head.html" %}
+  <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/public.css' %}">
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body>
+<div class="auth-shell">
+  {% include "auth/components/auth_header.html" %}
+  <main class="auth-main" id="main">
+    <div class="card auth-card">
+      {% include "components/messages.html" %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  {% include "auth/components/auth_footer.html" %}
+</div>
+<script type="module" src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

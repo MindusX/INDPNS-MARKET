@@ -1,0 +1,12 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Overview" %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% blocktrans with n=user.get_short_name %}Hello, {{ n }}{% endblocktrans %}</h1><a class="btn btn-primary" href="{% url 'products:explore' %}">{% trans "Browse marketplace" %}</a></div>
+<div class="stats"><div class="card stat"><div class="v">{{ n_licenses }}</div><div class="l">{% trans "Active licenses" %}</div></div>
+<div class="card stat"><div class="v">{{ n_orders }}</div><div class="l">{% trans "Paid orders" %}</div></div>
+<div class="card stat"><div class="v">{{ n_favorites }}</div><div class="l">{% trans "Favorites" %}</div></div></div>
+<h2>{% trans "Recent purchases" %}</h2>
+{% if recent %}<div class="card table-wrap"><table class="table"><tbody>{% for l in recent %}<tr><td><a href="{{ l.product.get_absolute_url }}">{{ l.product.title }}</a></td><td>{{ l.license_type.name }}</td><td>{{ l.issued_at|date:"DATE_FORMAT" }}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="card empty"><h3>{% trans "Nothing here yet" %}</h3><p>{% trans "Your purchases and free downloads will appear here." %}</p></div>{% endif %}
+{% endblock %}

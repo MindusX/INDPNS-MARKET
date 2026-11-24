@@ -1,0 +1,10 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Users" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Users" %}</h1><form method="get"><input class="input" type="search" name="q" value="{{ q }}" placeholder="{% trans 'Search email or name' %}"></form></div>
+<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "User" %}</th><th>{% trans "Role" %}</th><th>{% trans "Verified" %}</th><th>{% trans "Active" %}</th><th></th></tr></thead><tbody>
+{% for u in page %}<tr><td>{{ u.email }}<div class="muted">{{ u.display_name }}</div></td>
+<td><form method="post" style="display:flex;gap:6px">{% csrf_token %}<input type="hidden" name="user_id" value="{{ u.pk }}"><input type="hidden" name="action" value="role"><select class="input" name="role">{% for r in roles %}<option value="{{ r }}" {% if u.role == r %}selected{% endif %}>{{ r }}</option>{% endfor %}</select><button class="btn btn-sm" type="submit">{% trans "Set" %}</button></form></td>
+<td>{% if u.email_verified %}✓{% else %}—{% endif %}</td><td>{% if u.is_active %}✓{% else %}✕{% endif %}</td>
+<td><form method="post">{% csrf_token %}<input type="hidden" name="user_id" value="{{ u.pk }}"><input type="hidden" name="action" value="toggle_active"><button class="btn btn-sm" type="submit">{% if u.is_active %}{% trans "Deactivate" %}{% else %}{% trans "Activate" %}{% endif %}</button></form></td></tr>{% endfor %}</tbody></table></div>
+{% include "dashboard/components/pagination.html" %}{% endblock %}

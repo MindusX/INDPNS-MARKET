@@ -1,0 +1,7 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Sales" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Sales" %}</h1></div>
+{% if page.object_list %}<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Date" %}</th><th>{% trans "Order" %}</th><th>{% trans "Product" %}</th><th>{% trans "Price" %}</th><th>{% trans "Commission" %}</th><th>{% trans "Your share" %}</th><th>{% trans "Status" %}</th></tr></thead><tbody>
+{% for i in page %}<tr><td>{{ i.order.created_at|date:"DATE_FORMAT" }}</td><td><code>{{ i.order.number }}</code></td><td>{{ i.title_snapshot }}</td><td>{{ i.unit_price|money }}</td><td>{{ i.commission_amount|money }}</td><td>{{ i.seller_amount|money }}</td><td>{{ i.order.get_status_display }}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="card empty"><h3>{% trans "No sales yet" %}</h3></div>{% endif %}{% include "dashboard/components/pagination.html" %}{% endblock %}

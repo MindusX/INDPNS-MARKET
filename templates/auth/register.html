@@ -1,0 +1,11 @@
+{% extends "auth/base_auth.html" %}
+{% load i18n %}
+{% block title %}{% trans "Create account" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<h1>{% trans "Create your account" %}</h1>
+<form method="post" novalidate>{% csrf_token %}
+  {% include "auth/_form.html" %}
+  <button class="btn btn-primary btn-block" type="submit">{% trans "Create account" %}</button>
+</form>
+<p class="auth-foot">{% trans "Already registered?" %} <a href="{% url 'accounts:login' %}">{% trans "Log in" %}</a></p>
+{% endblock %}

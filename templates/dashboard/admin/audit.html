@@ -1,0 +1,6 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Audit log" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Audit log" %}</h1></div>
+<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Date" %}</th><th>{% trans "Actor" %}</th><th>{% trans "Action" %}</th><th>{% trans "Target" %}</th><th>IP</th></tr></thead><tbody>
+{% for a in page %}<tr><td>{{ a.created_at|date:"DATETIME_FORMAT" }}</td><td>{{ a.actor.email|default:"—" }}</td><td>{{ a.action }}</td><td>{{ a.target_type }} {{ a.target_id }}</td><td>{{ a.ip|default:"" }}</td></tr>{% endfor %}</tbody></table></div>{% include "dashboard/components/pagination.html" %}{% endblock %}

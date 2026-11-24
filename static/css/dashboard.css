@@ -1,0 +1,43 @@
+.dash { min-height: 100vh; display: grid; grid-template-columns: var(--sidebar-w) 1fr; transition: grid-template-columns var(--t-base) var(--ease); }
+.dash.collapsed { grid-template-columns: var(--sidebar-w-collapsed) 1fr; }
+.sidebar { background: var(--color-surface); border-right: 1px solid var(--color-border); padding: 14px 12px; position: sticky; top: 0; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.sidebar .brand { padding: 6px 8px 14px; }
+.side-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: var(--radius-md); color: var(--color-text); font-weight: 520; white-space: nowrap; }
+.side-link:hover { background: var(--color-surface-2); color: var(--color-text); }
+.side-link.active { background: var(--color-accent-soft); color: var(--color-accent); }
+.side-foot { margin-top: auto; border-top: 1px solid var(--color-border); padding-top: 10px; }
+.dash.collapsed .side-label, .dash.collapsed .brand-text { display: none; }
+.dash-main { min-width: 0; display: flex; flex-direction: column; }
+.topbar { height: var(--topbar-h); background: var(--color-surface); border-bottom: 1px solid var(--color-border); display: flex; align-items: center; gap: 12px; padding: 0 20px; position: sticky; top: 0; z-index: 40; }
+.topbar .search { flex: 1; max-width: 420px; position: relative; }
+.topbar .search input { width: 100%; padding: 8px 12px 8px 34px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg); color: var(--color-text); font: inherit; }
+.topbar .search .icon { position: absolute; left: 10px; top: 10px; color: var(--color-text-muted); }
+.space-switch { display: inline-flex; background: var(--color-surface-2); border-radius: var(--radius-md); padding: 3px; }
+.space-switch a { padding: 5px 12px; border-radius: var(--radius-sm); color: var(--color-text-muted); font-size: .88rem; font-weight: 550; }
+.space-switch a.active { background: var(--color-surface); color: var(--color-text); box-shadow: var(--shadow-sm); }
+.breadcrumb { color: var(--color-text-muted); font-size: .86rem; padding: 16px 28px 0; }
+.dash-content { padding: 12px 28px 48px; }
+.page-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+.page-head h1 { font-size: 1.6rem; margin: 0; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat { padding: 16px 18px; }
+.stat .v { font-size: 1.6rem; font-weight: 700; font-family: var(--font-mono); }
+.stat .l { color: var(--color-text-muted); font-size: .85rem; }
+.stepper { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 22px; padding-bottom: 4px; }
+.stepper a { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); white-space: nowrap; font-size: .88rem; }
+.stepper a.active { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-soft); }
+.form-card { max-width: 760px; padding: 24px; }
+.mobile-nav { display: none; }
+.print-only { display: none; }
+@media (max-width: 900px) {
+  .dash, .dash.collapsed { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .dash-content { padding: 12px 16px 96px; }
+  .breadcrumb { padding: 14px 16px 0; }
+  .topbar { padding: 0 12px; }
+  .topbar .search, .hide-mobile { display: none; }
+  .mobile-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: var(--color-surface); border-top: 1px solid var(--color-border); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); justify-content: space-around; }
+  .mobile-nav a { display: grid; justify-items: center; gap: 2px; font-size: .7rem; color: var(--color-text-muted); padding: 4px 6px; min-width: 56px; }
+  .mobile-nav a.active { color: var(--color-accent); }
+}
+@media print { .sidebar, .topbar, .mobile-nav, .breadcrumb, .no-print { display: none !important; } .dash { display: block; } .print-only { display: block; } body { background: #fff; color: #000; } }

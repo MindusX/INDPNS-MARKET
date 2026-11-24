@@ -1,0 +1,8 @@
+{% extends "auth/base_auth.html" %}
+{% load i18n %}
+{% block title %}{% trans "Open your shop" %}{% endblock %}
+{% block content %}
+<h1>{% trans "Open your shop" %}</h1><p class="muted">{% trans "You keep your buyer account. Starter is free." %}</p>
+<form method="post" novalidate>{% csrf_token %}{% include "auth/_form.html" %}
+  <button class="btn btn-primary btn-block" type="submit">{% trans "Create my shop" %}</button></form>
+{% endblock %}

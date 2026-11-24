@@ -1,0 +1,10 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Orders" %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% trans "Orders & invoices" %}</h1></div>
+{% if page.object_list %}<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Order" %}</th><th>{% trans "Date" %}</th><th>{% trans "Status" %}</th><th>{% trans "Total" %}</th><th></th></tr></thead><tbody>
+{% for o in page %}<tr><td><code>{{ o.number }}</code></td><td>{{ o.created_at|date:"DATE_FORMAT" }}</td><td><span class="badge {% if o.status == 'paid' %}badge-success{% elif o.status == 'pending' %}badge-warning{% else %}badge-muted{% endif %}">{{ o.get_status_display }}</span></td><td>{{ o.total|money }}</td><td><a href="{% url 'dashboard:buyer_order' o.number %}">{% trans "View" %}</a></td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="card empty"><h3>{% trans "No orders yet" %}</h3></div>{% endif %}
+{% include "dashboard/components/pagination.html" %}
+{% endblock %}

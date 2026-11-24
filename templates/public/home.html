@@ -1,0 +1,54 @@
+{% extends "public/base.html" %}
+{% load i18n core_tags %}
+{% block title %}{{ SITE_NAME }} — {% trans "Professional digital products" %}{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>{% trans "Ship faster with professional digital products" %}</h1>
+  <p class="lead">{% trans "Source code, templates, plugins, SDKs and AI tools from independent creators, with clear licenses." %}</p>
+  <form class="hero-search" action="{% url 'products:search' %}" method="get" role="search">
+    <label class="sr-only" for="hq">{% trans "Search" %}</label>
+    <input id="hq" type="search" name="q" placeholder="{% trans 'Search scripts, templates, plugins, AI agents…' %}" maxlength="100">
+    <button class="btn btn-primary" type="submit">{% icon "search" 18 %} {% trans "Search" %}</button>
+  </form>
+</section>
+
+<section class="section" aria-labelledby="h-cats">
+  <div class="section-head"><h2 id="h-cats">{% trans "Browse by category" %}</h2><a href="{% url 'products:explore' %}">{% trans "View all" %}</a></div>
+  <div class="grid grid-cats">
+    {% for c in categories %}<a class="card cat-tile" href="{{ c.get_absolute_url }}"><strong>{{ c.name }}</strong><div class="muted" style="font-size:.85rem">{{ c.description }}</div></a>
+    {% empty %}<div class="card empty" style="grid-column:1/-1"><h3>{% trans "No categories yet" %}</h3></div>{% endfor %}
+  </div>
+</section>
+
+{% if recommended %}
+<section class="section"><div class="section-head"><h2>{% trans "Recommended for you" %}</h2></div>
+  <div class="grid grid-products">{% for p in recommended %}{% include "public/components/product_card.html" %}{% endfor %}</div></section>
+{% endif %}
+
+<section class="section">
+  <div class="section-head"><h2>{% trans "New releases" %}</h2><a href="{% url 'products:new' %}">{% trans "See more" %}</a></div>
+  {% if newest %}<div class="grid grid-products">{% for p in newest %}{% include "public/components/product_card.html" %}{% endfor %}</div>
+  {% else %}<div class="card empty"><h3>{% trans "No products published yet" %}</h3><p>{% trans "The first products will appear here once sellers publish and moderators approve them." %}</p>
+    <a class="btn btn-primary" href="{% url 'accounts:become_seller' %}">{% trans "Become a seller" %}</a></div>{% endif %}
+</section>
+
+{% if popular %}<section class="section"><div class="section-head"><h2>{% trans "Popular" %}</h2><a href="{% url 'products:popular' %}">{% trans "See more" %}</a></div>
+  <div class="grid grid-products">{% for p in popular %}{% include "public/components/product_card.html" %}{% endfor %}</div></section>{% endif %}
+{% if top_rated %}<section class="section"><div class="section-head"><h2>{% trans "Top rated" %}</h2><a href="{% url 'products:top_rated' %}">{% trans "See more" %}</a></div>
+  <div class="grid grid-products">{% for p in top_rated %}{% include "public/components/product_card.html" %}{% endfor %}</div></section>{% endif %}
+{% if top_shops %}<section class="section"><div class="section-head"><h2>{% trans "Sellers" %}</h2><a href="{% url 'sellers:list' %}">{% trans "All sellers" %}</a></div>
+  <div class="grid grid-cats">{% for s in top_shops %}<a class="card cat-tile" href="{{ s.get_absolute_url }}"><strong>{{ s.name }}</strong></a>{% endfor %}</div></section>{% endif %}
+
+<section class="section" aria-labelledby="h-why">
+  <h2 id="h-why">{% trans "Why INDPNS Market" %}</h2>
+  <div class="grid grid-3">
+    <div class="card card-pad"><h3>{% trans "Clear licenses" %}</h3><p class="muted">{% trans "Personal, commercial and extended licenses with the rights spelled out before you buy." %}</p></div>
+    <div class="card card-pad"><h3>{% trans "Reviewed before publication" %}</h3><p class="muted">{% trans "Every product goes through moderation and file security checks." %}</p></div>
+    <div class="card card-pad"><h3>{% trans "Secure downloads" %}</h3><p class="muted">{% trans "Files are delivered through temporary signed links, tied to your license." %}</p></div>
+  </div>
+</section>
+
+<section class="section"><div class="cta-band"><h2>{% trans "Sell your digital products" %}</h2>
+  <p>{% trans "Open a free shop and reach buyers around the world." %}</p>
+  <a class="btn" href="{% url 'sellers:pricing' %}">{% trans "See pricing" %}</a></div></section>
+{% endblock %}

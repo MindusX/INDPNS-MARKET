@@ -1,0 +1,13 @@
+{% load i18n core_tags %}
+<aside class="sidebar" aria-label="{% trans 'Dashboard navigation' %}">
+  <a class="brand" href="{% url 'core:home' %}"><span class="brand-mark">I</span><span class="brand-text">INDPNS</span></a>
+  {% for item in menu %}
+    <a class="side-link {% if current_view == item.url_name %}active{% endif %}" href="{% url item.url_name %}" {% if current_view == item.url_name %}aria-current="page"{% endif %}>
+      {% icon item.icon 20 %}<span class="side-label">{{ item.label }}</span></a>
+  {% endfor %}
+  <div class="side-foot">
+    <a class="side-link" href="{% url 'products:explore' %}">{% icon "store" 20 %}<span class="side-label">{% trans "Marketplace" %}</span></a>
+    {% if user.is_internal and user.is_staff %}<a class="side-link" href="{% url 'admin:index' %}">{% icon "settings" 20 %}<span class="side-label">Django admin</span></a>{% endif %}
+    <form action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="side-link" style="width:100%;background:none;border:0;font:inherit;cursor:pointer" type="submit">{% icon "logout" 20 %}<span class="side-label">{% trans "Log out" %}</span></button></form>
+  </div>
+</aside>

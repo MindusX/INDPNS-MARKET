@@ -1,0 +1,4 @@
+{% extends "public/base.html" %}
+{% load i18n %}
+{% block title %}403 · {{ SITE_NAME }}{% endblock %}
+{% block content %}<div class="empty"><h1>403</h1><h2>{% trans "Access denied" %}</h2><p>{% trans "You do not have permission to view this page." %}</p><a class="btn btn-primary" href="{% url 'core:home' %}">{% trans "Back to home" %}</a></div>{% endblock %}

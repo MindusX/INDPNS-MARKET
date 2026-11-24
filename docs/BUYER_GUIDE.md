@@ -1,0 +1,2 @@
+# Guide acheteur
+1. Créez un compte et confirmez votre e-mail. 2. Parcourez le catalogue (filtres, tri). 3. Choisissez la licence (droits et restrictions affichés). 4. Achetez ou obtenez gratuitement. 5. *Dashboard → Library & downloads* : chaque téléchargement génère un lien signé valable quelques minutes, lié à votre compte. 6. Laissez un avis vérifié depuis la page produit. 7. Factures : *Orders & invoices* (bouton imprimer). 8. Sécurité : sessions actives, fermeture des autres sessions, historique de connexion.

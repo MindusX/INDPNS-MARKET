@@ -1,0 +1,7 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "My reviews" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "My reviews" %}</h1></div>
+{% for r in page %}<div class="card card-pad" style="margin-bottom:10px"><a href="{{ r.product.get_absolute_url }}"><strong>{{ r.product.title }}</strong></a> · {{ r.rating }}/5<p>{{ r.comment }}</p></div>
+{% empty %}<div class="card empty"><h3>{% trans "You have not reviewed any product yet" %}</h3></div>{% endfor %}
+{% include "dashboard/components/pagination.html" %}{% endblock %}

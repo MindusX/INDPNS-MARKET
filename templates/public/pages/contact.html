@@ -1,0 +1,9 @@
+{% extends "public/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Contact" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="page-narrow"><h1>{% trans "Contact us" %}</h1>
+<form class="card card-pad" method="post" novalidate>{% csrf_token %}
+  {% for f in form %}<div class="field"><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}{{ f.errors }}</div>{% endfor %}
+  <button class="btn btn-primary" type="submit">{% trans "Send message" %}</button></form></div>
+{% endblock %}

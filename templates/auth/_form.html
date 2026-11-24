@@ -1,0 +1,8 @@
+{% for f in form %}
+  {% if f.field.widget.input_type == "checkbox" %}
+  <div class="field field-check"><label>{{ f }} <span>{{ f.label }}</span></label>{{ f.errors }}</div>
+  {% else %}
+  <div class="field"><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}{% if f.help_text %}<div class="help">{{ f.help_text|safe }}</div>{% endif %}{{ f.errors }}</div>
+  {% endif %}
+{% endfor %}
+{% if form.non_field_errors %}<div class="message error">{{ form.non_field_errors }}</div>{% endif %}

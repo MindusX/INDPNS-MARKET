@@ -1,0 +1,634 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+
+msgid "Discover"
+msgstr "Découvrir"
+
+msgid "Categories"
+msgstr "Catégories"
+
+msgid "Popular"
+msgstr "Populaires"
+
+msgid "New"
+msgstr "Nouveautés"
+
+msgid "Sellers"
+msgstr "Vendeurs"
+
+msgid "Pricing"
+msgstr "Tarifs"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "Search products…"
+msgstr "Rechercher des produits…"
+
+msgid "Log in"
+msgstr "Connexion"
+
+msgid "Sign up"
+msgstr "Inscription"
+
+msgid "Become a seller"
+msgstr "Devenir vendeur"
+
+msgid "Log out"
+msgstr "Déconnexion"
+
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+msgid "My library"
+msgstr "Ma bibliothèque"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Toggle dark mode"
+msgstr "Basculer le mode sombre"
+
+msgid "Notifications"
+msgstr "Notifications"
+
+msgid "Account"
+msgstr "Compte"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Open menu"
+msgstr "Ouvrir le menu"
+
+msgid "Close menu"
+msgstr "Fermer le menu"
+
+msgid "Skip to content"
+msgstr "Aller au contenu"
+
+msgid "No categories yet"
+msgstr "Aucune catégorie pour l'instant"
+
+msgid "Marketplace"
+msgstr "Marketplace"
+
+msgid "New releases"
+msgstr "Nouveautés"
+
+msgid "Free products"
+msgstr "Produits gratuits"
+
+msgid "Sell"
+msgstr "Vendre"
+
+msgid "How to sell"
+msgstr "Comment vendre"
+
+msgid "Affiliate program"
+msgstr "Programme d'affiliation"
+
+msgid "Seller terms"
+msgstr "Conditions vendeurs"
+
+msgid "Help"
+msgstr "Aide"
+
+msgid "Help center"
+msgstr "Centre d'aide"
+
+msgid "How to buy"
+msgstr "Comment acheter"
+
+msgid "License guide"
+msgstr "Guide des licences"
+
+msgid "FAQ"
+msgstr "FAQ"
+
+msgid "Documentation"
+msgstr "Documentation"
+
+msgid "Contact"
+msgstr "Contact"
+
+msgid "Install the app"
+msgstr "Installer l'application"
+
+msgid "Company"
+msgstr "Entreprise"
+
+msgid "About"
+msgstr "À propos"
+
+msgid "Mission"
+msgstr "Mission"
+
+msgid "Privacy"
+msgstr "Confidentialité"
+
+msgid "Terms"
+msgstr "CGU"
+
+msgid "Refunds"
+msgstr "Remboursement"
+
+msgid "Cookies"
+msgstr "Cookies"
+
+msgid "Intellectual property"
+msgstr "Propriété intellectuelle"
+
+msgid "All rights reserved."
+msgstr "Tous droits réservés."
+
+msgid "Catalog mode: you can browse and download free products. Paid checkout is not enabled yet."
+msgstr "Mode catalogue : vous pouvez parcourir et télécharger les produits gratuits. Le paiement n'est pas encore activé."
+
+msgid "The marketplace for professional digital products: source code, templates, plugins, SDKs and AI tools."
+msgstr "La marketplace des produits numériques professionnels : code source, templates, plugins, SDK et outils IA."
+
+msgid "Professional marketplace for software, source code, templates, plugins and AI tools."
+msgstr "Marketplace professionnelle de logiciels, codes sources, templates, plugins et outils IA."
+
+msgid "Ship faster with professional digital products"
+msgstr "Livrez plus vite avec des produits numériques professionnels"
+
+msgid "Source code, templates, plugins, SDKs and AI tools from independent creators, with clear licenses."
+msgstr "Code source, templates, plugins, SDK et outils IA de créateurs indépendants, avec des licences claires."
+
+msgid "Search scripts, templates, plugins, AI agents…"
+msgstr "Rechercher scripts, templates, plugins, agents IA…"
+
+msgid "Browse by category"
+msgstr "Parcourir par catégorie"
+
+msgid "View all"
+msgstr "Tout voir"
+
+msgid "See more"
+msgstr "Voir plus"
+
+msgid "No products published yet"
+msgstr "Aucun produit publié pour l'instant"
+
+msgid "Recommended for you"
+msgstr "Recommandés pour vous"
+
+msgid "Top rated"
+msgstr "Mieux notés"
+
+msgid "All sellers"
+msgstr "Tous les vendeurs"
+
+msgid "Why INDPNS Market"
+msgstr "Pourquoi INDPNS Market"
+
+msgid "Clear licenses"
+msgstr "Licences claires"
+
+msgid "Reviewed before publication"
+msgstr "Vérifié avant publication"
+
+msgid "Secure downloads"
+msgstr "Téléchargements sécurisés"
+
+msgid "Sell your digital products"
+msgstr "Vendez vos produits numériques"
+
+msgid "See pricing"
+msgstr "Voir les tarifs"
+
+msgid "Explore"
+msgstr "Explorer"
+
+msgid "Filters"
+msgstr "Filtres"
+
+msgid "Category"
+msgstr "Catégorie"
+
+msgid "All"
+msgstr "Tous"
+
+msgid "Price"
+msgstr "Prix"
+
+msgid "Free"
+msgstr "Gratuit"
+
+msgid "Paid"
+msgstr "Payant"
+
+msgid "License"
+msgstr "Licence"
+
+msgid "Technology"
+msgstr "Technologie"
+
+msgid "Minimum rating"
+msgstr "Note minimale"
+
+msgid "Published"
+msgstr "Publié"
+
+msgid "Compatibility"
+msgstr "Compatibilité"
+
+msgid "Apply filters"
+msgstr "Appliquer les filtres"
+
+msgid "Reset"
+msgstr "Réinitialiser"
+
+msgid "Sort by"
+msgstr "Trier par"
+
+msgid "Newest"
+msgstr "Plus récents"
+
+msgid "Most sold"
+msgstr "Plus vendus"
+
+msgid "Best rated"
+msgstr "Mieux notés"
+
+msgid "Price: low to high"
+msgstr "Prix croissant"
+
+msgid "Price: high to low"
+msgstr "Prix décroissant"
+
+msgid "No results"
+msgstr "Aucun résultat"
+
+msgid "Try removing some filters or searching for something else."
+msgstr "Essayez de retirer des filtres ou de chercher autre chose."
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Updates"
+msgstr "Mises à jour"
+
+msgid "Reviews"
+msgstr "Avis"
+
+msgid "Live demo"
+msgstr "Démo live"
+
+msgid "Technologies"
+msgstr "Technologies"
+
+msgid "Latest version"
+msgstr "Dernière version"
+
+msgid "Update history"
+msgstr "Historique des mises à jour"
+
+msgid "Verified reviews"
+msgstr "Avis vérifiés"
+
+msgid "Verified purchase"
+msgstr "Achat vérifié"
+
+msgid "Verified seller"
+msgstr "Vendeur vérifié"
+
+msgid "Similar products"
+msgstr "Produits similaires"
+
+msgid "You own this product"
+msgstr "Vous possédez ce produit"
+
+msgid "Go to my library"
+msgstr "Aller à ma bibliothèque"
+
+msgid "Get for free"
+msgstr "Obtenir gratuitement"
+
+msgid "Buy now"
+msgstr "Acheter"
+
+msgid "Checkout unavailable"
+msgstr "Paiement indisponible"
+
+msgid "Paid checkout is not enabled yet on this marketplace."
+msgstr "Le paiement n'est pas encore activé sur cette marketplace."
+
+msgid "Favorite"
+msgstr "Favori"
+
+msgid "Report this product"
+msgstr "Signaler ce produit"
+
+msgid "Send report"
+msgstr "Envoyer le signalement"
+
+msgid "Add to favorites"
+msgstr "Ajouter aux favoris"
+
+msgid "From"
+msgstr "À partir de"
+
+msgid "by"
+msgstr "par"
+
+msgid "Simple pricing for sellers"
+msgstr "Des tarifs simples pour les vendeurs"
+
+msgid "Start for free. Upgrade when your shop grows."
+msgstr "Commencez gratuitement. Évoluez quand votre boutique grandit."
+
+msgid "Monthly"
+msgstr "Mensuel"
+
+msgid "Yearly"
+msgstr "Annuel"
+
+msgid "month"
+msgstr "mois"
+
+msgid "year"
+msgstr "an"
+
+msgid "Compare plans"
+msgstr "Comparer les offres"
+
+msgid "Start for free"
+msgstr "Commencer gratuitement"
+
+msgid "Contact us"
+msgstr "Nous contacter"
+
+msgid "Choose plan"
+msgstr "Choisir l'offre"
+
+msgid "Frequently asked questions"
+msgstr "Questions fréquentes"
+
+msgid "Ready to start selling?"
+msgstr "Prêt à vendre ?"
+
+msgid "Open your shop"
+msgstr "Ouvrir votre boutique"
+
+msgid "Welcome back"
+msgstr "Bon retour"
+
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié ?"
+
+msgid "New here?"
+msgstr "Nouveau ici ?"
+
+msgid "Create an account"
+msgstr "Créer un compte"
+
+msgid "Create your account"
+msgstr "Créez votre compte"
+
+msgid "Create account"
+msgstr "Créer le compte"
+
+msgid "Already registered?"
+msgstr "Déjà inscrit ?"
+
+msgid "Check your inbox"
+msgstr "Vérifiez votre boîte mail"
+
+msgid "Resend the email"
+msgstr "Renvoyer l'e-mail"
+
+msgid "Back to login"
+msgstr "Retour à la connexion"
+
+msgid "Email confirmed"
+msgstr "E-mail confirmé"
+
+msgid "Your account is ready."
+msgstr "Votre compte est prêt."
+
+msgid "Invalid or expired link"
+msgstr "Lien invalide ou expiré"
+
+msgid "Reset your password"
+msgstr "Réinitialiser votre mot de passe"
+
+msgid "Send reset link"
+msgstr "Envoyer le lien"
+
+msgid "Choose a new password"
+msgstr "Choisissez un nouveau mot de passe"
+
+msgid "Save password"
+msgstr "Enregistrer"
+
+msgid "Password updated"
+msgstr "Mot de passe mis à jour"
+
+msgid "You can now log in with your new password."
+msgstr "Vous pouvez maintenant vous connecter avec votre nouveau mot de passe."
+
+msgid "Your name"
+msgstr "Votre nom"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Confirm password"
+msgstr "Confirmer le mot de passe"
+
+msgid "I accept the Terms of Service and the Privacy Policy"
+msgstr "J'accepte les CGU et la politique de confidentialité"
+
+msgid "I agree to receive product news (optional)"
+msgstr "J'accepte de recevoir des actualités produit (facultatif)"
+
+msgid "Back to marketplace"
+msgstr "Retour à la marketplace"
+
+msgid "Back to home"
+msgstr "Retour à l'accueil"
+
+msgid "Access denied"
+msgstr "Accès refusé"
+
+msgid "Page not found"
+msgstr "Page introuvable"
+
+msgid "Overview"
+msgstr "Vue générale"
+
+msgid "Library & downloads"
+msgstr "Bibliothèque et téléchargements"
+
+msgid "Orders & invoices"
+msgstr "Commandes et factures"
+
+msgid "Favorites"
+msgstr "Favoris"
+
+msgid "My reviews"
+msgstr "Mes avis"
+
+msgid "Security"
+msgstr "Sécurité"
+
+msgid "Profile & settings"
+msgstr "Profil et paramètres"
+
+msgid "Products"
+msgstr "Produits"
+
+msgid "Sales"
+msgstr "Ventes"
+
+msgid "Revenue & commissions"
+msgstr "Revenus et commissions"
+
+msgid "Payouts"
+msgstr "Reversements"
+
+msgid "Shop settings"
+msgstr "Paramètres de la boutique"
+
+msgid "Verification"
+msgstr "Vérification"
+
+msgid "Moderation queue"
+msgstr "File de modération"
+
+msgid "Users"
+msgstr "Utilisateurs"
+
+msgid "Orders & refunds"
+msgstr "Commandes et remboursements"
+
+msgid "Reports"
+msgstr "Signalements"
+
+msgid "Audit log"
+msgstr "Journal d'audit"
+
+msgid "Buyer"
+msgstr "Acheteur"
+
+msgid "Seller"
+msgstr "Vendeur"
+
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Dashboard navigation"
+msgstr "Navigation du tableau de bord"
+
+msgid "Search the marketplace…"
+msgstr "Rechercher sur la marketplace…"
+
+msgid "Toggle sidebar"
+msgstr "Afficher/masquer la barre latérale"
+
+msgid "Add product"
+msgstr "Ajouter un produit"
+
+msgid "Submit for moderation"
+msgstr "Soumettre à la modération"
+
+msgid "Save and continue"
+msgstr "Enregistrer et continuer"
+
+msgid "Basics"
+msgstr "Informations"
+
+msgid "Tech & compatibility"
+msgstr "Technos et compatibilité"
+
+msgid "Media"
+msgstr "Médias"
+
+msgid "Files"
+msgstr "Fichiers"
+
+msgid "Pricing & licenses"
+msgstr "Prix et licences"
+
+msgid "Review & submit"
+msgstr "Aperçu et soumission"
+
+msgid "Approve"
+msgstr "Approuver"
+
+msgid "Reject"
+msgstr "Rejeter"
+
+msgid "Suspend"
+msgstr "Suspendre"
+
+msgid "Reinstate"
+msgstr "Rétablir"
+
+msgid "Decision"
+msgstr "Décision"
+
+msgid "Refund"
+msgstr "Rembourser"
+
+msgid "Mark all as read"
+msgstr "Tout marquer comme lu"
+
+msgid "Request payout"
+msgstr "Demander un reversement"
+
+msgid "Message sent. We will get back to you by email."
+msgstr "Message envoyé. Nous vous répondrons par e-mail."
+
+msgid "Send message"
+msgstr "Envoyer le message"
+
+msgid "Install INDPNS Market"
+msgstr "Installer INDPNS Market"
+
+msgid "Install now"
+msgstr "Installer maintenant"
+
+msgid "You are offline"
+msgstr "Vous êtes hors ligne"
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "An account with this email already exists."
+msgstr "Un compte existe déjà avec cet e-mail."
+
+msgid "Passwords do not match."
+msgstr "Les mots de passe ne correspondent pas."
+
+msgid "Please confirm your email address first. Check your inbox."
+msgstr "Veuillez d'abord confirmer votre adresse e-mail. Consultez votre boîte mail."
+
+msgid "Too many failed attempts. Try again in 15 minutes or reset your password."
+msgstr "Trop de tentatives. Réessayez dans 15 minutes ou réinitialisez votre mot de passe."
+
+msgid "Payments are not enabled yet on this marketplace. You can browse, but not buy paid products."
+msgstr "Les paiements ne sont pas encore activés. Vous pouvez parcourir, mais pas acheter de produits payants."
+
+msgid "Added to your library."
+msgstr "Ajouté à votre bibliothèque."
+
+msgid "Thanks for your review!"
+msgstr "Merci pour votre avis !"
+
+msgid "English"
+msgstr "English"

@@ -1,0 +1,62 @@
+# Blueprint Render pour market.indpns.com (base de données : Neon, hors Render)
+services:
+  - type: web
+    name: indpns-market-web
+    runtime: python
+    plan: starter
+    buildCommand: "./build.sh"
+    preDeployCommand: "./scripts/predeploy.sh"
+    startCommand: "gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers ${WEB_CONCURRENCY:-2} --timeout ${GUNICORN_TIMEOUT:-60} --access-logfile -"
+    healthCheckPath: /healthz
+    autoDeploy: false
+    envVars:
+      - { key: PYTHON_VERSION, value: 3.12.3 }
+      - { key: DJANGO_SETTINGS_MODULE, value: config.settings.production }
+      - { key: ENVIRONMENT, value: production }
+      - { key: DEBUG, value: "false" }
+      - { key: SECRET_KEY, generateValue: true }
+      - { key: ALLOWED_HOSTS, value: market.indpns.com }
+      - { key: CSRF_TRUSTED_ORIGINS, value: "https://market.indpns.com" }
+      - { key: SITE_URL, value: "https://market.indpns.com" }
+      - { key: DATABASE_URL, sync: false }          # URL Neon (voir docs/API_KEYS_SETUP.md)
+      - { key: DATABASE_SSL_REQUIRE, value: "true" }
+      - { key: REDIS_URL, fromService: { type: redis, name: indpns-market-redis, property: connectionString } }
+      - { key: WEB_CONCURRENCY, value: "2" }
+      - { key: BOOTSTRAP_MIGRATIONS, value: "0" }
+      - { key: EMAIL_HOST, sync: false }
+      - { key: EMAIL_HOST_USER, sync: false }
+      - { key: EMAIL_HOST_PASSWORD, sync: false }
+      - { key: DEFAULT_FROM_EMAIL, sync: false }
+      - { key: AWS_STORAGE_BUCKET_NAME, sync: false }
+      - { key: AWS_ACCESS_KEY_ID, sync: false }
+      - { key: AWS_SECRET_ACCESS_KEY, sync: false }
+      - { key: AWS_S3_ENDPOINT_URL, sync: false }
+      - { key: PAYMENT_PROVIDER, value: "" }        # vide = mode catalogue
+      - { key: STRIPE_SECRET_KEY, sync: false }
+      - { key: STRIPE_WEBHOOK_SECRET, sync: false }
+      - { key: SENTRY_DSN, sync: false }
+  - type: worker
+    name: indpns-market-worker
+    runtime: python
+    plan: starter
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "celery -A config worker -l info"
+    envVars:
+      - { key: DJANGO_SETTINGS_MODULE, value: config.settings.production }
+      - { key: SECRET_KEY, sync: false }
+      - { key: DATABASE_URL, sync: false }
+      - { key: REDIS_URL, fromService: { type: redis, name: indpns-market-redis, property: connectionString } }
+      - { key: SITE_URL, value: "https://market.indpns.com" }
+      - { key: EMAIL_HOST, sync: false }
+      - { key: EMAIL_HOST_USER, sync: false }
+      - { key: EMAIL_HOST_PASSWORD, sync: false }
+      - { key: DEFAULT_FROM_EMAIL, sync: false }
+      - { key: AWS_STORAGE_BUCKET_NAME, sync: false }
+      - { key: AWS_ACCESS_KEY_ID, sync: false }
+      - { key: AWS_SECRET_ACCESS_KEY, sync: false }
+      - { key: AWS_S3_ENDPOINT_URL, sync: false }
+  - type: redis
+    name: indpns-market-redis
+    plan: starter
+    ipAllowList: []
+    maxmemoryPolicy: noeviction

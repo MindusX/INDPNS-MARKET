@@ -1,0 +1,10 @@
+{% extends "auth/base_auth.html" %}
+{% load i18n %}
+{% block title %}{% trans "Check your inbox" %}{% endblock %}
+{% block content %}
+<h1>{% trans "Check your inbox" %}</h1>
+<p>{% blocktrans %}We sent a confirmation link to {{ email }}. It is valid for 48 hours.{% endblocktrans %}</p>
+<form method="post" action="{% url 'accounts:resend_verification' %}">{% csrf_token %}<input type="hidden" name="email" value="{{ email }}">
+  <button class="btn btn-block" type="submit">{% trans "Resend the email" %}</button></form>
+<p class="auth-foot"><a href="{% url 'accounts:login' %}">{% trans "Back to login" %}</a></p>
+{% endblock %}

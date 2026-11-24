@@ -1,0 +1,6 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Reviews" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Reviews" %}</h1></div>
+{% for r in page %}<div class="card card-pad" style="margin-bottom:10px"><strong>{{ r.product.title }}</strong> · {{ r.rating }}/5 · {{ r.user.get_short_name }}<p>{{ r.comment }}</p></div>
+{% empty %}<div class="card empty"><h3>{% trans "No reviews yet" %}</h3></div>{% endfor %}{% include "dashboard/components/pagination.html" %}{% endblock %}

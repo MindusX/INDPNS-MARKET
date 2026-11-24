@@ -1,0 +1,6 @@
+{% load core_tags %}
+<nav class="mobile-nav" aria-label="Dashboard">
+  {% for item in menu|slice:":5" %}
+    <a href="{% url item.url_name %}" class="{% if current_view == item.url_name %}active{% endif %}">{% icon item.icon 22 %}<span>{{ item.label|truncatechars:12 }}</span></a>
+  {% endfor %}
+</nav>

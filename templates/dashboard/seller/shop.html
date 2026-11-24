@@ -1,0 +1,6 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Shop settings" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Shop settings" %}</h1><a class="btn" href="{{ shop.get_absolute_url }}">{% trans "View public page" %}</a></div>
+<form class="card form-card" method="post" novalidate>{% csrf_token %}{% include "auth/_form.html" %}<button class="btn btn-primary" type="submit">{% trans "Save" %}</button></form>
+<form class="card form-card" style="margin-top:16px" method="post" enctype="multipart/form-data">{% csrf_token %}{% with form=lform %}{% include "auth/_form.html" %}{% endwith %}<button class="btn" type="submit">{% trans "Upload logo" %}</button></form>{% endblock %}

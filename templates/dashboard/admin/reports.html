@@ -1,0 +1,7 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Reports" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Reports" %}</h1></div>
+<div class="card table-wrap"><table class="table"><tbody>{% for r in page %}<tr><td><a href="{{ r.product.get_absolute_url }}">{{ r.product.title }}</a></td><td>{{ r.get_reason_display }}</td><td>{{ r.details|truncatechars:80 }}</td><td>{{ r.reporter.email }}</td>
+<td>{% if r.status == "open" %}<form method="post">{% csrf_token %}<input type="hidden" name="report_id" value="{{ r.pk }}"><button class="btn btn-sm" type="submit">{% trans "Close" %}</button></form>{% endif %}</td></tr>
+{% empty %}<tr><td class="muted">{% trans "No reports" %}</td></tr>{% endfor %}</tbody></table></div>{% include "dashboard/components/pagination.html" %}{% endblock %}

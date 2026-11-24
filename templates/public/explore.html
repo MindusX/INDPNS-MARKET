@@ -1,0 +1,57 @@
+{% extends "public/base.html" %}
+{% load i18n core_tags %}
+{% block title %}{{ title }} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<h1>{% if q %}{% blocktrans %}Results for “{{ q }}”{% endblocktrans %}{% else %}{{ title }}{% endif %}</h1>
+<div class="explore">
+  <aside class="card filters" aria-label="{% trans 'Filters' %}">
+    <form method="get" data-autosubmit>
+      {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+      <fieldset><legend>{% trans "Category" %}</legend>
+        <label class="opt"><input type="radio" name="category" value="" {% if not category %}checked{% endif %}> {% trans "All" %}</label>
+        {% for c in categories %}<label class="opt"><input type="radio" name="category" value="{{ c.slug }}" {% if category.slug == c.slug %}checked{% endif %}> {{ c.name }}</label>{% endfor %}
+      </fieldset>
+      <fieldset><legend>{% trans "Price" %}</legend>
+        <label class="opt"><input type="radio" name="price" value="" {% if not params.price %}checked{% endif %}> {% trans "All" %}</label>
+        <label class="opt"><input type="radio" name="price" value="free" {% if params.price == "free" %}checked{% endif %}> {% trans "Free" %}</label>
+        <label class="opt"><input type="radio" name="price" value="paid" {% if params.price == "paid" %}checked{% endif %}> {% trans "Paid" %}</label>
+        <div style="display:flex;gap:6px;margin-top:6px"><input class="input" type="number" name="min" min="0" step="1" placeholder="{% trans 'Min' %}" value="{{ params.min }}"><input class="input" type="number" name="max" min="0" step="1" placeholder="{% trans 'Max' %}" value="{{ params.max }}"></div>
+      </fieldset>
+      <fieldset><legend>{% trans "License" %}</legend>
+        <label class="opt"><input type="radio" name="license" value="" {% if not params.license %}checked{% endif %}> {% trans "Any" %}</label>
+        {% for l in license_types %}<label class="opt"><input type="radio" name="license" value="{{ l.code }}" {% if params.license == l.code %}checked{% endif %}> {{ l.name }}</label>{% endfor %}
+      </fieldset>
+      <fieldset><legend>{% trans "Technology" %}</legend>
+        {% for t in technologies %}<label class="opt"><input type="checkbox" name="tech" value="{{ t.slug }}" {% if t.slug in selected_techs %}checked{% endif %}> {{ t.name }}</label>{% endfor %}
+      </fieldset>
+      <fieldset><legend>{% trans "Minimum rating" %}</legend>
+        <select class="input" name="rating"><option value="">{% trans "Any" %}</option>{% for r in "4321" %}<option value="{{ r }}" {% if params.rating == r %}selected{% endif %}>{{ r }}+ ★</option>{% endfor %}</select></fieldset>
+      <fieldset><legend>{% trans "Published" %}</legend>
+        <select class="input" name="since"><option value="">{% trans "Any time" %}</option><option value="7" {% if params.since == "7" %}selected{% endif %}>{% trans "Last 7 days" %}</option><option value="30" {% if params.since == "30" %}selected{% endif %}>{% trans "Last 30 days" %}</option><option value="365" {% if params.since == "365" %}selected{% endif %}>{% trans "Last year" %}</option></select></fieldset>
+      <fieldset><legend>{% trans "Compatibility" %}</legend><input class="input" type="text" name="compat" value="{{ params.compat }}" placeholder="Django, React…"></fieldset>
+      <input type="hidden" name="sort" value="{{ sort }}">
+      <button class="btn btn-block" type="submit">{% trans "Apply filters" %}</button>
+      <a class="btn btn-ghost btn-block" href="{% url 'products:explore' %}">{% trans "Reset" %}</a>
+    </form>
+  </aside>
+  <section>
+    <div class="toolbar"><span class="muted">{% blocktrans count n=total %}{{ n }} product{% plural %}{{ n }} products{% endblocktrans %}</span>
+      <form method="get" data-autosubmit>
+        {% for k, v in params.items %}{% if k != "sort" and k != "page" %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}{% endfor %}
+        <label class="sr-only" for="sort">{% trans "Sort by" %}</label>
+        <select class="input" id="sort" name="sort">
+          <option value="new" {% if sort == "new" %}selected{% endif %}>{% trans "Newest" %}</option>
+          <option value="popular" {% if sort == "popular" %}selected{% endif %}>{% trans "Most sold" %}</option>
+          <option value="rating" {% if sort == "rating" %}selected{% endif %}>{% trans "Best rated" %}</option>
+          <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>{% trans "Price: low to high" %}</option>
+          <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>{% trans "Price: high to low" %}</option>
+        </select></form></div>
+    {% if page.object_list %}
+      <div class="grid grid-products">{% for p in page %}{% include "public/components/product_card.html" %}{% endfor %}</div>
+      {% include "public/components/pagination.html" %}
+    {% else %}
+      <div class="card empty"><h3>{% trans "No results" %}</h3><p>{% trans "Try removing some filters or searching for something else." %}</p><a class="btn" href="{% url 'products:explore' %}">{% trans "Reset filters" %}</a></div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

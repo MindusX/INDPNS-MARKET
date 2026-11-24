@@ -1,0 +1,29 @@
+{% load i18n static %}<!DOCTYPE html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}" data-theme="light">
+<head>
+  {% include "components/head.html" %}
+  <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{% trans "Professional marketplace for software, source code, templates, plugins and AI tools." %}{% endblock %}">
+  <link rel="stylesheet" href="{% static 'css/public.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+<a class="skip-link" href="#main">{% trans "Skip to content" %}</a>
+<div class="site-shell">
+  {% include "public/components/navbar.html" %}
+  <main id="main" class="site-main">
+    <div class="container">
+      {% include "components/messages.html" %}
+      {% if not PAYMENTS_ENABLED %}
+      <div class="notice notice-info" role="note">{% trans "Catalog mode: you can browse and download free products. Paid checkout is not enabled yet." %}</div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+  {% include "public/components/footer.html" %}
+</div>
+<script type="module" src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

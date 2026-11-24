@@ -1,0 +1,8 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Orders" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Orders & refunds" %}</h1></div>
+<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Order" %}</th><th>{% trans "Buyer" %}</th><th>{% trans "Total" %}</th><th>{% trans "Status" %}</th><th>{% trans "Provider" %}</th><th></th></tr></thead><tbody>
+{% for o in page %}<tr><td><code>{{ o.number }}</code></td><td>{{ o.buyer.email }}</td><td>{{ o.total|money }}</td><td>{{ o.get_status_display }}</td><td>{{ o.provider|default:"—" }}</td>
+<td>{% if o.status == "paid" %}<form method="post" onsubmit="return confirm('{% trans "Refund this order?" %}')">{% csrf_token %}<input type="hidden" name="order_id" value="{{ o.pk }}"><button class="btn btn-sm btn-danger" type="submit">{% trans "Refund" %}</button></form>{% endif %}</td></tr>
+{% empty %}<tr><td colspan="6" class="muted">{% trans "No orders" %}</td></tr>{% endfor %}</tbody></table></div>{% include "dashboard/components/pagination.html" %}{% endblock %}

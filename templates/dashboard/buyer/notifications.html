@@ -1,0 +1,9 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Notifications" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Notifications" %}</h1>
+<form method="post">{% csrf_token %}<button class="btn" type="submit">{% trans "Mark all as read" %}</button></form></div>
+{% for n in page %}<div class="card card-pad" style="margin-bottom:10px;{% if not n.read_at %}border-color:var(--color-accent){% endif %}"><strong>{% if n.url %}<a href="{{ n.url }}">{{ n.title }}</a>{% else %}{{ n.title }}{% endif %}</strong>
+{% if n.body %}<div class="muted">{{ n.body }}</div>{% endif %}<div class="muted" style="font-size:.8rem">{{ n.created_at|date:"DATETIME_FORMAT" }}</div></div>
+{% empty %}<div class="card empty"><h3>{% trans "No notifications" %}</h3></div>{% endfor %}
+{% include "dashboard/components/pagination.html" %}{% endblock %}

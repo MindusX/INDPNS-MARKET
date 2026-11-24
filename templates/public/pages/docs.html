@@ -1,0 +1,9 @@
+{% extends "public/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Documentation" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<article class="page-narrow prose"><h1>{% trans "Documentation" %}</h1>
+  <p>Guides for buyers, sellers and administrators are included in the project docs folder (docs/BUYER_GUIDE.md, docs/SELLER_GUIDE.md, docs/ADMIN_GUIDE.md).</p>
+  <p>A public read-only API is available at /api/v1/products/.</p>
+</article>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% load i18n core_tags %}
+<header class="auth-header">
+  <a class="brand" href="{% url 'core:home' %}"><span class="brand-mark">I</span> INDPNS Market</a>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="{% trans 'Toggle dark mode' %}">{% icon "moon" 20 %}</button>
+    <a class="btn btn-ghost btn-sm" href="{% url 'core:home' %}">{% trans "Back to marketplace" %}</a>
+  </div>
+</header>

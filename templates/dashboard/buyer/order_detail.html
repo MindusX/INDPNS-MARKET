@@ -1,0 +1,15 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{{ order.number }}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% trans "Order" %} {{ order.number }}</h1><button class="btn no-print" onclick="window.print()" type="button">{% trans "Print invoice" %}</button></div>
+{% if order.status == "pending" %}<div class="notice">{% trans "Payment not confirmed yet. If you just paid, this page updates once the payment provider confirms it." %}</div>{% endif %}
+<div class="card card-pad" style="max-width:720px">
+  <p><strong>INDPNS Market</strong><br>{% if order.invoice %}{% trans "Invoice" %} {{ order.invoice.number }} · {{ order.invoice.issued_at|date:"DATE_FORMAT" }}{% else %}{% trans "No invoice yet" %}{% endif %}</p>
+  <p>{{ order.buyer.display_name }} · {{ order.buyer.email }}</p>
+  <table class="table"><thead><tr><th>{% trans "Item" %}</th><th>{% trans "Price" %}</th></tr></thead><tbody>
+  {% for i in order.items.all %}<tr><td>{{ i.title_snapshot }}</td><td>{{ i.unit_price|money }}</td></tr>{% endfor %}
+  <tr><td><strong>{% trans "Total" %}</strong></td><td><strong>{{ order.total|money }}</strong> {{ order.currency }}</td></tr></tbody></table>
+  <p class="muted">{% trans "Status" %}: {{ order.get_status_display }}{% if order.provider %} · {{ order.provider }}{% endif %}</p>
+</div>
+{% endblock %}

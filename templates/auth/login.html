@@ -1,0 +1,16 @@
+{% extends "auth/base_auth.html" %}
+{% load i18n %}
+{% block title %}{% trans "Log in" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<h1>{% trans "Welcome back" %}</h1>
+<form method="post" novalidate>{% csrf_token %}
+  {% include "auth/_form.html" %}
+  <input type="hidden" name="next" value="{{ next }}">
+  <button class="btn btn-primary btn-block" type="submit">{% trans "Log in" %}</button>
+</form>
+<p class="auth-foot"><a href="{% url 'accounts:password_reset' %}">{% trans "Forgot your password?" %}</a></p>
+<div class="divider">{% trans "or" %}</div>
+<button class="btn btn-block oauth-btn" type="button" disabled>{% trans "Continue with Google" %} — {% trans "not configured" %}</button>
+<button class="btn btn-block oauth-btn" type="button" disabled>{% trans "Continue with GitHub" %} — {% trans "not configured" %}</button>
+<p class="auth-foot">{% trans "New here?" %} <a href="{% url 'accounts:register' %}">{% trans "Create an account" %}</a></p>
+{% endblock %}

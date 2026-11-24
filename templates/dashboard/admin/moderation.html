@@ -1,0 +1,7 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Moderation" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Moderation queue" %}</h1>
+<div class="space-switch"><a class="{% if status == 'pending' %}active{% endif %}" href="?status=pending">{% trans "Pending" %}</a><a class="{% if status == 'approved' %}active{% endif %}" href="?status=approved">{% trans "Approved" %}</a><a class="{% if status == 'rejected' %}active{% endif %}" href="?status=rejected">{% trans "Rejected" %}</a><a class="{% if status == 'suspended' %}active{% endif %}" href="?status=suspended">{% trans "Suspended" %}</a></div></div>
+{% if page.object_list %}<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Product" %}</th><th>{% trans "Shop" %}</th><th>{% trans "Category" %}</th><th>{% trans "Submitted" %}</th><th></th></tr></thead><tbody>{% for p in page %}<tr><td>{{ p.title }}</td><td>{{ p.shop.name }}</td><td>{{ p.category.name|default:"—" }}</td><td>{{ p.updated_at|date:"DATE_FORMAT" }}</td><td><a class="btn btn-sm" href="{% url 'dashboard:admin_moderation_detail' p.pk %}">{% trans "Review" %}</a></td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="card empty"><h3>{% trans "Nothing to review" %}</h3></div>{% endif %}{% include "dashboard/components/pagination.html" %}{% endblock %}

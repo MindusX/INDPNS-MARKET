@@ -1,0 +1,8 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Revenue" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Revenue & commissions" %}</h1></div>
+<div class="stats"><div class="card stat"><div class="v">{{ balance|money }}</div><div class="l">{% trans "Ledger balance" %}</div></div><div class="card stat"><div class="v">{{ available|money }}</div><div class="l">{% trans "Available for payout" %}</div></div><div class="card stat"><div class="v">{{ shop.plan.commission_percent }}%</div><div class="l">{% trans "Current commission" %}</div></div></div>
+<p class="muted">{% trans "The ledger is append-only: every sale, refund and payout is recorded as a separate entry." %}</p>
+{% if page.object_list %}<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Date" %}</th><th>{% trans "Type" %}</th><th>{% trans "Amount" %}</th></tr></thead><tbody>{% for e in page %}<tr><td>{{ e.created_at|date:"DATETIME_FORMAT" }}</td><td>{{ e.get_entry_type_display }}</td><td>{{ e.amount|money }}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="card empty"><h3>{% trans "No entries yet" %}</h3></div>{% endif %}{% include "dashboard/components/pagination.html" %}{% endblock %}

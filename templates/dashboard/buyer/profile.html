@@ -1,0 +1,5 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Profile" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Profile & settings" %}</h1></div>
+<form class="card form-card" method="post" novalidate>{% csrf_token %}{% include "auth/_form.html" %}<p class="muted">{{ user.email }}</p><button class="btn btn-primary" type="submit">{% trans "Save" %}</button></form>{% endblock %}

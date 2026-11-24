@@ -1,0 +1,11 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Payouts" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Payouts" %}</h1></div>
+<div class="notice notice-info">{% trans "Approving writes the ledger debit. Sending the money is done through your payment provider; record its reference with “Mark paid”. No automatic transfer is performed by this application." %}</div>
+<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Shop" %}</th><th>{% trans "Amount" %}</th><th>KYC</th><th>{% trans "Status" %}</th><th></th></tr></thead><tbody>
+{% for p in page %}<tr><td>{{ p.shop.name }}</td><td>{{ p.amount|money }}</td><td>{{ p.shop.get_kyc_status_display }}</td><td>{{ p.get_status_display }}</td><td>
+<form method="post" style="display:flex;gap:6px;flex-wrap:wrap">{% csrf_token %}<input type="hidden" name="payout_id" value="{{ p.pk }}">
+{% if p.status == "requested" %}<button class="btn btn-sm btn-primary" name="action" value="approve">{% trans "Approve" %}</button><button class="btn btn-sm" name="action" value="reject">{% trans "Reject" %}</button>
+{% elif p.status == "approved" %}<input class="input" style="max-width:160px" name="provider_ref" placeholder="{% trans 'Provider reference' %}"><button class="btn btn-sm btn-primary" name="action" value="paid">{% trans "Mark paid" %}</button>{% endif %}</form></td></tr>
+{% empty %}<tr><td colspan="5" class="muted">{% trans "No payouts" %}</td></tr>{% endfor %}</tbody></table></div>{% include "dashboard/components/pagination.html" %}{% endblock %}

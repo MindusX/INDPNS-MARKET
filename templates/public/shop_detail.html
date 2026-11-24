@@ -1,0 +1,12 @@
+{% extends "public/base.html" %}
+{% load i18n %}
+{% block title %}{{ shop.name }} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="card card-pad" style="margin-bottom:24px"><h1>{{ shop.name }}</h1>
+  {% if shop.verification_status == "verified" %}<span class="badge badge-success">{% trans "Verified seller" %}</span>{% endif %}
+  {% if shop.description %}{{ shop.description|linebreaks }}{% endif %}
+  {% if shop.website %}<a href="{{ shop.website }}" target="_blank" rel="noopener noreferrer nofollow">{{ shop.website }}</a>{% endif %}
+  <p class="muted">{% blocktrans with d=shop.created_at|date:"DATE_FORMAT" %}Member since {{ d }}{% endblocktrans %}</p></div>
+{% if page.object_list %}<div class="grid grid-products">{% for p in page %}{% include "public/components/product_card.html" %}{% endfor %}</div>{% include "public/components/pagination.html" %}
+{% else %}<div class="card empty"><h3>{% trans "No published products yet" %}</h3></div>{% endif %}
+{% endblock %}

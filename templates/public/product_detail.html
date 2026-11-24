@@ -1,0 +1,69 @@
+{% extends "public/base.html" %}
+{% load i18n core_tags %}
+{% block title %}{{ product.title }} · {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}{{ product.summary }}{% endblock %}
+{% block content %}
+{% if product.status != "approved" %}<div class="notice">{% blocktrans with s=product.get_status_display %}Preview — this product is {{ s }} and not visible to the public.{% endblocktrans %}</div>{% endif %}
+<p class="muted"><a href="{% url 'products:explore' %}">{% trans "Marketplace" %}</a>{% if product.category %} › <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a>{% endif %}</p>
+<div class="product-layout">
+  <div>
+    <h1>{{ product.title }}</h1>
+    <p class="muted">{% trans "by" %} <a href="{{ product.shop.get_absolute_url }}">{{ product.shop.name }}</a>
+      {% if product.shop.verification_status == "verified" %}<span class="badge badge-success">{% icon "check" 12 %} {% trans "Verified seller" %}</span>{% endif %}
+      {% if stats.review_count %} · <span class="stars">{% for on in stats.avg_rating|stars %}<span class="{% if on %}on{% endif %}">{% icon "star" 14 %}</span>{% endfor %}</span> {{ stats.avg_rating|floatformat:1 }} ({{ stats.review_count }}){% endif %}
+      {% if stats.sales_count %} · {% blocktrans count n=stats.sales_count %}{{ n }} sale{% plural %}{{ n }} sales{% endblocktrans %}{% endif %}</p>
+    <div class="gallery-main">{% if product.cover %}<img data-gallery-main src="{{ product.cover.url }}" alt="{{ product.title }}">{% endif %}</div>
+    {% if product.images.all %}<div class="thumbs">{% if product.cover %}<img data-gallery-thumb src="{{ product.cover.url }}" alt="">{% endif %}{% for i in product.images.all %}<img data-gallery-thumb src="{{ i.image.url }}" alt="{{ i.caption }}" loading="lazy">{% endfor %}</div>{% endif %}
+    <nav class="tabs" aria-label="{% trans 'Product sections' %}"><a href="#description">{% trans "Description" %}</a><a href="#details">{% trans "Details" %}</a>{% if product.documentation %}<a href="#docs">{% trans "Documentation" %}</a>{% endif %}<a href="#changelog">{% trans "Updates" %}</a><a href="#reviews">{% trans "Reviews" %}</a></nav>
+    <section id="description" class="prose"><h2>{% trans "Description" %}</h2>{{ product.description|linebreaks }}
+      {% if product.demo_url %}<p><a class="btn" href="{{ product.demo_url }}" target="_blank" rel="noopener noreferrer nofollow">{% trans "Live demo" %} ↗</a></p>{% endif %}
+      {% if product.video_url %}<p><a href="{{ product.video_url }}" target="_blank" rel="noopener noreferrer nofollow">{% trans "Watch the video" %} ↗</a></p>{% endif %}</section>
+    <section id="details" class="section"><h2>{% trans "Details" %}</h2>
+      <div class="card"><table class="table"><tbody>
+        {% if product.compatibility %}<tr><th>{% trans "Compatibility" %}</th><td>{{ product.compatibility }}</td></tr>{% endif %}
+        {% if product.technologies.all %}<tr><th>{% trans "Technologies" %}</th><td>{% for t in product.technologies.all %}<span class="badge">{{ t.name }}</span> {% endfor %}</td></tr>{% endif %}
+        {% if versions %}<tr><th>{% trans "Latest version" %}</th><td>{{ versions.0.version }}</td></tr>{% endif %}
+        {% if product.published_at %}<tr><th>{% trans "Published" %}</th><td>{{ product.published_at|date:"DATE_FORMAT" }}</td></tr>{% endif %}
+        <tr><th>{% trans "Last update" %}</th><td>{{ product.updated_at|date:"DATE_FORMAT" }}</td></tr></tbody></table></div></section>
+    {% if product.documentation %}<section id="docs" class="section prose"><h2>{% trans "Documentation" %}</h2>{{ product.documentation|linebreaks }}</section>{% endif %}
+    <section id="changelog" class="section"><h2>{% trans "Update history" %}</h2>
+      {% for v in versions %}<div class="card card-pad" style="margin-bottom:10px"><strong>v{{ v.version }}</strong> <span class="muted">· {{ v.created_at|date:"DATE_FORMAT" }}</span>{% if v.changelog %}{{ v.changelog|linebreaks }}{% endif %}</div>
+      {% empty %}<p class="muted">{% trans "No version published yet." %}</p>{% endfor %}</section>
+    <section id="reviews" class="section"><h2>{% trans "Verified reviews" %}</h2>
+      {% if review_form %}<form class="card card-pad" method="post" action="{% url 'reviews:post' owned.pk %}" style="margin-bottom:16px">{% csrf_token %}
+        <div class="field"><label for="id_rating">{{ review_form.rating.label }}</label>{{ review_form.rating }}</div>
+        <div class="field"><label for="id_comment">{{ review_form.comment.label }}</label>{{ review_form.comment }}</div>
+        <button class="btn btn-primary" type="submit">{% trans "Publish review" %}</button></form>{% endif %}
+      {% for r in reviews %}<div class="card card-pad" style="margin-bottom:10px"><span class="stars">{% for on in r.rating|stars %}<span class="{% if on %}on{% endif %}">{% icon "star" 14 %}</span>{% endfor %}</span>
+        <strong>{{ r.user.get_short_name }}</strong> <span class="badge badge-success">{% trans "Verified purchase" %}</span><div class="muted" style="font-size:.82rem">{{ r.created_at|date:"DATE_FORMAT" }}</div>{{ r.comment|linebreaks }}</div>
+      {% empty %}<p class="muted">{% trans "No reviews yet. Only verified buyers can review." %}</p>{% endfor %}</section>
+    {% if similar %}<section class="section"><h2>{% trans "Similar products" %}</h2><div class="grid grid-products">{% for p in similar %}{% include "public/components/product_card.html" %}{% endfor %}</div></section>{% endif %}
+  </div>
+
+  <aside class="card buybox" aria-label="{% trans 'Purchase' %}">
+    {% if owned %}
+      <p><span class="badge badge-success">{% icon "check" 12 %} {% trans "You own this product" %}</span></p>
+      <a class="btn btn-primary btn-block" href="{% url 'dashboard:buyer_library' %}">{% trans "Go to my library" %}</a>
+    {% elif product.status == "approved" %}
+      <form method="post" action="{% url 'orders:checkout' product.slug %}">{% csrf_token %}
+        {% for lp in prices %}
+        <label class="license-opt"><div class="top"><span><input type="radio" name="license" value="{{ lp.license_type.code }}" {% if forloop.first %}checked{% endif %}> {{ lp.license_type.name }}</span>
+          <span class="price">{% if lp.price == 0 %}{% trans "Free" %}{% else %}{{ lp.price|money }}{% endif %}</span></div>
+          <div class="muted" style="font-size:.84rem;margin-top:4px">{{ lp.license_type.summary }}</div>
+          <ul>{% for r in lp.license_type.rights %}<li>{{ r }}</li>{% endfor %}{% for r in lp.license_type.restrictions %}<li>✕ {{ r }}</li>{% endfor %}</ul></label>
+        {% empty %}<p class="muted">{% trans "No license available." %}</p>{% endfor %}
+        {% if prices %}
+          {% if product.is_free or PAYMENTS_ENABLED %}<button class="btn btn-primary btn-block" type="submit">{% if product.is_free %}{% trans "Get for free" %}{% else %}{% trans "Buy now" %}{% endif %}</button>
+          {% else %}<button class="btn btn-primary btn-block" type="button" disabled>{% trans "Checkout unavailable" %}</button><p class="muted" style="font-size:.84rem;margin-top:8px">{% trans "Paid checkout is not enabled yet on this marketplace." %}</p>{% endif %}
+        {% endif %}
+      </form>
+    {% endif %}
+    {% if product.status == "approved" %}<button type="button" class="btn btn-block" style="margin-top:10px" data-fav-url="{% url 'products:favorite' product.slug %}" data-auth="{% if user.is_authenticated %}1{% else %}0{% endif %}" data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">{% icon "heart" 16 %} {% trans "Favorite" %}</button>
+    <details style="margin-top:14px"><summary class="muted" style="cursor:pointer">{% icon "flag" 14 %} {% trans "Report this product" %}</summary>
+      {% if user.is_authenticated %}<form method="post" action="{% url 'products:report' product.slug %}" style="margin-top:10px">{% csrf_token %}
+        <div class="field"><label for="id_reason">{{ report_form.reason.label }}</label>{{ report_form.reason }}</div>
+        <div class="field"><label for="id_details">{{ report_form.details.label }}</label>{{ report_form.details }}</div><button class="btn btn-sm" type="submit">{% trans "Send report" %}</button></form>
+      {% else %}<p style="margin-top:10px"><a href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">{% trans "Log in to report" %}</a></p>{% endif %}</details>{% endif %}
+  </aside>
+</div>
+{% endblock %}

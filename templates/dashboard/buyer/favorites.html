@@ -1,0 +1,7 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Favorites" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Favorites" %}</h1></div>
+{% if page.object_list %}<div class="grid grid-products">{% for f in page %}{% with p=f.product %}{% include "public/components/product_card.html" %}{% endwith %}{% endfor %}</div>
+{% else %}<div class="card empty"><h3>{% trans "No favorites yet" %}</h3></div>{% endif %}
+{% include "dashboard/components/pagination.html" %}{% endblock %}

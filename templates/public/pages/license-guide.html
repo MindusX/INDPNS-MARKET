@@ -1,0 +1,11 @@
+{% extends "public/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "License guide" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<article class="page-narrow prose"><h1>{% trans "License guide" %}</h1>
+  <p>Personal: one person, non-commercial projects.</p>
+  <p>Commercial: one commercial project or client project.</p>
+  <p>Extended: products distributed or sold to many end users.</p>
+  <p>Exact rights and restrictions are shown on every product page before you buy. Always read them.</p>
+</article>
+{% endblock %}

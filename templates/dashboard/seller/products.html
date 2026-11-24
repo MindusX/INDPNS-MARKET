@@ -1,0 +1,10 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n core_tags %}
+{% block title %}{% trans "Products" %}{% endblock %}
+{% block content %}<div class="page-head"><h1>{% trans "Products" %}</h1><a class="btn btn-primary" href="{% url 'dashboard:product_new' %}">{% icon "plus" 16 %} {% trans "Add product" %}</a></div>
+{% if page.object_list %}<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Product" %}</th><th>{% trans "Status" %}</th><th>{% trans "From" %}</th><th></th></tr></thead><tbody>
+{% for p in page %}<tr><td>{{ p.title }}</td><td><span class="badge {% if p.status == 'approved' %}badge-success{% elif p.status == 'pending' %}badge-warning{% elif p.status in 'rejected suspended' %}badge-danger{% else %}badge-muted{% endif %}">{{ p.get_status_display }}</span></td><td>{{ p.base_price|money }}</td>
+<td style="white-space:nowrap"><a class="btn btn-sm" href="{% url 'dashboard:product_edit_start' p.pk %}">{% trans "Open" %}</a>
+{% if p.status != "archived" %}<form method="post" action="{% url 'dashboard:product_archive' p.pk %}" style="display:inline" onsubmit="return confirm('{% trans "Archive this product?" %}')">{% csrf_token %}<button class="btn btn-sm" type="submit">{% trans "Archive" %}</button></form>{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<div class="card empty"><h3>{% trans "No products yet" %}</h3><a class="btn btn-primary" href="{% url 'dashboard:product_new' %}">{% trans "Create your first product" %}</a></div>{% endif %}
+{% include "dashboard/components/pagination.html" %}{% endblock %}

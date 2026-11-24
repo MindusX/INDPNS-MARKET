@@ -1,0 +1,6 @@
+{% extends "emails/base.html" %}{% block body %}
+<h2 style="margin:0 0 12px">Order {{ order.number }} confirmed</h2>
+<p>Thank you for your purchase. Your products are in your library.</p>
+<ul>{% for i in items %}<li>{{ i.title_snapshot }} — {{ i.unit_price }} {{ order.currency }}</li>{% endfor %}</ul>
+<p><strong>Total: {{ order.total }} {{ order.currency }}</strong></p>
+<p><a href="{{ SITE_URL }}/dashboard/buyer/library/" style="background:#2563EB;color:#FFFFFF;padding:11px 18px;border-radius:8px;text-decoration:none;display:inline-block">Open my library</a></p>{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "public/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Install the app" %} · {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<div class="page-narrow"><h1>{% trans "Install INDPNS Market" %}</h1>
+  <p class="lead muted">{% trans "INDPNS Market is a progressive web app (PWA): install it from your browser for quick access. There is no native Android or iOS app (APK / App Store) at this time." %}</p>
+  <button class="btn btn-primary" type="button" data-pwa-install hidden>{% trans "Install now" %}</button>
+  <div class="grid grid-3" style="margin-top:24px">
+    <div class="card card-pad"><h3>Android / Chrome</h3><p class="muted">{% trans "Open the browser menu and choose “Install app” or “Add to Home screen”." %}</p></div>
+    <div class="card card-pad"><h3>iPhone / iPad</h3><p class="muted">{% trans "In Safari, tap Share, then “Add to Home Screen”." %}</p></div>
+    <div class="card card-pad"><h3>Desktop</h3><p class="muted">{% trans "In Chrome or Edge, click the install icon in the address bar." %}</p></div></div>
+  {% if qr_svg %}<div class="card card-pad" style="margin-top:24px;display:inline-block"><h3>{% trans "Scan to open on your phone" %}</h3><div style="width:180px;background:#fff;padding:8px">{{ qr_svg|safe }}</div></div>{% endif %}
+  <h2 style="margin-top:32px">{% trans "Good to know" %}</h2>
+  <ul><li>{% trans "Offline mode works for static pages only." %}</li><li>{% trans "Your purchases and downloads are never cached on the device." %}</li></ul></div>
+{% endblock %}
