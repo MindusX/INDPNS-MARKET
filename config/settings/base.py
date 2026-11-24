@@ -39,7 +39,14 @@ DEBUG = env_bool("DEBUG", False)
 SECRET_KEY = env("SECRET_KEY")
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "localhost,127.0.0.1")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
-SITE_URL = env("SITE_URL", "http://localhost:8000").rstrip("/")
+# Render expose automatiquement le nom d'hôte public du service
+_render_host = env("RENDER_EXTERNAL_HOSTNAME")
+if _render_host:
+    if _render_host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_render_host)
+    if "https://" + _render_host not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append("https://" + _render_host)
+SITE_URL = env("SITE_URL", ("https://" + _render_host) if _render_host else "http://localhost:8000").rstrip("/")
 SITE_NAME = "INDPNS Market"
 
 INSTALLED_APPS = [
