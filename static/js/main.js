@@ -5,5 +5,6 @@ import { initPricing } from "./modules/pricing.js";
 import { initGallery } from "./modules/gallery.js";
 import { initFilters } from "./modules/filters.js";
 import { initPWA } from "./modules/pwa.js";
+import { initUI } from "./modules/ui.js";
 
-initTheme(); initNav(); initFavorites(); initPricing(); initGallery(); initFilters(); initPWA();
+initTheme(); initNav(); initFavorites(); initPricing(); initGallery(); initFilters(); initPWA(); initUI();

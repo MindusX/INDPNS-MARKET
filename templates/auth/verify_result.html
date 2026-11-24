@@ -1,7 +1,6 @@
 {% extends "auth/base_auth.html" %}
-{% load i18n %}
+{% load i18n static %}
 {% block title %}{% trans "Email confirmation" %}{% endblock %}
-{% block content %}
-{% if ok %}<h1>{% trans "Email confirmed" %}</h1><p>{% trans "Your account is ready." %}</p><a class="btn btn-primary btn-block" href="{% url 'accounts:login' %}">{% trans "Log in" %}</a>
-{% else %}<h1>{% trans "Invalid or expired link" %}</h1><p>{% trans "Request a new confirmation email from the login page." %}</p><a class="btn btn-block" href="{% url 'accounts:login' %}">{% trans "Back to login" %}</a>{% endif %}
-{% endblock %}
+{% block content %}<div class="auth-state">
+{% if ok %}<img src="{% static 'images/illustrations/secure.svg' %}" alt="" width="150" height="120"><h1>{% trans "Email confirmed" %}</h1><p class="muted">{% trans "Your account is ready." %}</p><a class="btn btn-primary btn-block btn-lg" href="{% url 'accounts:login' %}">{% trans "Log in" %}</a>
+{% else %}<img src="{% static 'images/illustrations/404.svg' %}" alt="" width="180" height="110"><h1>{% trans "Invalid or expired link" %}</h1><p class="muted">{% trans "Request a new confirmation email from the login page." %}</p><a class="btn btn-block" href="{% url 'accounts:login' %}">{% trans "Back to login" %}</a>{% endif %}</div>{% endblock %}

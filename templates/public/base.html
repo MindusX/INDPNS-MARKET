@@ -1,23 +1,26 @@
 {% load i18n static %}<!DOCTYPE html>
 {% get_current_language as LANG %}
-<html lang="{{ LANG }}" data-theme="light">
+<html lang="{{ LANG }}" data-theme="light" class="no-js">
 <head>
   {% include "components/head.html" %}
   <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
   <meta name="description" content="{% block meta_description %}{% trans "Professional marketplace for software, source code, templates, plugins and AI tools." %}{% endblock %}">
+  <meta property="og:site_name" content="INDPNS Market">
+  <meta property="og:title" content="{% block og_title %}{{ SITE_NAME }}{% endblock %}">
+  <meta property="og:image" content="{{ SITE_URL }}{% static 'images/og-image.png' %}">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="{% static 'css/public.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
   {% block extra_head %}{% endblock %}
 </head>
 <body>
 <a class="skip-link" href="#main">{% trans "Skip to content" %}</a>
 <div class="site-shell">
+  {% if not PAYMENTS_ENABLED %}<div class="notice-bar" role="note">{% trans "Catalog mode: browse and get free products. Paid checkout is not enabled yet." %}</div>{% endif %}
   {% include "public/components/navbar.html" %}
-  <main id="main" class="site-main">
+  <main id="main" class="site-main {% block main_class %}{% endblock %}">
     <div class="container">
       {% include "components/messages.html" %}
-      {% if not PAYMENTS_ENABLED %}
-      <div class="notice notice-info" role="note">{% trans "Catalog mode: you can browse and download free products. Paid checkout is not enabled yet." %}</div>
-      {% endif %}
       {% block content %}{% endblock %}
     </div>
   </main>

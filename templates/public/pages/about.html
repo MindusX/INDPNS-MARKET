@@ -1,9 +1,8 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "About INDPNS Market" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose"><h1>{% trans "About INDPNS Market" %}</h1>
-  <p>INDPNS Market is an international marketplace for professional digital products: source code, apps, templates, themes, plugins, UI components, SDKs and AI tools.</p>
-  <p>Independent creators sell directly to developers and teams. Every product is reviewed before publication and delivered with a clear license.</p>
-</article>
+{% trans "About INDPNS Market" as t %}{% trans "An international marketplace for professional digital products, built for creators and the teams that rely on them." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Company") title=t lead=l art="images/illustrations/seller.svg" %}
+<div class="page-narrow prose reveal"><p>{% trans "INDPNS Market connects independent creators with developers and teams: source code, apps, templates, themes, plugins, UI components, SDKs and AI tools." %}</p><p>{% trans "Every product goes through moderation and file security checks, and is delivered with a clear license. Creators keep a transparent ledger of sales and commissions." %}</p></div><div class="grid grid-3 reveal" style="margin-top:32px"><div class="card card-pad"><h3>{% trans "Quality first" %}</h3><p class="muted">{% trans "Listings are reviewed before they go public." %}</p></div><div class="card card-pad"><h3>{% trans "Fair for creators" %}</h3><p class="muted">{% trans "Clear commissions, visible before you sell." %}</p></div><div class="card card-pad"><h3>{% trans "Global by design" %}</h3><p class="muted">{% trans "Available in English, French and Spanish." %}</p></div></div><p style="margin-top:32px"><a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a></p>
 {% endblock %}

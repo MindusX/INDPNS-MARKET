@@ -1,11 +1,8 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "License guide" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose"><h1>{% trans "License guide" %}</h1>
-  <p>Personal: one person, non-commercial projects.</p>
-  <p>Commercial: one commercial project or client project.</p>
-  <p>Extended: products distributed or sold to many end users.</p>
-  <p>Exact rights and restrictions are shown on every product page before you buy. Always read them.</p>
-</article>
+{% trans "License guide" as t %}{% trans "Know what you can do with every product." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Licenses") title=t lead=l art="images/illustrations/license.svg" %}
+<div class="license-cols reveal"><div><h3>{% trans "Personal" %}</h3><p class="muted">{% trans "One person, non-commercial projects." %}</p></div><div><h3>{% trans "Commercial" %}</h3><p class="muted">{% trans "One commercial or client project." %}</p></div><div><h3>{% trans "Extended" %}</h3><p class="muted">{% trans "Products sold or distributed to many end users." %}</p></div></div><div class="page-narrow prose" style="margin-top:20px"><p>{% trans "The exact rights and restrictions are displayed on every product page before you buy. Always read them; they take precedence over this summary." %}</p></div>
 {% endblock %}

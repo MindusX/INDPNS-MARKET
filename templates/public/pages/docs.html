@@ -1,9 +1,8 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "Documentation" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose"><h1>{% trans "Documentation" %}</h1>
-  <p>Guides for buyers, sellers and administrators are included in the project docs folder (docs/BUYER_GUIDE.md, docs/SELLER_GUIDE.md, docs/ADMIN_GUIDE.md).</p>
-  <p>A public read-only API is available at /api/v1/products/.</p>
-</article>
+{% trans "Documentation" as t %}{% trans "Guides for buyers, sellers and developers." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Resources") title=t lead=l art="images/illustrations/help.svg" %}
+<div class="doc-grid reveal"><a class="doc-card" href="{% url 'core:how_to_buy' %}"><span class="ico">{% icon "download" 20 %}</span><h3>{% trans "Buyer guide" %}</h3><p>{% trans "Library, downloads, invoices." %}</p></a><a class="doc-card" href="{% url 'core:how_to_sell' %}"><span class="ico">{% icon "store" 20 %}</span><h3>{% trans "Seller guide" %}</h3><p>{% trans "Publishing workflow and payouts." %}</p></a><a class="doc-card" href="{% url 'core:license_guide' %}"><span class="ico">{% icon "key" 20 %}</span><h3>{% trans "License guide" %}</h3><p>{% trans "Understand your rights." %}</p></a><a class="doc-card" href="{% url 'core:help' %}"><span class="ico">{% icon "globe" 20 %}</span><h3>{% trans "Public API" %}</h3><p>{% trans "Read-only products API at /api/v1/products/." %}</p></a></div>
 {% endblock %}

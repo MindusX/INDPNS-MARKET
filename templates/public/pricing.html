@@ -1,47 +1,39 @@
 {% extends "public/base.html" %}
-{% load i18n core_tags %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "Seller pricing" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<section class="hero" style="padding-bottom:20px"><h1>{% trans "Simple pricing for sellers" %}</h1>
-  <p class="lead">{% trans "Start for free. Upgrade when your shop grows." %}</p>
-  <div class="billing-toggle" role="group" aria-label="{% trans 'Billing period' %}">
-    <button type="button" data-billing="monthly" aria-pressed="true">{% trans "Monthly" %}</button>
-    <button type="button" data-billing="yearly" aria-pressed="false">{% trans "Yearly" %}</button></div></section>
+<section class="page-narrow" style="text-align:center;padding:24px 0 32px"><span class="kicker">{% trans "Pricing" %}</span><h1>{% trans "Simple pricing for sellers" %}</h1>
+  <p class="muted" style="font-size:1.08rem">{% trans "Start for free. Upgrade when your shop grows." %}</p>
+  <div class="billing-toggle" role="group" aria-label="{% trans 'Billing period' %}"><button type="button" data-billing="monthly" aria-pressed="true">{% trans "Monthly" %}</button><button type="button" data-billing="yearly" aria-pressed="false">{% trans "Yearly" %}</button></div></section>
 {% if not subscriptions_enabled %}<div class="notice notice-info">{% trans "Paid subscription billing is not available yet. The Starter plan is active; paid plans can be requested by contacting us." %}</div>{% endif %}
-<div class="grid grid-3">
+<div class="grid grid-3 reveal">
   {% for plan in plans %}
   <section class="card plan {% if plan.is_featured %}featured{% endif %}" aria-labelledby="plan-{{ plan.code }}">
-    <h2 id="plan-{{ plan.code }}">{{ plan.name }}{% if plan.is_featured %} <span class="badge">{% trans "Popular" %}</span>{% endif %}</h2>
-    <p class="muted">{{ plan.tagline }}</p>
-    <div>
-      <div data-price-monthly><span class="amount">{{ plan.price_monthly|money }}</span> <span class="muted">/ {% trans "month" %}</span></div>
-      <div data-price-yearly hidden><span class="amount">{{ plan.price_yearly|money }}</span> <span class="muted">/ {% trans "year" %}</span>
-        {% if plan.yearly_saving > 0 %}<div class="badge badge-success">{% blocktrans with s=plan.yearly_saving|money %}You save {{ s }} per year{% endblocktrans %}</div>{% endif %}</div>
-    </div>
-    <p class="muted">{% blocktrans with c=plan.commission_percent %}Commission: {{ c }}% per sale{% endblocktrans %}</p>
+    <h2 id="plan-{{ plan.code }}" style="margin:0">{{ plan.name }}{% if plan.is_featured %} <span class="badge">{% trans "Popular" %}</span>{% endif %}</h2>
+    <p class="muted" style="margin:0">{{ plan.tagline }}</p>
+    <div><div data-price-monthly><span class="amount">{{ plan.price_monthly|money }}</span> <span class="muted">/ {% trans "month" %}</span></div>
+      <div data-price-yearly hidden><span class="amount">{{ plan.price_yearly|money }}</span> <span class="muted">/ {% trans "year" %}</span>{% if plan.yearly_saving > 0 %}<div><span class="badge badge-success">{% blocktrans with s=plan.yearly_saving|money %}You save {{ s }} per year{% endblocktrans %}</span></div>{% endif %}</div></div>
+    <p class="muted" style="margin:0">{% blocktrans with c=plan.commission_percent %}Commission: {{ c }}% per sale{% endblocktrans %}</p>
     <ul>{% for f in plan.features %}<li>{% icon "check" 16 %}<span>{{ f }}</span></li>{% endfor %}</ul>
-    <div style="margin-top:auto">
+    <div style="margin-top:auto;padding-top:8px">
       {% if plan.is_free %}<a class="btn btn-primary btn-block" href="{% url 'accounts:become_seller' %}">{% trans "Start for free" %}</a>
       {% elif subscriptions_enabled and not plan.contact_only %}<a class="btn btn-primary btn-block" href="{% url 'accounts:become_seller' %}">{% trans "Choose plan" %}</a>
-      {% else %}<a class="btn btn-block" href="{% url 'core:contact' %}?subject={{ plan.name|urlencode }}">{% trans "Contact us" %}</a>{% endif %}
-    </div>
+      {% else %}<a class="btn btn-block" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a>{% endif %}</div>
   </section>
   {% empty %}<div class="card empty" style="grid-column:1/-1"><h3>{% trans "Plans are not configured yet." %}</h3></div>{% endfor %}
 </div>
-{% if plans %}
-<section class="section"><h2>{% trans "Compare plans" %}</h2>
+{% if plans %}<section class="section reveal"><h2>{% trans "Compare plans" %}</h2>
   <div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Feature" %}</th>{% for p in plans %}<th>{{ p.name }}</th>{% endfor %}</tr></thead><tbody>
     <tr><td>{% trans "Monthly price" %}</td>{% for p in plans %}<td>{{ p.price_monthly|money }}</td>{% endfor %}</tr>
     <tr><td>{% trans "Yearly price" %}</td>{% for p in plans %}<td>{{ p.price_yearly|money }}</td>{% endfor %}</tr>
     <tr><td>{% trans "Commission" %}</td>{% for p in plans %}<td>{{ p.commission_percent }}%</td>{% endfor %}</tr>
-    {% for p in plans %}{% if forloop.last %}{% for f in p.features %}{% endfor %}{% endif %}{% endfor %}
-    <tr><td>{% trans "Included" %}</td>{% for p in plans %}<td>{% for f in p.features %}{{ f }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</td>{% endfor %}</tr>
-  </tbody></table></div></section>
-{% endif %}
-<section class="section faq page-narrow"><h2>{% trans "Frequently asked questions" %}</h2>
+    <tr><td>{% trans "Included" %}</td>{% for p in plans %}<td>{% for f in p.features %}{{ f }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</td>{% endfor %}</tr></tbody></table></div></section>{% endif %}
+<section class="feature-row reveal"><div class="feature-art"><img src="{% static 'images/illustrations/seller.svg' %}" alt="" loading="lazy" width="520" height="380"></div>
+  <div class="feature-copy"><h2>{% trans "Everything you need to sell" %}</h2><ul class="check-list"><li>{% icon "check" 18 %}<span>{% trans "Guided publishing workflow with moderation" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Transparent ledger of sales and commissions" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Verified-buyer reviews" %}</span></li><li>{% icon "check" 18 %}<span>{% trans "Secure file delivery with license keys" %}</span></li></ul></div></section>
+<section class="section faq page-narrow reveal"><h2>{% trans "Frequently asked questions" %}</h2>
   <details><summary>{% trans "How do commissions work?" %}</summary><p>{% trans "We keep a percentage of each sale, which depends on your plan. The rest is credited to your balance in an immutable ledger." %}</p></details>
   <details><summary>{% trans "When can I withdraw my earnings?" %}</summary><p>{% trans "After the refund window and once your identity has been verified by our payment provider (KYC). Payouts are never sent before that." %}</p></details>
   <details><summary>{% trans "Can I cancel or change plan?" %}</summary><p>{% trans "Yes. You can downgrade at any time; your published products stay online." %}</p></details>
   <details><summary>{% trans "Is there a contract?" %}</summary><p>{% trans "Starter and Pro have no long-term commitment. Business plans are agreed individually." %}</p></details></section>
-<section class="section"><div class="cta-band"><h2>{% trans "Ready to start selling?" %}</h2><a class="btn" href="{% url 'accounts:become_seller' %}">{% trans "Open your shop" %}</a></div></section>
+<section class="section reveal"><div class="cta-panel"><h2>{% trans "Ready to start selling?" %}</h2><p>{% trans "Open a free shop in under two minutes." %}</p><a class="btn btn-lg" href="{% url 'accounts:become_seller' %}">{% trans "Open your shop" %}</a></div></section>
 {% endblock %}

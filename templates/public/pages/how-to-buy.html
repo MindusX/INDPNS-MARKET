@@ -1,11 +1,8 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "How to buy" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose"><h1>{% trans "How to buy" %}</h1>
-  <p>1. Create an account and confirm your email.</p>
-  <p>2. Choose a product and the license that matches your use.</p>
-  <p>3. Pay securely (when paid checkout is enabled) or get free products instantly.</p>
-  <p>4. Download from your library using temporary secure links.</p>
-</article>
+{% trans "How to buy" as t %}{% trans "From discovery to download in a few clicks." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Buyers") title=t lead=l art="images/illustrations/step-search.svg" %}
+<div class="page-narrow timeline reveal"><div><h3>{% trans "Create an account" %}</h3><p>{% trans "Sign up and confirm your email." %}</p></div><div><h3>{% trans "Pick a product and license" %}</h3><p>{% trans "Compare rights and restrictions on the product page." %}</p></div><div><h3>{% trans "Pay securely or get it free" %}</h3><p>{% trans "Paid checkout runs through a certified payment provider." %}</p></div><div><h3>{% trans "Download from your library" %}</h3><p>{% trans "Files are delivered through temporary signed links." %}</p></div></div><p class="page-narrow" style="margin-top:12px"><a class="btn btn-primary" href="{% url 'products:explore' %}">{% trans "Start exploring" %}</a></p>
 {% endblock %}

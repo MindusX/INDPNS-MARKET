@@ -1,17 +1,12 @@
 {% extends "dashboard/base_dashboard.html" %}
 {% load i18n core_tags %}
 {% block title %}{% trans "Admin overview" %}{% endblock %}
-{% block content %}<div class="page-head"><h1>{% trans "Administration" %}</h1></div>
+{% block content %}
+<div class="welcome"><div><h1>{% trans "Administration" %}</h1><p>{% trans "Moderation, orders, payouts and platform health." %}</p></div><a class="btn" href="{% url 'dashboard:admin_moderation' %}">{% trans "Open moderation queue" %}</a></div>
 <div class="stats">
-<div class="card stat"><div class="v">{{ n_users }}</div><div class="l">{% trans "Users" %}</div></div>
-<div class="card stat"><div class="v">{{ n_sellers }}</div><div class="l">{% trans "Sellers" %}</div></div>
-<div class="card stat"><div class="v">{{ n_buyers }}</div><div class="l">{% trans "Buyers" %}</div></div>
-<div class="card stat"><div class="v">{{ products.approved|default:0 }}</div><div class="l">{% trans "Published products" %}</div></div>
-<div class="card stat"><div class="v">{{ products.pending|default:0 }}</div><div class="l">{% trans "Pending review" %}</div></div>
-<div class="card stat"><div class="v">{{ n_orders }}</div><div class="l">{% trans "Paid orders" %}</div></div>
-<div class="card stat"><div class="v">{{ gmv|money }}</div><div class="l">GMV</div></div>
-<div class="card stat"><div class="v">{{ revenue|money }}</div><div class="l">{% trans "Platform commissions (net)" %}</div></div>
-<div class="card stat"><div class="v">{{ n_refunds }}</div><div class="l">{% trans "Refunds" %}</div></div>
-<div class="card stat"><div class="v">{{ pending_payouts }}</div><div class="l">{% trans "Payouts to process" %}</div></div>
-<div class="card stat"><div class="v">{{ open_reports }}</div><div class="l">{% trans "Open reports" %}</div></div></div>
-{% if recent %}<h2>{% trans "Recent activity" %}</h2><div class="card table-wrap"><table class="table"><tbody>{% for a in recent %}<tr><td>{{ a.created_at|date:"DATETIME_FORMAT" }}</td><td>{{ a.actor.email|default:"—" }}</td><td>{{ a.action }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}{% endblock %}
+<div class="stat"><div class="v">{{ n_users }}</div><div class="l">{% trans "Users" %}</div></div><div class="stat"><div class="v">{{ n_sellers }}</div><div class="l">{% trans "Sellers" %}</div></div><div class="stat"><div class="v">{{ n_buyers }}</div><div class="l">{% trans "Buyers" %}</div></div>
+<div class="stat"><div class="v">{{ products.approved|default:0 }}</div><div class="l">{% trans "Published products" %}</div></div><div class="stat"><div class="v">{{ products.pending|default:0 }}</div><div class="l">{% trans "Pending review" %}</div></div><div class="stat"><div class="v">{{ n_orders }}</div><div class="l">{% trans "Paid orders" %}</div></div>
+<div class="stat"><div class="v">{{ gmv|money }}</div><div class="l">GMV</div></div><div class="stat"><div class="v">{{ revenue|money }}</div><div class="l">{% trans "Platform commissions (net)" %}</div></div><div class="stat"><div class="v">{{ n_refunds }}</div><div class="l">{% trans "Refunds" %}</div></div>
+<div class="stat"><div class="v">{{ pending_payouts }}</div><div class="l">{% trans "Payouts to process" %}</div></div><div class="stat"><div class="v">{{ open_reports }}</div><div class="l">{% trans "Open reports" %}</div></div></div>
+{% if recent %}<h2>{% trans "Recent activity" %}</h2><div class="card table-wrap"><table class="table"><tbody>{% for a in recent %}<tr><td>{{ a.created_at|date:"DATETIME_FORMAT" }}</td><td>{{ a.actor.email|default:"—" }}</td><td>{{ a.action }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+{% endblock %}

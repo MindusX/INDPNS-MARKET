@@ -1,10 +1,8 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "Frequently asked questions" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose"><h1>{% trans "Frequently asked questions" %}</h1>
-  <p>Where are my purchases? In Dashboard > Library & downloads.</p>
-  <p>Can I download updates? Yes: your license gives permanent access to all published versions of the product.</p>
-  <p>How do I get a refund? See the Refund policy, then contact support with your order number.</p>
-</article>
+{% trans "Frequently asked questions" as t %}{% trans "Quick answers to the most common questions." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Support") title=t lead=l art="images/illustrations/help.svg" %}
+<div class="faq page-narrow reveal"><details><summary>{% trans "Where are my purchases?" %}</summary><p>{% trans "In Dashboard › Library & downloads." %}</p></details><details><summary>{% trans "Can I download updates?" %}</summary><p>{% trans "Yes. Your license gives permanent access to all published versions of the product." %}</p></details><details><summary>{% trans "How do I get a refund?" %}</summary><p>{% trans "See the Refund policy, then contact support with your order number." %}</p></details><details><summary>{% trans "Can I use a product for a client?" %}</summary><p>{% trans "Yes, with the Commercial license. Check the rights on the product page." %}</p></details><details><summary>{% trans "How do I become a seller?" %}</summary><p>{% trans "Create an account, open a free shop, publish a product and submit it for moderation." %}</p></details><details><summary>{% trans "When do sellers get paid?" %}</summary><p>{% trans "After the refund window and identity verification (KYC)." %}</p></details><details><summary>{% trans "Is my payment information stored?" %}</summary><p>{% trans "No. Payments are processed by a certified payment provider." %}</p></details><details><summary>{% trans "Which languages are supported?" %}</summary><p>{% trans "English, French and Spanish." %}</p></details></div>
 {% endblock %}

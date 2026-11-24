@@ -2,36 +2,33 @@
 <header class="navbar">
   <div class="container navbar-inner">
     <button class="icon-btn menu-toggle" type="button" data-drawer-open aria-label="{% trans 'Open menu' %}">{% icon "menu" 22 %}</button>
-    <a class="brand" href="{% url 'core:home' %}"><span class="brand-mark">I</span><span>INDPNS <span class="muted" style="font-weight:600">Market</span></span></a>
+    <a class="brand" href="{% url 'core:home' %}" aria-label="INDPNS Market">{% include "components/brand.html" %}</a>
     <nav aria-label="{% trans 'Main' %}">
       <ul class="nav-links">
-        <li><a href="{% url 'products:explore' %}">{% trans "Discover" %}</a></li>
+        <li><a href="{% url 'products:explore' %}" {% if request.resolver_match.url_name == 'explore' %}aria-current="page"{% endif %}>{% trans "Discover" %}</a></li>
         <li class="dropdown">
           <button class="nav-link" type="button" data-dropdown aria-expanded="false" aria-haspopup="true">{% trans "Categories" %} {% icon "chevron" 16 %}</button>
-          <div class="dropdown-menu">
-            {% for c in NAV_CATEGORIES %}<a href="{{ c.get_absolute_url }}">{{ c.name }}</a>{% empty %}<span class="muted" style="padding:8px 10px">{% trans "No categories yet" %}</span>{% endfor %}
+          <div class="dropdown-menu mega">
+            {% for c in NAV_CATEGORIES %}<a href="{{ c.get_absolute_url }}"><span class="mega-ico cat-art cat-{{ c.slug }}"></span><span>{{ c.name }}<small>{{ c.description|default:"" }}</small></span></a>
+            {% empty %}<span class="muted" style="padding:8px 10px">{% trans "No categories yet" %}</span>{% endfor %}
           </div>
         </li>
         <li><a href="{% url 'products:popular' %}">{% trans "Popular" %}</a></li>
         <li><a href="{% url 'products:new' %}">{% trans "New" %}</a></li>
         <li><a href="{% url 'sellers:list' %}">{% trans "Sellers" %}</a></li>
-        <li><a href="{% url 'sellers:pricing' %}">{% trans "Pricing" %}</a></li>
+        <li><a href="{% url 'sellers:pricing' %}" {% if request.resolver_match.url_name == 'pricing' %}aria-current="page"{% endif %}>{% trans "Pricing" %}</a></li>
       </ul>
     </nav>
     <form class="nav-search" action="{% url 'products:search' %}" method="get" role="search">
       {% icon "search" 16 %}<label class="sr-only" for="nav-q">{% trans "Search" %}</label>
-      <input id="nav-q" type="search" name="q" placeholder="{% trans 'Search products…' %}" maxlength="100">
+      <input id="nav-q" type="search" name="q" placeholder="{% trans 'Search products…' %}" maxlength="100" autocomplete="off"><kbd aria-hidden="true">/</kbd>
     </form>
     <div class="nav-actions">
       <div class="dropdown hide-mobile">
         <button class="icon-btn" type="button" data-dropdown aria-label="{% trans 'Language' %}" aria-expanded="false">{% icon "globe" 20 %}</button>
-        <div class="dropdown-menu">
-          {% get_available_languages as LANGUAGES %}
-          <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            {% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}">{{ name }}</button>{% endfor %}
-          </form>
-        </div>
+        <div class="dropdown-menu">{% get_available_languages as LANGUAGES %}
+          <form action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+            {% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}">{{ name }}</button>{% endfor %}</form></div>
       </div>
       <button class="icon-btn" type="button" data-theme-toggle {% if user.is_authenticated %}data-save-url="{% url 'dashboard:set_theme' %}"{% endif %} aria-label="{% trans 'Toggle dark mode' %}">{% icon "moon" 20 %}</button>
       {% if user.is_authenticated %}
@@ -39,29 +36,31 @@
         <div class="dropdown">
           <button class="icon-btn" type="button" data-dropdown aria-label="{% trans 'Account' %}" aria-expanded="false">{% icon "user" 20 %}</button>
           <div class="dropdown-menu">
+            <div style="padding:8px 10px"><strong>{{ user.get_short_name }}</strong><div class="muted" style="font-size:.8rem">{{ user.email }}</div></div><div class="sep"></div>
             <a href="{% url 'dashboard:home' %}">{% icon "dashboard" 16 %} {% trans "Dashboard" %}</a>
             <a href="{% url 'dashboard:buyer_library' %}">{% icon "download" 16 %} {% trans "My library" %}</a>
+            <a href="{% url 'dashboard:buyer_favorites' %}">{% icon "heart" 16 %} {% trans "Favorites" %}</a>
+            <div class="sep"></div>
             <form action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button type="submit">{% icon "logout" 16 %} {% trans "Log out" %}</button></form>
           </div>
         </div>
       {% else %}
-        <a class="btn btn-ghost hide-mobile" href="{% url 'accounts:login' %}">{% trans "Log in" %}</a>
-        <a class="btn hide-mobile" href="{% url 'accounts:register' %}">{% trans "Sign up" %}</a>
+        <a class="btn btn-ghost btn-sm hide-mobile" href="{% url 'accounts:login' %}">{% trans "Log in" %}</a>
+        <a class="btn btn-sm hide-mobile" href="{% url 'accounts:register' %}">{% trans "Sign up" %}</a>
       {% endif %}
-      <a class="btn btn-primary hide-mobile" href="{% if user.is_seller %}{% url 'dashboard:seller_home' %}{% else %}{% url 'accounts:become_seller' %}{% endif %}">{% trans "Become a seller" %}</a>
+      <a class="btn btn-primary btn-sm hide-mobile" href="{% if user.is_seller %}{% url 'dashboard:seller_home' %}{% else %}{% url 'accounts:become_seller' %}{% endif %}">{% trans "Become a seller" %}</a>
     </div>
   </div>
 </header>
-{# Drawer mobile accessible #}
 <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="{% trans 'Menu' %}">
   <div class="drawer-backdrop" data-drawer-close></div>
   <div class="drawer-panel">
-    <div style="display:flex;justify-content:space-between;align-items:center"><span class="brand"><span class="brand-mark">I</span> INDPNS Market</span>
+    <div style="display:flex;justify-content:space-between;align-items:center"><span class="brand">{% include "components/brand.html" %}</span>
       <button class="icon-btn" type="button" data-drawer-close aria-label="{% trans 'Close menu' %}">{% icon "x" 22 %}</button></div>
-    <form action="{% url 'products:search' %}" method="get" role="search" style="margin-top:12px"><input class="input" type="search" name="q" placeholder="{% trans 'Search products…' %}" maxlength="100"></form>
+    <form action="{% url 'products:search' %}" method="get" role="search" style="margin-top:14px"><input class="input" type="search" name="q" placeholder="{% trans 'Search products…' %}" maxlength="100"></form>
     <ul>
       <li><a href="{% url 'products:explore' %}">{% trans "Discover" %}</a></li>
-      {% for c in NAV_CATEGORIES %}<li><a href="{{ c.get_absolute_url }}">&nbsp;&nbsp;{{ c.name }}</a></li>{% endfor %}
+      {% for c in NAV_CATEGORIES %}<li><a href="{{ c.get_absolute_url }}" style="padding-left:20px;font-weight:400">{{ c.name }}</a></li>{% endfor %}
       <li><a href="{% url 'products:popular' %}">{% trans "Popular" %}</a></li>
       <li><a href="{% url 'products:new' %}">{% trans "New" %}</a></li>
       <li><a href="{% url 'sellers:list' %}">{% trans "Sellers" %}</a></li>
@@ -70,9 +69,7 @@
       {% else %}<li><a href="{% url 'accounts:login' %}">{% trans "Log in" %}</a></li><li><a href="{% url 'accounts:register' %}">{% trans "Sign up" %}</a></li>{% endif %}
     </ul>
     <a class="btn btn-primary btn-block" href="{% if user.is_seller %}{% url 'dashboard:seller_home' %}{% else %}{% url 'accounts:become_seller' %}{% endif %}">{% trans "Become a seller" %}</a>
-    <form action="{% url 'set_language' %}" method="post" style="margin-top:16px;display:flex;gap:6px;flex-wrap:wrap">{% csrf_token %}
-      <input type="hidden" name="next" value="{{ request.get_full_path }}">
-      {% get_available_languages as LANGUAGES %}{% for code, name in LANGUAGES %}<button class="btn btn-sm" type="submit" name="language" value="{{ code }}">{{ name }}</button>{% endfor %}
-    </form>
+    <form action="{% url 'set_language' %}" method="post" style="margin-top:auto;padding-top:20px;display:flex;gap:6px;flex-wrap:wrap">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+      {% get_available_languages as LANGUAGES %}{% for code, name in LANGUAGES %}<button class="btn btn-sm" type="submit" name="language" value="{{ code }}">{{ name }}</button>{% endfor %}</form>
   </div>
 </div>

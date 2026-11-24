@@ -2,56 +2,58 @@
 {% load i18n core_tags %}
 {% block title %}{{ title }} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<h1>{% if q %}{% blocktrans %}Results for “{{ q }}”{% endblocktrans %}{% else %}{{ title }}{% endif %}</h1>
+<div class="crumbs"><a href="{% url 'core:home' %}">{% trans "Home" %}</a> › {% if category %}<a href="{% url 'products:explore' %}">{% trans "Discover" %}</a> › {{ category.name }}{% else %}{% trans "Discover" %}{% endif %}</div>
+<div class="explore-head"><div><h1>{% if q %}{% blocktrans %}Results for “{{ q }}”{% endblocktrans %}{% else %}{{ title }}{% endif %}</h1><p class="muted" style="margin:6px 0 0">{% blocktrans count n=total %}{{ n }} product{% plural %}{{ n }} products{% endblocktrans %}</p></div>
+  <button class="btn filters-toggle" type="button" data-filters-toggle>{% icon "settings" 16 %} {% trans "Filters" %}</button></div>
 <div class="explore">
-  <aside class="card filters" aria-label="{% trans 'Filters' %}">
+  <aside class="filters" id="filters" aria-label="{% trans 'Filters' %}">
     <form method="get" data-autosubmit>
       {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
       <fieldset><legend>{% trans "Category" %}</legend>
         <label class="opt"><input type="radio" name="category" value="" {% if not category %}checked{% endif %}> {% trans "All" %}</label>
-        {% for c in categories %}<label class="opt"><input type="radio" name="category" value="{{ c.slug }}" {% if category.slug == c.slug %}checked{% endif %}> {{ c.name }}</label>{% endfor %}
-      </fieldset>
+        {% for c in categories %}<label class="opt"><input type="radio" name="category" value="{{ c.slug }}" {% if category.slug == c.slug %}checked{% endif %}> {{ c.name }}</label>{% endfor %}</fieldset>
       <fieldset><legend>{% trans "Price" %}</legend>
         <label class="opt"><input type="radio" name="price" value="" {% if not params.price %}checked{% endif %}> {% trans "All" %}</label>
         <label class="opt"><input type="radio" name="price" value="free" {% if params.price == "free" %}checked{% endif %}> {% trans "Free" %}</label>
         <label class="opt"><input type="radio" name="price" value="paid" {% if params.price == "paid" %}checked{% endif %}> {% trans "Paid" %}</label>
-        <div style="display:flex;gap:6px;margin-top:6px"><input class="input" type="number" name="min" min="0" step="1" placeholder="{% trans 'Min' %}" value="{{ params.min }}"><input class="input" type="number" name="max" min="0" step="1" placeholder="{% trans 'Max' %}" value="{{ params.max }}"></div>
-      </fieldset>
+        <div style="display:flex;gap:6px;margin-top:8px"><input class="input" type="number" name="min" min="0" step="1" placeholder="{% trans 'Min' %}" value="{{ params.min }}"><input class="input" type="number" name="max" min="0" step="1" placeholder="{% trans 'Max' %}" value="{{ params.max }}"></div></fieldset>
       <fieldset><legend>{% trans "License" %}</legend>
         <label class="opt"><input type="radio" name="license" value="" {% if not params.license %}checked{% endif %}> {% trans "Any" %}</label>
-        {% for l in license_types %}<label class="opt"><input type="radio" name="license" value="{{ l.code }}" {% if params.license == l.code %}checked{% endif %}> {{ l.name }}</label>{% endfor %}
-      </fieldset>
-      <fieldset><legend>{% trans "Technology" %}</legend>
-        {% for t in technologies %}<label class="opt"><input type="checkbox" name="tech" value="{{ t.slug }}" {% if t.slug in selected_techs %}checked{% endif %}> {{ t.name }}</label>{% endfor %}
-      </fieldset>
-      <fieldset><legend>{% trans "Minimum rating" %}</legend>
-        <select class="input" name="rating"><option value="">{% trans "Any" %}</option>{% for r in "4321" %}<option value="{{ r }}" {% if params.rating == r %}selected{% endif %}>{{ r }}+ ★</option>{% endfor %}</select></fieldset>
-      <fieldset><legend>{% trans "Published" %}</legend>
-        <select class="input" name="since"><option value="">{% trans "Any time" %}</option><option value="7" {% if params.since == "7" %}selected{% endif %}>{% trans "Last 7 days" %}</option><option value="30" {% if params.since == "30" %}selected{% endif %}>{% trans "Last 30 days" %}</option><option value="365" {% if params.since == "365" %}selected{% endif %}>{% trans "Last year" %}</option></select></fieldset>
-      <fieldset><legend>{% trans "Compatibility" %}</legend><input class="input" type="text" name="compat" value="{{ params.compat }}" placeholder="Django, React…"></fieldset>
+        {% for l in license_types %}<label class="opt"><input type="radio" name="license" value="{{ l.code }}" {% if params.license == l.code %}checked{% endif %}> {{ l.name }}</label>{% endfor %}</fieldset>
+      <fieldset><legend>{% trans "Technology" %}</legend>{% for t in technologies %}<label class="opt"><input type="checkbox" name="tech" value="{{ t.slug }}" {% if t.slug in selected_techs %}checked{% endif %}> {{ t.name }}</label>{% endfor %}</fieldset>
+      <fieldset><legend>{% trans "Minimum rating" %}</legend><select class="input" name="rating"><option value="">{% trans "Any" %}</option>{% for r in "4321" %}<option value="{{ r }}" {% if params.rating == r %}selected{% endif %}>{{ r }}+ ★</option>{% endfor %}</select></fieldset>
+      <fieldset><legend>{% trans "Published" %}</legend><select class="input" name="since"><option value="">{% trans "Any time" %}</option><option value="7" {% if params.since == "7" %}selected{% endif %}>{% trans "Last 7 days" %}</option><option value="30" {% if params.since == "30" %}selected{% endif %}>{% trans "Last 30 days" %}</option><option value="365" {% if params.since == "365" %}selected{% endif %}>{% trans "Last year" %}</option></select></fieldset>
+      <fieldset style="border:0"><legend>{% trans "Compatibility" %}</legend><input class="input" type="text" name="compat" value="{{ params.compat }}" placeholder="Django, React…"></fieldset>
       <input type="hidden" name="sort" value="{{ sort }}">
-      <button class="btn btn-block" type="submit">{% trans "Apply filters" %}</button>
-      <a class="btn btn-ghost btn-block" href="{% url 'products:explore' %}">{% trans "Reset" %}</a>
+      <button class="btn btn-primary btn-block" type="submit">{% trans "Apply filters" %}</button>
+      <a class="btn btn-ghost btn-block" href="{% url 'products:explore' %}" style="margin-top:6px">{% trans "Reset" %}</a>
     </form>
   </aside>
   <section>
-    <div class="toolbar"><span class="muted">{% blocktrans count n=total %}{{ n }} product{% plural %}{{ n }} products{% endblocktrans %}</span>
+    <div class="chips">
+      {% if q %}<span class="chip">“{{ q }}” <a href="?{% qs_replace q='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+      {% if params.category %}<span class="chip">{{ category.name|default:params.category }} <a href="?{% qs_replace category='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+      {% if params.price %}<span class="chip">{% if params.price == "free" %}{% trans "Free" %}{% else %}{% trans "Paid" %}{% endif %} <a href="?{% qs_replace price='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+      {% if params.license %}<span class="chip">{{ params.license|capfirst }} <a href="?{% qs_replace license='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+      {% if params.rating %}<span class="chip">{{ params.rating }}+ ★ <a href="?{% qs_replace rating='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+      {% if params.since %}<span class="chip">{% trans "Last" %} {{ params.since }}d <a href="?{% qs_replace since='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+      {% if params.compat %}<span class="chip">{{ params.compat }} <a href="?{% qs_replace compat='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+      {% if params.min or params.max %}<span class="chip">${{ params.min|default:"0" }} – {% if params.max %}${{ params.max }}{% else %}∞{% endif %} <a href="?{% qs_replace min='' max='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+      {% if selected_techs %}<span class="chip">{% trans "Technologies" %}: {{ selected_techs|length }} <a href="?{% qs_replace tech='' page='' %}" aria-label="{% trans 'Remove filter' %}">×</a></span>{% endif %}
+    </div>
+    <div class="toolbar">
+      <div class="view-toggle" role="group" aria-label="{% trans 'View' %}"><button type="button" data-view="grid" aria-pressed="true" aria-label="{% trans 'Grid view' %}">{% icon "dashboard" 16 %}</button><button type="button" data-view="list" aria-pressed="false" aria-label="{% trans 'List view' %}">{% icon "menu" 16 %}</button></div>
       <form method="get" data-autosubmit>
         {% for k, v in params.items %}{% if k != "sort" and k != "page" %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}{% endfor %}
         <label class="sr-only" for="sort">{% trans "Sort by" %}</label>
-        <select class="input" id="sort" name="sort">
-          <option value="new" {% if sort == "new" %}selected{% endif %}>{% trans "Newest" %}</option>
-          <option value="popular" {% if sort == "popular" %}selected{% endif %}>{% trans "Most sold" %}</option>
-          <option value="rating" {% if sort == "rating" %}selected{% endif %}>{% trans "Best rated" %}</option>
-          <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>{% trans "Price: low to high" %}</option>
-          <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>{% trans "Price: high to low" %}</option>
-        </select></form></div>
+        <select class="input" id="sort" name="sort" style="min-height:38px;padding:6px 10px">
+          <option value="new" {% if sort == "new" %}selected{% endif %}>{% trans "Newest" %}</option><option value="popular" {% if sort == "popular" %}selected{% endif %}>{% trans "Most sold" %}</option>
+          <option value="rating" {% if sort == "rating" %}selected{% endif %}>{% trans "Best rated" %}</option><option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>{% trans "Price: low to high" %}</option>
+          <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>{% trans "Price: high to low" %}</option></select></form></div>
     {% if page.object_list %}
-      <div class="grid grid-products">{% for p in page %}{% include "public/components/product_card.html" %}{% endfor %}</div>
+      <div class="grid grid-products" data-product-grid>{% for p in page %}{% include "public/components/product_card.html" %}{% endfor %}</div>
       {% include "public/components/pagination.html" %}
-    {% else %}
-      <div class="card empty"><h3>{% trans "No results" %}</h3><p>{% trans "Try removing some filters or searching for something else." %}</p><a class="btn" href="{% url 'products:explore' %}">{% trans "Reset filters" %}</a></div>
-    {% endif %}
+    {% else %}<div class="card empty"><h3>{% trans "No results" %}</h3><p>{% trans "Try removing some filters or searching for something else." %}</p><a class="btn" href="{% url 'products:explore' %}">{% trans "Reset filters" %}</a></div>{% endif %}
   </section>
 </div>
 {% endblock %}

@@ -1,0 +1,5 @@
+{% load static %}
+<header class="page-hero {% if not art %}no-art{% endif %}">
+  <div><span class="kicker">{{ kicker }}</span><h1>{{ title }}</h1><p class="lead">{{ lead }}</p>{% if cta_url %}<p style="margin-top:20px"><a class="btn btn-primary" href="{{ cta_url }}">{{ cta_label }}</a></p>{% endif %}</div>
+  {% if art %}<img src="{% static art %}" alt="" loading="eager" width="420" height="300">{% endif %}
+</header>

@@ -2,10 +2,11 @@
 {% load i18n %}
 {% block title %}{{ title }} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose legal"><h1>{{ title }}</h1>
-  <div class="notice">{% trans "Draft summary. This text must be reviewed and completed by a qualified lawyer before commercial launch." %}</div>
-  {% include body_template %}
-  <p class="muted">{% trans "Last updated" %}: {% now "DATE_FORMAT" %}</p>
-  <hr><p>{% for s, t in legal_pages.items %}<a href="{% url 'core:legal' s %}">{{ t }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}</p>
-</article>
+<div class="legal-layout">
+  <nav class="legal-nav" aria-label="{% trans 'Legal' %}">{% for s, t in legal_pages.items %}<a href="{% url 'core:legal' s %}" class="{% if s == slug %}active{% endif %}">{{ t }}</a>{% endfor %}</nav>
+  <article class="prose legal"><h1>{{ title }}</h1>
+    <div class="notice">{% trans "Draft summary. This text must be reviewed and completed by a qualified lawyer before commercial launch." %}</div>
+    {% include body_template %}
+    <p class="muted">{% trans "Last updated" %}: {% now "DATE_FORMAT" %}</p></article>
+</div>
 {% endblock %}

@@ -1,9 +1,8 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "Affiliate program" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose"><h1>{% trans "Affiliate program" %}</h1>
-  <p>The affiliate program is not available yet.</p>
-  <p>Contact us if you would like to be notified when it launches.</p>
-</article>
+{% trans "Affiliate program" as t %}{% trans "Earn by recommending INDPNS Market." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Programs") title=t lead=l art="images/illustrations/help.svg" %}
+<div class="page-narrow"><div class="notice notice-info">{% trans "The affiliate program is not available yet." %}</div><p>{% trans "Contact us if you would like to be notified when it launches." %}</p><a class="btn btn-primary" href="{% url 'core:contact' %}">{% trans "Contact us" %}</a></div>
 {% endblock %}

@@ -1,19 +1,12 @@
-{% load i18n core_tags %}
+{% load i18n static core_tags %}
 <header class="topbar">
   <button class="icon-btn hide-mobile" type="button" data-sidebar-toggle aria-label="{% trans 'Toggle sidebar' %}">{% icon "panel" 20 %}</button>
-  <a class="brand" style="display:none" href="{% url 'core:home' %}"><span class="brand-mark">I</span></a>
-  <form class="search" action="{% url 'products:search' %}" method="get" role="search">{% icon "search" 16 %}
-    <label class="sr-only" for="dq">{% trans "Search" %}</label><input id="dq" type="search" name="q" placeholder="{% trans 'Search the marketplace…' %}"></form>
-  <div class="space-switch" style="margin-left:auto">
-    {% for key, label, url in spaces %}<a href="{% url url %}" class="{% if key == space %}active{% endif %}">{{ label }}</a>{% endfor %}
-  </div>
-  <div class="dropdown hide-mobile">
-    <button class="icon-btn" type="button" data-dropdown aria-label="{% trans 'Language' %}" aria-expanded="false">{% icon "globe" 20 %}</button>
-    <div class="dropdown-menu">{% get_available_languages as LANGUAGES %}
-      <form action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
-        {% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}">{{ name }}</button>{% endfor %}</form></div>
-  </div>
+  <a class="brand" href="{% url 'core:home' %}" style="display:none" id="mobile-brand"><img src="{% static 'images/logo/logo-mark.svg' %}" alt="" width="30" height="30"></a>
+  <form class="search" action="{% url 'products:search' %}" method="get" role="search">{% icon "search" 16 %}<label class="sr-only" for="dq">{% trans "Search" %}</label><input id="dq" type="search" name="q" placeholder="{% trans 'Search the marketplace…' %}"></form>
+  <div class="space-switch">{% for key, label, url in spaces %}<a href="{% url url %}" class="{% if key == space %}active{% endif %}">{{ label }}</a>{% endfor %}</div>
+  <div class="dropdown hide-mobile"><button class="icon-btn" type="button" data-dropdown aria-label="{% trans 'Language' %}" aria-expanded="false">{% icon "globe" 20 %}</button>
+    <div class="dropdown-menu">{% get_available_languages as LANGUAGES %}<form action="{% url 'set_language' %}" method="post">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">{% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}">{{ name }}</button>{% endfor %}</form></div></div>
   <button class="icon-btn" type="button" data-theme-toggle data-save-url="{% url 'dashboard:set_theme' %}" aria-label="{% trans 'Toggle dark mode' %}">{% icon "moon" 20 %}</button>
   <a class="icon-btn" href="{% url 'dashboard:buyer_notifications' %}" aria-label="{% trans 'Notifications' %}">{% icon "bell" 20 %}{% if unread_notifications %}<span class="dot">{{ unread_notifications }}</span>{% endif %}</a>
-  <a class="icon-btn" href="{% url 'dashboard:buyer_profile' %}" aria-label="{% trans 'Profile' %}" title="{{ user.email }}">{% icon "user" 20 %}</a>
+  <a class="icon-btn" href="{% url 'dashboard:buyer_profile' %}" aria-label="{% trans 'Profile' %}" title="{{ user.email }}"><span class="avatar" style="width:30px;height:30px;font-size:.8rem">{{ user.get_short_name|first|upper }}</span></a>
 </header>

@@ -2,11 +2,15 @@
 {% load i18n core_tags %}
 {% block title %}{% trans "Overview" %}{% endblock %}
 {% block content %}
-<div class="page-head"><h1>{% blocktrans with n=user.get_short_name %}Hello, {{ n }}{% endblocktrans %}</h1><a class="btn btn-primary" href="{% url 'products:explore' %}">{% trans "Browse marketplace" %}</a></div>
-<div class="stats"><div class="card stat"><div class="v">{{ n_licenses }}</div><div class="l">{% trans "Active licenses" %}</div></div>
-<div class="card stat"><div class="v">{{ n_orders }}</div><div class="l">{% trans "Paid orders" %}</div></div>
-<div class="card stat"><div class="v">{{ n_favorites }}</div><div class="l">{% trans "Favorites" %}</div></div></div>
+<div class="welcome"><div><h1>{% blocktrans with n=user.get_short_name %}Hello, {{ n }}{% endblocktrans %}</h1><p>{% trans "Your purchases, downloads and licenses in one place." %}</p></div><a class="btn" href="{% url 'products:explore' %}">{% trans "Browse marketplace" %}</a></div>
+<div class="stats"><div class="stat"><div class="v">{{ n_licenses }}</div><div class="l">{% trans "Active licenses" %}</div></div><div class="stat"><div class="v">{{ n_orders }}</div><div class="l">{% trans "Paid orders" %}</div></div><div class="stat"><div class="v">{{ n_favorites }}</div><div class="l">{% trans "Favorites" %}</div></div></div>
+<div class="quick-actions">
+  <a class="qa" href="{% url 'dashboard:buyer_library' %}"><span class="ico">{% icon "download" 20 %}</span><span><strong>{% trans "Library" %}</strong><small>{% trans "Download your products" %}</small></span></a>
+  <a class="qa" href="{% url 'dashboard:buyer_orders' %}"><span class="ico">{% icon "receipt" 20 %}</span><span><strong>{% trans "Invoices" %}</strong><small>{% trans "Orders and receipts" %}</small></span></a>
+  <a class="qa" href="{% url 'dashboard:buyer_security' %}"><span class="ico">{% icon "shield" 20 %}</span><span><strong>{% trans "Security" %}</strong><small>{% trans "Sessions and sign-ins" %}</small></span></a>
+  {% if not user.is_seller %}<a class="qa" href="{% url 'accounts:become_seller' %}"><span class="ico">{% icon "store" 20 %}</span><span><strong>{% trans "Become a seller" %}</strong><small>{% trans "Open a free shop" %}</small></span></a>{% endif %}
+</div>
 <h2>{% trans "Recent purchases" %}</h2>
 {% if recent %}<div class="card table-wrap"><table class="table"><tbody>{% for l in recent %}<tr><td><a href="{{ l.product.get_absolute_url }}">{{ l.product.title }}</a></td><td>{{ l.license_type.name }}</td><td>{{ l.issued_at|date:"DATE_FORMAT" }}</td></tr>{% endfor %}</tbody></table></div>
-{% else %}<div class="card empty"><h3>{% trans "Nothing here yet" %}</h3><p>{% trans "Your purchases and free downloads will appear here." %}</p></div>{% endif %}
+{% else %}<div class="card empty"><h3>{% trans "Nothing here yet" %}</h3><p>{% trans "Your purchases and free downloads will appear here." %}</p><a class="btn btn-primary" href="{% url 'products:free' %}">{% trans "Browse free products" %}</a></div>{% endif %}
 {% endblock %}

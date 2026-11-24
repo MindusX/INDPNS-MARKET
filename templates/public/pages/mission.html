@@ -1,9 +1,8 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "Our mission" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose"><h1>{% trans "Our mission" %}</h1>
-  <p>Make it simple and safe to buy and sell professional digital products anywhere in the world.</p>
-  <p>We focus on clear licenses, reviewed listings, secure delivery and transparent commissions.</p>
-</article>
+{% trans "Our mission" as t %}{% trans "Make it simple and safe to buy and sell professional digital products anywhere in the world." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Company") title=t lead=l art="images/illustrations/secure.svg" %}
+<div class="grid grid-3 reveal"><div class="card card-pad"><span class="kicker">01</span><h3>{% trans "Clarity" %}</h3><p class="muted">{% trans "Licenses, prices and rights you can understand before you buy." %}</p></div><div class="card card-pad"><span class="kicker">02</span><h3>{% trans "Safety" %}</h3><p class="muted">{% trans "Moderation, file checks and protected downloads." %}</p></div><div class="card card-pad"><span class="kicker">03</span><h3>{% trans "Transparency" %}</h3><p class="muted">{% trans "An append-only ledger for every sale, refund and payout." %}</p></div></div>
 {% endblock %}

@@ -2,9 +2,10 @@
 {% load i18n %}
 {% block title %}{% trans "Sellers" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<h1>{% trans "Sellers" %}</h1>
-{% if page.object_list %}<div class="grid grid-cats">{% for s in page %}<a class="card cat-tile" href="{{ s.get_absolute_url }}"><strong>{{ s.name }}</strong>
-  <div class="muted" style="font-size:.85rem">{% blocktrans count n=s.n %}{{ n }} product{% plural %}{{ n }} products{% endblocktrans %}</div></a>{% endfor %}</div>
+{% trans "Sellers" as t %}{% trans "Independent creators selling on INDPNS Market." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Community") title=t lead=l art="images/illustrations/seller.svg" %}
+{% if page.object_list %}<div class="grid grid-3">{% for s in page %}<a class="card shop-tile" href="{{ s.get_absolute_url }}"><span class="shop-logo">{% if s.logo %}<img src="{{ s.logo.url }}" alt="" loading="lazy">{% else %}{{ s.name|first|upper }}{% endif %}</span>
+  <span><strong>{{ s.name }}</strong><br><span class="muted" style="font-size:.84rem">{% blocktrans count n=s.n %}{{ n }} product{% plural %}{{ n }} products{% endblocktrans %}</span></span></a>{% endfor %}</div>
 {% include "public/components/pagination.html" %}
 {% else %}<div class="card empty"><h3>{% trans "No sellers with published products yet" %}</h3><a class="btn btn-primary" href="{% url 'accounts:become_seller' %}">{% trans "Become a seller" %}</a></div>{% endif %}
 {% endblock %}

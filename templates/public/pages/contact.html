@@ -1,9 +1,14 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "Contact" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<div class="page-narrow"><h1>{% trans "Contact us" %}</h1>
-<form class="card card-pad" method="post" novalidate>{% csrf_token %}
-  {% for f in form %}<div class="field"><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}{{ f.errors }}</div>{% endfor %}
-  <button class="btn btn-primary" type="submit">{% trans "Send message" %}</button></form></div>
+{% trans "Contact us" as t %}{% trans "Questions, partnerships, or a problem with an order? Send us a message." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Support") title=t lead=l art="images/illustrations/help.svg" %}
+<div class="contact-layout">
+  <form class="card card-pad" method="post" novalidate>{% csrf_token %}
+    {% for f in form %}<div class="field"><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}{{ f.errors }}</div>{% endfor %}
+    <button class="btn btn-primary" type="submit">{% trans "Send message" %}</button></form>
+  <div class="contact-side"><div class="card"><h3>{% icon "info" 18 %} {% trans "Before you write" %}</h3><p class="muted" style="margin:0">{% trans "For order issues, include your order number. For product problems, use the Report button on the product page." %}</p></div>
+    <div class="card"><h3>{% icon "file" 18 %} {% trans "Self-service" %}</h3><p style="margin:0"><a href="{% url 'core:faq' %}">{% trans "FAQ" %}</a> · <a href="{% url 'core:help' %}">{% trans "Help center" %}</a></p></div></div>
+</div>
 {% endblock %}

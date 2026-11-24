@@ -1,9 +1,8 @@
 {% extends "public/base.html" %}
-{% load i18n %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "Help center" %} · {{ SITE_NAME }}{% endblock %}
 {% block content %}
-<article class="page-narrow prose"><h1>{% trans "Help center" %}</h1>
-  <p>Find answers about buying, selling, licenses, downloads and refunds.</p>
-  <p>Start with How to buy, How to sell or the License guide. If you cannot find an answer, contact us.</p>
-</article>
+{% trans "Help center" as t %}{% trans "Answers about buying, selling, licenses, downloads and refunds." as l %}
+{% include "public/components/page_hero.html" with kicker=_("Support") title=t lead=l art="images/illustrations/help.svg" %}
+<div class="doc-grid reveal"><a class="doc-card" href="{% url 'core:how_to_buy' %}"><span class="ico">{% icon "download" 20 %}</span><h3>{% trans "How to buy" %}</h3><p>{% trans "From search to download." %}</p></a><a class="doc-card" href="{% url 'core:how_to_sell' %}"><span class="ico">{% icon "store" 20 %}</span><h3>{% trans "How to sell" %}</h3><p>{% trans "Open a shop and publish." %}</p></a><a class="doc-card" href="{% url 'core:license_guide' %}"><span class="ico">{% icon "key" 20 %}</span><h3>{% trans "License guide" %}</h3><p>{% trans "Personal, commercial, extended." %}</p></a><a class="doc-card" href="{% url 'core:faq' %}"><span class="ico">{% icon "info" 20 %}</span><h3>{% trans "FAQ" %}</h3><p>{% trans "Quick answers." %}</p></a><a class="doc-card" href="{% url 'core:docs' %}"><span class="ico">{% icon "file" 20 %}</span><h3>{% trans "Documentation" %}</h3><p>{% trans "Guides and API." %}</p></a><a class="doc-card" href="{% url 'core:contact' %}"><span class="ico">{% icon "bell" 20 %}</span><h3>{% trans "Contact support" %}</h3><p>{% trans "We reply by email." %}</p></a></div>
 {% endblock %}
