@@ -632,3 +632,156 @@ msgstr "Merci pour votre avis !"
 
 msgid "English"
 msgstr "English"
+
+msgid "Main menu"
+msgstr "Menu principal"
+
+msgid "Site navigation"
+msgstr "Navigation du site"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "Explore products"
+msgstr "Explorer les produits"
+
+msgid "Premium products"
+msgstr "Produits premium"
+
+msgid "Premium"
+msgstr "Premium"
+
+msgid "My account"
+msgstr "Mon compte"
+
+msgid "My purchases"
+msgstr "Mes achats"
+
+msgid "My downloads"
+msgstr "Mes téléchargements"
+
+msgid "My favorites"
+msgstr "Mes favoris"
+
+msgid "unread"
+msgstr "non lues"
+
+msgid "Seller overview"
+msgstr "Vue d’ensemble vendeur"
+
+msgid "Administration"
+msgstr "Administration"
+
+msgid "Admin overview"
+msgstr "Vue d’ensemble admin"
+
+msgid "Help & company"
+msgstr "Aide et société"
+
+msgid "Support"
+msgstr "Support"
+
+msgid "Open seller space"
+msgstr "Ouvrir l’espace vendeur"
+
+msgid "Ready to sell or build faster?"
+msgstr "Prêt à vendre ou à créer plus vite ?"
+
+msgid "Open a free shop or explore professional products today."
+msgstr "Ouvrez une boutique gratuite ou découvrez des produits professionnels dès aujourd’hui."
+
+msgid "All systems operational"
+msgstr "Tous les systèmes fonctionnent"
+
+msgid "Service issue detected"
+msgstr "Incident détecté sur le service"
+
+msgid "Checking status…"
+msgstr "Vérification de l’état…"
+
+msgid "Footer navigation"
+msgstr "Navigation du pied de page"
+
+msgid "All products"
+msgstr "Tous les produits"
+
+msgid "Seller policy"
+msgstr "Politique vendeur"
+
+msgid "Legal"
+msgstr "Mentions et politiques"
+
+msgid "Privacy policy"
+msgstr "Politique de confidentialité"
+
+msgid "Legal notice"
+msgstr "Mentions légales"
+
+msgid "Terms of Use"
+msgstr "Conditions générales d’utilisation (CGU)"
+
+msgid "Terms of Sale"
+msgstr "Conditions générales de vente (CGV)"
+
+msgid "Cookie policy"
+msgstr "Politique de cookies"
+
+msgid "Refunds & cancellation"
+msgstr "Remboursement et annulation"
+
+msgid "Intellectual property & licenses"
+msgstr "Propriété intellectuelle et licences"
+
+msgid "Back to top"
+msgstr "Haut de page"
+
+msgid "Legal documents of INDPNS Market, the marketplace for professional digital products."
+msgstr "Documents juridiques d’INDPNS Market, la place de marché de produits numériques professionnels."
+
+msgid "Last updated"
+msgstr "Dernière mise à jour"
+
+msgid "Draft for legal review"
+msgstr "Projet à valider juridiquement"
+
+msgid "Legal documents"
+msgstr "Documents juridiques"
+
+msgid "On this page"
+msgstr "Sur cette page"
+
+msgid "Draft document. It must be reviewed, completed and validated by a qualified lawyer before publication. Fields marked “To be completed by INDPNS” are intentionally left blank."
+msgstr "Document de travail. Il doit être relu, complété et validé par un juriste qualifié avant publication. Les champs « À compléter par INDPNS » sont volontairement laissés vides."
+
+msgid "Related documents"
+msgstr "Documents liés"
+
+msgid "Terms of Use & Terms of Sale"
+msgstr "CGU et CGV (mentions légales incluses)"
+
+msgid "Legal contact & claims"
+msgstr "Contact juridique et réclamations"
+
+msgid "Data retention"
+msgstr "Conservation des données"
+
+msgid "By creating an account you agree to our"
+msgstr "En créant un compte, vous acceptez nos"
+
+msgid "and"
+msgstr "et"
+
+msgid "By opening a shop you agree to the"
+msgstr "En ouvrant une boutique, vous acceptez la"
+
+msgid "and the"
+msgstr "et la"
+
+msgid "By purchasing you accept the"
+msgstr "En achetant, vous acceptez les"
+
+msgid "the product license and the"
+msgstr "la licence du produit et la politique de"
+
+msgid "Link copied"
+msgstr "Lien copié"

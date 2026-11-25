@@ -1,13 +1,8 @@
 export function initNav() {
-  const drawer = document.getElementById("drawer");
-  const open = () => { drawer?.classList.add("open"); document.body.style.overflow = "hidden"; };
-  const close = () => { drawer?.classList.remove("open"); document.body.style.overflow = ""; };
-  document.querySelectorAll("[data-drawer-open]").forEach((b) => b.addEventListener("click", open));
-  document.querySelectorAll("[data-drawer-close]").forEach((b) => b.addEventListener("click", close));
   const closeMenus = () => document.querySelectorAll(".dropdown.open").forEach((d) => { d.classList.remove("open"); d.querySelector("[data-dropdown]")?.setAttribute("aria-expanded", "false"); });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") { close(); closeMenus(); document.querySelector(".lightbox.open")?.classList.remove("open"); }
-    if (e.key === "/" && !/input|textarea|select/i.test(document.activeElement?.tagName || "")) { const s = document.getElementById("nav-q") || document.getElementById("dq"); if (s) { e.preventDefault(); s.focus(); } }
+    if (e.key === "Escape") { closeMenus(); document.querySelector(".lightbox.open")?.classList.remove("open"); }
+    if (e.key === "/" && !document.documentElement.classList.contains("sb-lock") && !/input|textarea|select/i.test(document.activeElement?.tagName || "")) { const s = document.getElementById("nav-q") || document.getElementById("dq"); if (s) { e.preventDefault(); s.focus(); } }
   });
   document.querySelectorAll(".dropdown > [data-dropdown]").forEach((btn) => btn.addEventListener("click", (e) => {
     e.stopPropagation();
@@ -24,4 +19,6 @@ export function initNav() {
     tgl.addEventListener("click", () => { dash.classList.toggle("collapsed"); try { localStorage.setItem("indpns-sidebar", dash.classList.contains("collapsed") ? "1" : "0"); } catch (e) {} });
   }
   document.querySelectorAll("[data-filters-toggle]").forEach((b) => b.addEventListener("click", () => document.getElementById("filters")?.classList.toggle("open")));
+  // Pied de page : colonnes repliées par défaut sur mobile (ouvertes sur ordinateur)
+  if (matchMedia("(max-width: 720px)").matches) document.querySelectorAll(".fcol[open]").forEach((d) => d.removeAttribute("open"));
 }

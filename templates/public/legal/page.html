@@ -1,12 +1,25 @@
 {% extends "public/base.html" %}
-{% load i18n %}
-{% block title %}{{ title }} · {{ SITE_NAME }}{% endblock %}
+{% load i18n static %}
+{% block title %}{% include "public/legal/_title.html" with s=slug %} · {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}{% trans "Legal documents of INDPNS Market, the marketplace for professional digital products." %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/legal.css' %}">{% endblock %}
 {% block content %}
+{% get_current_language as L %}
+<header class="legal-head">
+  <h1>{% include "public/legal/_title.html" with s=slug %}</h1>
+  <p class="legal-meta"><span>{% trans "Last updated" %}: <time datetime="2026-11-24">{% if L == "fr" %}24 novembre 2026{% else %}November 24, 2026{% endif %}</time></span><span class="badge">{% trans "Draft for legal review" %}</span></p>
+</header>
 <div class="legal-layout">
-  <nav class="legal-nav" aria-label="{% trans 'Legal' %}">{% for s, t in legal_pages.items %}<a href="{% url 'core:legal' s %}" class="{% if s == slug %}active{% endif %}">{{ t }}</a>{% endfor %}</nav>
-  <article class="prose legal"><h1>{{ title }}</h1>
-    <div class="notice">{% trans "Draft summary. This text must be reviewed and completed by a qualified lawyer before commercial launch." %}</div>
+  <aside class="legal-side">
+    <nav aria-labelledby="legal-docs"><h2 id="legal-docs">{% trans "Legal documents" %}</h2>
+      <div class="legal-nav">{% for s, t in legal_pages.items %}<a href="{% url 'core:legal' s %}" {% if s == slug %}aria-current="page"{% endif %}>{% include "public/legal/_title.html" with s=s %}</a>{% endfor %}</div></nav>
+    <details class="legal-toc" open data-legal-toc><summary>{% trans "On this page" %}</summary><ol></ol></details>
+  </aside>
+  <article class="legal-article">
+    <div class="notice legal-disclaimer">{% trans "Draft document. It must be reviewed, completed and validated by a qualified lawyer before publication. Fields marked “To be completed by INDPNS” are intentionally left blank." %}</div>
     {% include body_template %}
-    <p class="muted">{% trans "Last updated" %}: {% now "DATE_FORMAT" %}</p></article>
+    <aside class="legal-related" aria-labelledby="legal-rel"><h2 id="legal-rel">{% trans "Related documents" %}</h2>
+      <ul><li><a href="{% url 'core:legal' 'privacy' %}">{% trans "Privacy policy" %}</a></li><li><a href="{% url 'core:legal' 'terms' %}">{% trans "Terms of Use & Terms of Sale" %}</a></li><li><a href="{% url 'core:legal' 'refund' %}">{% trans "Refunds & cancellation" %}</a></li><li><a href="{% url 'core:legal' 'ip' %}">{% trans "Intellectual property & licenses" %}</a></li><li><a href="{% url 'core:legal' 'report' %}">{% trans "Legal contact & claims" %}</a></li><li><a href="{% url 'core:contact' %}">{% trans "Contact" %}</a></li></ul></aside>
+  </article>
 </div>
 {% endblock %}

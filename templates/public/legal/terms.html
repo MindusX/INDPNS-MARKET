@@ -1,2 +1,74 @@
 {% load i18n %}{% get_current_language as L %}
-{% if L == "fr" %}<p>En utilisant INDPNS Market, vous acceptez de l'utiliser légalement, de protéger vos identifiants et de respecter les licences attachées aux produits. INDPNS peut suspendre les comptes ou produits contraires à ces conditions.</p>{% else %}<p>By using INDPNS Market you agree to use it lawfully, keep your credentials secure and respect the licenses attached to products. INDPNS may suspend accounts or products that violate these terms.</p>{% endif %}
+{% if L == "fr" %}
+<p class="legal-lead">Ce document réunit trois parties : les mentions légales, les Conditions générales d’utilisation (CGU) et les Conditions générales de vente (CGV) de INDPNS Market.</p>
+<h2 id="legal-notice">Mentions légales</h2>
+<p><strong>Éditeur du site :</strong> INDPNS Market, service édité par INDPNS — <mark class="todo">À compléter par INDPNS : forme juridique et dénomination sociale</mark>.</p><ul><li>Adresse du siège : <mark class="todo">À compléter par INDPNS : adresse</mark></li><li>Immatriculation : <mark class="todo">À compléter par INDPNS : numéro d’immatriculation / registre</mark></li><li>Numéro de TVA ou équivalent : <mark class="todo">À compléter par INDPNS : numéro, le cas échéant</mark></li><li>Représentant légal / directeur de la publication : <mark class="todo">À compléter par INDPNS : nom et fonction</mark></li><li>Contact : <mark class="todo">À compléter par INDPNS : e-mail</mark> — ou via la <a href="{% url 'core:contact' %}">page de contact</a></li><li>Hébergeur : <mark class="todo">À compléter par INDPNS : nom, adresse et contact de l’hébergeur</mark></li></ul>
+<h2 id="terms-of-use">Conditions générales d’utilisation (CGU)</h2>
+<p>Les CGU encadrent l’accès et l’usage de la plateforme par tout visiteur ou utilisateur.</p>
+<h3 id="cgu-purpose">1. Objet et acceptation</h3>
+<p>INDPNS Market est une place de marché internationale de produits numériques (code source, modèles, extensions, SDK, outils d’IA) proposés par des vendeurs indépendants. En créant un compte ou en utilisant la plateforme, vous acceptez les présentes CGU, la <a href="{% url 'core:legal' 'privacy' %}">politique de confidentialité</a> et les documents qui y sont référencés.</p>
+<h3 id="cgu-account">2. Compte</h3>
+<p>Vous devez fournir des informations exactes, vérifier votre adresse e-mail et protéger vos identifiants. Vous êtes responsable de l’activité réalisée depuis votre compte. L’âge minimum est de <mark class="todo">À compléter par INDPNS : âge minimum</mark> ans. Un compte est personnel et ne peut pas être cédé.</p>
+<h3 id="cgu-rules">3. Règles d’utilisation</h3>
+<ul><li>Utiliser la plateforme conformément à la loi et aux licences des produits.</li><li>Ne pas tenter de contourner la sécurité, de scraper massivement le site, de perturber le service ou d’accéder à des données qui ne vous appartiennent pas.</li><li>Ne pas publier de contenu illicite, trompeur, malveillant (virus, code d’exfiltration), contrefaisant ou portant atteinte aux droits d’autrui.</li><li>Ne pas publier de faux avis ; seuls les acheteurs vérifiés peuvent noter un produit.</li></ul>
+<h3 id="cgu-content">4. Contenus et modération</h3>
+<p>Les produits sont examinés avant publication et peuvent être suspendus ou retirés s’ils enfreignent les règles ou les droits de tiers. Vous pouvez signaler un contenu depuis sa page ou via la <a href="{% url 'core:legal' 'report' %}">page de signalement</a>.</p>
+<h3 id="cgu-liability">5. Responsabilité</h3>
+<p>Les produits sont fournis par des vendeurs indépendants, qui restent responsables de leur contenu. INDPNS Market s’efforce d’assurer la disponibilité du service mais ne garantit pas un fonctionnement ininterrompu. Dans les limites permises par la loi, la responsabilité d’INDPNS est limitée aux dommages directs et prévisibles. Rien dans ces CGU n’exclut une responsabilité qui ne peut l’être légalement, ni vos droits impératifs de consommateur.</p>
+<h3 id="cgu-termination">6. Suspension et fermeture de compte</h3>
+<p>Vous pouvez demander la fermeture de votre compte à tout moment via le support. INDPNS peut suspendre ou fermer un compte en cas de violation des règles, de fraude ou d’obligation légale, en vous en informant lorsque c’est possible. Les licences déjà acquises restent régies par leurs conditions, sauf fraude ou décision de justice. Certaines données sont conservées conformément à la <a href="{% url 'core:legal' 'retention' %}">politique de conservation</a>.</p>
+<h3 id="cgu-law">7. Modifications, droit applicable et litiges</h3>
+<p>Nous pouvons modifier les CGU ; la version en vigueur est celle publiée sur cette page. Droit applicable : <mark class="todo">À compléter par INDPNS : droit applicable</mark>. Juridiction compétente : <mark class="todo">À compléter par INDPNS : tribunaux compétents</mark>, sans préjudice des droits dont vous bénéficiez en tant que consommateur dans votre pays de résidence. Avant toute action, contactez-nous via la page de <a href="{% url 'core:legal' 'report' %}">réclamation</a>.</p>
+<h2 id="terms-of-sale">Conditions générales de vente (CGV)</h2>
+<p>Les CGV s’appliquent à tout achat de produit numérique sur INDPNS Market.</p>
+<h3 id="cgv-offer">1. Produits, prix et disponibilité</h3>
+<p>Chaque produit est présenté avec sa description, ses licences disponibles et son prix, affichés dans la devise de la plateforme. Les prix sont ceux affichés au moment de la commande. Certains produits sont gratuits. Selon la configuration de la plateforme, l’achat payant peut être temporairement indisponible (« mode catalogue ») : dans ce cas, seuls les produits gratuits peuvent être obtenus.</p>
+<h3 id="cgv-order">2. Commande et paiement</h3>
+<p>Vous choisissez un produit et une licence, puis confirmez la commande. Lorsque le paiement est activé, il est traité par un prestataire de paiement tiers ; INDPNS Market ne conserve pas vos données de carte. Les taxes applicables (TVA ou équivalent) sont <mark class="todo">À compléter par INDPNS : traitement des taxes : incluses / ajoutées selon le pays</mark>. La commande est conclue lorsque le paiement est confirmé (ou immédiatement pour un produit gratuit).</p>
+<h3 id="cgv-delivery">3. Livraison numérique</h3>
+<p>Après confirmation, le produit est mis à disposition dans votre bibliothèque avec sa clé de licence. Le téléchargement s’effectue par lien sécurisé et temporaire. Vous devez disposer de la configuration technique nécessaire.</p>
+<h3 id="cgv-license">4. Licences</h3>
+<p>L’achat confère une licence d’utilisation (Personal, Commercial ou Extended, selon l’offre) et non la propriété du produit. L’étendue de chaque licence est décrite sur la page produit et dans la section <a href="{% url 'core:legal' 'ip' %}#licenses">Licences</a>.</p>
+<h3 id="cgv-withdrawal">5. Droit de rétractation et remboursements</h3>
+<p>Pour les contenus numériques fournis immédiatement, le droit de rétractation légal peut ne pas s’appliquer lorsque vous acceptez expressément l’exécution immédiate, dans les conditions prévues par la loi de votre pays. Les conditions de remboursement figurent dans la <a href="{% url 'core:legal' 'refund' %}">politique de remboursement et d’annulation</a>.</p>
+<h3 id="cgv-sellers">6. Vendeurs et commissions</h3>
+<p>Les produits sont vendus par des vendeurs indépendants. INDPNS Market prélève une commission sur les ventes selon le plan vendeur (voir la page <a href="{% url 'sellers:pricing' %}">Tarifs</a>). Les reversements aux vendeurs sont soumis à vérification d’identité.</p>
+<h3 id="cgv-support">7. Support et réclamations</h3>
+<p>Pour toute question ou problème de commande, contactez le support en indiquant votre numéro de commande.</p>
+{% else %}
+<p class="legal-lead">This document combines three parts: the legal notice, the Terms of Use and the Terms of Sale of INDPNS Market.</p>
+<h2 id="legal-notice">Legal notice</h2>
+<p><strong>Site publisher:</strong> INDPNS Market, a service published by INDPNS — <mark class="todo">To be completed by INDPNS: legal form and company name</mark>.</p><ul><li>Registered address: <mark class="todo">To be completed by INDPNS: address</mark></li><li>Registration: <mark class="todo">To be completed by INDPNS: registration number / register</mark></li><li>VAT or equivalent number: <mark class="todo">To be completed by INDPNS: number, if applicable</mark></li><li>Legal representative / publication director: <mark class="todo">To be completed by INDPNS: name and title</mark></li><li>Contact: <mark class="todo">To be completed by INDPNS: email</mark> — or through the <a href="{% url 'core:contact' %}">contact page</a></li><li>Hosting provider: <mark class="todo">To be completed by INDPNS: name, address and contact of the host</mark></li></ul>
+<h2 id="terms-of-use">Terms of Use</h2>
+<p>These terms govern access to and use of the platform by every visitor or user.</p>
+<h3 id="cgu-purpose">1. Purpose and acceptance</h3>
+<p>INDPNS Market is an international marketplace for digital products (source code, templates, plugins, SDKs, AI tools) offered by independent sellers. By creating an account or using the platform you accept these terms, the <a href="{% url 'core:legal' 'privacy' %}">privacy policy</a> and the documents they reference.</p>
+<h3 id="cgu-account">2. Account</h3>
+<p>You must provide accurate information, verify your email address and protect your credentials. You are responsible for activity under your account. The minimum age is <mark class="todo">To be completed by INDPNS: minimum age</mark>. Accounts are personal and cannot be transferred.</p>
+<h3 id="cgu-rules">3. Rules of use</h3>
+<ul><li>Use the platform lawfully and in line with product licenses.</li><li>Do not bypass security, scrape the site at scale, disrupt the service or access data that is not yours.</li><li>Do not publish unlawful, misleading, malicious (viruses, exfiltration code), infringing or rights-violating content.</li><li>Do not post fake reviews; only verified buyers can rate a product.</li></ul>
+<h3 id="cgu-content">4. Content and moderation</h3>
+<p>Products are reviewed before publication and may be suspended or removed if they breach the rules or third-party rights. You can report content from its page or through the <a href="{% url 'core:legal' 'report' %}">report page</a>.</p>
+<h3 id="cgu-liability">5. Liability</h3>
+<p>Products are provided by independent sellers, who remain responsible for their content. INDPNS Market works to keep the service available but does not guarantee uninterrupted operation. To the extent permitted by law, INDPNS’s liability is limited to direct and foreseeable damage. Nothing in these terms excludes liability that cannot be excluded by law, or your mandatory consumer rights.</p>
+<h3 id="cgu-termination">6. Suspension and account closure</h3>
+<p>You may request closure of your account at any time through support. INDPNS may suspend or close an account for rule violations, fraud or legal obligations, informing you where possible. Licenses already acquired remain governed by their terms, except in case of fraud or court order. Some data is kept according to the <a href="{% url 'core:legal' 'retention' %}">retention policy</a>.</p>
+<h3 id="cgu-law">7. Changes, governing law and disputes</h3>
+<p>We may change these terms; the version in force is the one published on this page. Governing law: <mark class="todo">To be completed by INDPNS: governing law</mark>. Competent courts: <mark class="todo">To be completed by INDPNS: competent courts</mark>, without prejudice to the rights you have as a consumer in your country of residence. Before any action, please contact us through the <a href="{% url 'core:legal' 'report' %}">claims page</a>.</p>
+<h2 id="terms-of-sale">Terms of Sale</h2>
+<p>These terms apply to every purchase of a digital product on INDPNS Market.</p>
+<h3 id="cgv-offer">1. Products, prices and availability</h3>
+<p>Each product shows its description, available licenses and price in the platform currency. Prices are those displayed when you order. Some products are free. Depending on platform configuration, paid checkout may be temporarily unavailable (“catalog mode”); in that case only free products can be obtained.</p>
+<h3 id="cgv-order">2. Order and payment</h3>
+<p>You choose a product and a license, then confirm the order. When payment is enabled it is processed by a third-party payment provider; INDPNS Market does not store your card data. Applicable taxes (VAT or equivalent) are <mark class="todo">To be completed by INDPNS: tax handling: included / added depending on country</mark>. The order is concluded when payment is confirmed (or immediately for a free product).</p>
+<h3 id="cgv-delivery">3. Digital delivery</h3>
+<p>After confirmation the product is made available in your library with its license key. Downloads use secure, time-limited links. You are responsible for having the required technical setup.</p>
+<h3 id="cgv-license">4. Licenses</h3>
+<p>A purchase grants a license to use the product (Personal, Commercial or Extended, depending on the offer), not ownership. The scope of each license is described on the product page and in the <a href="{% url 'core:legal' 'ip' %}#licenses">Licenses</a> section.</p>
+<h3 id="cgv-withdrawal">5. Withdrawal and refunds</h3>
+<p>For digital content supplied immediately, the statutory right of withdrawal may not apply where you expressly agree to immediate performance, under the conditions set by the law of your country. Refund conditions are set out in the <a href="{% url 'core:legal' 'refund' %}">refunds and cancellation policy</a>.</p>
+<h3 id="cgv-sellers">6. Sellers and commissions</h3>
+<p>Products are sold by independent sellers. INDPNS Market charges a commission on sales according to the seller plan (see the <a href="{% url 'sellers:pricing' %}">Pricing</a> page). Seller payouts are subject to identity verification.</p>
+<h3 id="cgv-support">7. Support and claims</h3>
+<p>For any question or order problem, contact support and include your order number.</p>
+{% endif %}

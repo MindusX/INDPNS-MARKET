@@ -58,6 +58,7 @@
     {% endif %}
     {% if product.status == "approved" %}
     <button type="button" class="btn btn-block" style="margin-top:10px" data-fav-url="{% url 'products:favorite' product.slug %}" data-auth="{% if user.is_authenticated %}1{% else %}0{% endif %}" data-login-url="{% url 'accounts:login' %}?next={{ request.path|urlencode }}" data-added="{% trans 'Added to favorites' %}" data-removed="{% trans 'Removed from favorites' %}" aria-pressed="{% if is_fav %}true{% else %}false{% endif %}">{% icon "heart" 16 %} {% trans "Favorite" %}</button>
+    <p class="buy-legal">{% trans "By purchasing you accept the" %} <a href="{% url 'core:legal' 'terms' %}#terms-of-sale">{% trans "Terms of Sale" %}</a>, {% trans "the product license and the" %} <a href="{% url 'core:legal' 'refund' %}">{% trans "Refunds & cancellation" %}</a>.</p>
     <ul class="trust-list"><li>{% icon "shield" 16 %} {% trans "Reviewed by our moderators" %}</li><li>{% icon "key" 16 %} {% trans "License key included" %}</li><li>{% icon "download" 16 %} {% trans "Instant, secure download" %}</li><li>{% icon "check" 16 %} {% trans "Free updates while your license is active" %}</li></ul>
     <details style="margin-top:14px"><summary class="muted" style="cursor:pointer">{% icon "flag" 14 %} {% trans "Report this product" %}</summary>
       {% if user.is_authenticated %}<form method="post" action="{% url 'products:report' product.slug %}" style="margin-top:10px">{% csrf_token %}

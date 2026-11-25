@@ -1,5 +1,6 @@
 {% load i18n core_tags %}
 <header class="auth-top">
+  {% include "components/menu_button.html" %}
   <a class="brand" href="{% url 'core:home' %}">{% include "components/brand.html" %}</a>
   <div style="display:flex;gap:6px;align-items:center;margin-left:auto">
     <button class="icon-btn" type="button" data-theme-toggle aria-label="{% trans 'Toggle dark mode' %}">{% icon "moon" 20 %}</button>

@@ -1,2 +1,38 @@
 {% load i18n %}{% get_current_language as L %}
-{% if L == "fr" %}<p>Les vendeurs doivent détenir les droits sur tout ce qu'ils téléversent, fournir des descriptions exactes et des fichiers exempts de logiciels malveillants. Les produits sont modérés avant publication. Les commissions dépendent du plan vendeur. Les reversements exigent une vérification d'identité.</p>{% else %}<p>Sellers must own or have the rights to everything they upload, provide accurate descriptions and files free of malware. Products are moderated before publication. Commission rates depend on the seller plan. Payouts require identity verification.</p>{% endif %}
+{% if L == "fr" %}
+<p class="legal-lead">Cette politique s’applique à toute personne qui ouvre une boutique et publie des produits sur INDPNS Market.</p>
+<h2 id="eligibility">1. Éligibilité et boutique</h2>
+<p>Vous conservez votre compte acheteur en ouvrant une boutique. Vous devez avoir la capacité juridique de contracter et fournir des informations exactes. Âge minimum : <mark class="todo">À compléter par INDPNS : âge minimum vendeur</mark>. Un vendeur agit en son nom propre ou pour l’entité qu’il est autorisé à représenter.</p>
+<h2 id="rights">2. Droits sur vos produits</h2>
+<p>Vous devez détenir ou être autorisé à distribuer tout ce que vous téléversez (code, visuels, polices, bibliothèques tierces). Vous accordez à INDPNS Market le droit de stocker, afficher, promouvoir et distribuer vos produits aux acheteurs dans le cadre du service.</p>
+<h2 id="quality">3. Qualité et sécurité des produits</h2>
+<ul><li>Descriptions, captures et prérequis exacts ; pas de promesses trompeuses.</li><li>Fichiers exempts de logiciels malveillants et de code d’exfiltration.</li><li>Licences clairement indiquées et cohérentes avec les composants tiers inclus.</li><li>Mises à jour et corrections raisonnables pendant la durée de la licence, selon votre description.</li></ul>
+<h2 id="moderation">4. Modération</h2>
+<p>Les produits sont examinés avant publication. INDPNS peut refuser, suspendre ou retirer un produit ou une boutique en cas de non-respect de ces règles, de signalement fondé ou d’obligation légale.</p>
+<h2 id="fees">5. Commissions, frais et reversements</h2>
+<p>Une commission est prélevée sur chaque vente selon le plan vendeur choisi (voir la page <a href="{% url 'sellers:pricing' %}">Tarifs</a>). Les reversements exigent une vérification d’identité et peuvent être retenus ou ajustés en cas de remboursement, de litige ou de suspicion de fraude. Lorsque le paiement est désactivé (« mode catalogue »), aucune vente payante n’est traitée.</p>
+<h2 id="taxes">6. Impôts</h2>
+<p>Vous êtes responsable de vos obligations fiscales sur vos revenus. <mark class="todo">À compléter par INDPNS : traitement de la TVA / taxes sur les ventes réalisées via la plateforme</mark>.</p>
+<h2 id="support">7. Support aux acheteurs</h2>
+<p>Vous répondez aux questions de vos acheteurs dans un délai raisonnable et coopérez à l’examen des demandes de remboursement et des signalements.</p>
+<h2 id="termination">8. Fermeture de boutique</h2>
+<p>Vous pouvez fermer votre boutique à tout moment ; les licences déjà vendues restent valables. INDPNS peut suspendre ou fermer une boutique en cas de manquement grave ou répété.</p>
+{% else %}
+<p class="legal-lead">This policy applies to anyone who opens a shop and publishes products on INDPNS Market.</p>
+<h2 id="eligibility">1. Eligibility and shop</h2>
+<p>You keep your buyer account when you open a shop. You must have legal capacity to contract and provide accurate information. Minimum age: <mark class="todo">To be completed by INDPNS: seller minimum age</mark>. A seller acts in their own name or for the entity they are authorized to represent.</p>
+<h2 id="rights">2. Rights in your products</h2>
+<p>You must own or be authorized to distribute everything you upload (code, visuals, fonts, third-party libraries). You grant INDPNS Market the right to store, display, promote and distribute your products to buyers as part of the service.</p>
+<h2 id="quality">3. Product quality and safety</h2>
+<ul><li>Accurate descriptions, screenshots and requirements; no misleading claims.</li><li>Files free of malware and exfiltration code.</li><li>Clearly stated licenses consistent with included third-party components.</li><li>Reasonable updates and fixes during the license period, as described in your listing.</li></ul>
+<h2 id="moderation">4. Moderation</h2>
+<p>Products are reviewed before publication. INDPNS may reject, suspend or remove a product or shop for breach of these rules, a well-founded report or a legal obligation.</p>
+<h2 id="fees">5. Commissions, fees and payouts</h2>
+<p>A commission is charged on each sale according to the seller plan chosen (see the <a href="{% url 'sellers:pricing' %}">Pricing</a> page). Payouts require identity verification and may be held or adjusted in case of refund, dispute or suspected fraud. While payment is disabled (“catalog mode”), no paid sales are processed.</p>
+<h2 id="taxes">6. Taxes</h2>
+<p>You are responsible for your own tax obligations on your income. <mark class="todo">To be completed by INDPNS: VAT / sales tax handling for sales made through the platform</mark>.</p>
+<h2 id="support">7. Buyer support</h2>
+<p>You answer buyer questions within a reasonable time and cooperate in reviewing refund requests and reports.</p>
+<h2 id="termination">8. Closing a shop</h2>
+<p>You may close your shop at any time; licenses already sold remain valid. INDPNS may suspend or close a shop for serious or repeated breaches.</p>
+{% endif %}

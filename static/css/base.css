@@ -105,4 +105,24 @@ table.table { width: 100%; border-collapse: collapse; font-size: .92rem; }
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
 .no-js .reveal { opacity: 1; transform: none; }
+
+/* ---------- Identité bleu + jaune : accents ---------- */
+.btn-accent { background: var(--color-yellow); border-color: var(--color-yellow); color: var(--color-on-yellow); }
+.btn-accent:hover { background: var(--color-yellow-hover); border-color: var(--color-yellow-hover); color: var(--color-on-yellow); }
+.btn-primary:focus-visible, .btn-accent:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 2px; box-shadow: 0 0 0 5px var(--color-yellow-soft); }
+.badge-premium, .badge-new, .badge-promo { background: var(--color-yellow); color: var(--color-on-yellow); }
+.badge-soft-yellow { background: var(--color-yellow-soft); color: var(--color-yellow-ink); }
+.field input:disabled, .field select:disabled, .field textarea:disabled, .input:disabled { background: var(--color-surface-2); color: var(--color-text-muted); cursor: not-allowed; }
+.field input[aria-invalid="true"], .field select[aria-invalid="true"], .field textarea[aria-invalid="true"] { border-color: var(--color-danger); }
+.field input::placeholder, .field textarea::placeholder, .input::placeholder { color: var(--color-text-muted); opacity: .85; }
+.notice { background: var(--color-yellow-soft); border-color: var(--color-yellow); color: var(--color-text); }
+.notice-info { background: var(--color-accent-soft); border-color: var(--color-accent-2); }
+.message.warning { background: var(--color-yellow-soft); border-color: var(--color-yellow); }
+.card-link { transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease); }
+.card-link:hover { border-color: var(--color-accent-2); box-shadow: var(--shadow-sm); }
+.table th { color: var(--color-text-muted); }
+.table tbody tr:hover { background: var(--color-surface-2); }
+@media (max-width: 640px) { .table th, .table td { padding: 10px 12px; } }
+.icon-btn:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 2px; }
+a.text-link { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } .reveal { opacity: 1; transform: none; } }

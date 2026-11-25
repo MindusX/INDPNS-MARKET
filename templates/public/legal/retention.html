@@ -1,2 +1,18 @@
 {% load i18n %}{% get_current_language as L %}
-{% if L == "fr" %}<p>Nous conservons les données de compte et de commande tant que votre compte est actif et aussi longtemps que l'exigent les obligations comptables et légales. Les journaux de sécurité sont conservés pour une durée limitée. Vous pouvez demander la suppression des données que nous ne sommes pas tenus de conserver.</p>{% else %}<p>We keep account and order data while your account is active and as long as required for accounting and legal obligations. Security logs are kept for a limited period. You may ask for deletion of data we are not required to keep.</p>{% endif %}
+{% if L == "fr" %}
+<p class="legal-lead">Cette page précise combien de temps nous conservons vos données et comment demander leur suppression.</p>
+<h2 id="principle">1. Principe</h2>
+<p>Nous conservons les données de compte et de commande tant que votre compte est actif, et aussi longtemps que l’exigent les obligations comptables et légales. Nous supprimons ou anonymisons les données qui ne sont plus nécessaires.</p>
+<h2 id="table">2. Durées indicatives</h2>
+<table><thead><tr><th>Données</th><th>Durée</th></tr></thead><tbody><tr><td>Compte (profil, préférences)</td><td>Durée du compte, puis suppression ou anonymisation après fermeture, sauf obligation de conservation</td></tr><tr><td>Commandes, factures, licences</td><td><mark class="todo">À compléter par INDPNS : durée légale comptable applicable</mark></td></tr><tr><td>Journaux de sécurité et d’audit</td><td><mark class="todo">À compléter par INDPNS : durée, par exemple 12 mois</mark></td></tr><tr><td>Messages de support et signalements</td><td><mark class="todo">À compléter par INDPNS : durée</mark></td></tr><tr><td>Vérification d’identité vendeur</td><td><mark class="todo">À compléter par INDPNS : durée</mark></td></tr></tbody></table>
+<h2 id="deletion">3. Suppression de compte</h2>
+<p>Vous pouvez demander la fermeture de votre compte et la suppression des données que nous ne sommes pas tenus de conserver via la <a href="{% url 'core:contact' %}">page de contact</a>. Les données soumises à une obligation légale de conservation sont conservées de façon restreinte jusqu’à l’échéance.</p>
+{% else %}
+<p class="legal-lead">This page explains how long we keep your data and how to request its deletion.</p>
+<h2 id="principle">1. Principle</h2>
+<p>We keep account and order data while your account is active and as long as accounting and legal obligations require. We delete or anonymize data that is no longer needed.</p>
+<h2 id="table">2. Indicative periods</h2>
+<table><thead><tr><th>Data</th><th>Period</th></tr></thead><tbody><tr><td>Account (profile, preferences)</td><td>Account lifetime, then deletion or anonymization after closure unless retention is required</td></tr><tr><td>Orders, invoices, licenses</td><td><mark class="todo">To be completed by INDPNS: applicable statutory accounting period</mark></td></tr><tr><td>Security and audit logs</td><td><mark class="todo">To be completed by INDPNS: period, e.g. 12 months</mark></td></tr><tr><td>Support messages and reports</td><td><mark class="todo">To be completed by INDPNS: period</mark></td></tr><tr><td>Seller identity verification</td><td><mark class="todo">To be completed by INDPNS: period</mark></td></tr></tbody></table>
+<h2 id="deletion">3. Account deletion</h2>
+<p>You can request closure of your account and deletion of data we are not required to keep through the <a href="{% url 'core:contact' %}">contact page</a>. Data subject to a legal retention duty is kept in restricted form until it expires.</p>
+{% endif %}

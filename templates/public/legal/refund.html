@@ -1,2 +1,34 @@
 {% load i18n %}{% get_current_language as L %}
-{% if L == "fr" %}<p>Les produits numériques ne sont en général pas remboursables après téléchargement, sauf si le produit diffère sensiblement de sa description, est défectueux et irréparable, ou si la loi l'impose. Contactez le support avec votre numéro de commande.</p>{% else %}<p>Digital products are generally non-refundable once downloaded, except where a product is materially different from its description, is defective and cannot be fixed, or where the law requires a refund. Contact support with your order number.</p>{% endif %}
+{% if L == "fr" %}
+<p class="legal-lead">Les produits numériques sont livrés immédiatement. Cette politique indique quand un remboursement ou une annulation est possible.</p>
+<h2 id="general">1. Principe</h2>
+<p>Un produit numérique n’est en général pas remboursable une fois téléchargé ou activé, sauf dans les cas ci-dessous ou si la loi applicable l’impose. Vos droits impératifs de consommateur ne sont pas affectés.</p>
+<h2 id="eligible">2. Cas de remboursement</h2>
+<ul><li>Le produit diffère sensiblement de sa description (fonctionnalités, compatibilité, version).</li><li>Le produit est défectueux et le vendeur ne peut pas le corriger dans un délai raisonnable.</li><li>Le fichier est inaccessible ou corrompu et ne peut pas être remplacé.</li><li>Double paiement ou erreur de facturation.</li><li>Autre cas prévu par la loi de votre pays.</li></ul>
+<h2 id="not-eligible">3. Cas exclus</h2>
+<ul><li>Changement d’avis après téléchargement ou activation de la licence, sauf droit légal contraire.</li><li>Incompatibilité avec un environnement que vous n’avez pas vérifié alors que les prérequis étaient indiqués.</li><li>Mauvaise utilisation du produit ou demande de fonctionnalités non annoncées.</li></ul>
+<h2 id="how">4. Comment demander un remboursement</h2>
+<p>Contactez le support depuis la <a href="{% url 'core:contact' %}">page de contact</a> avec votre numéro de commande, une description du problème et, si possible, des captures d’écran. Délai de demande : <mark class="todo">À compléter par INDPNS : délai, par exemple 14 jours après l’achat</mark>. Nous répondons dans un délai raisonnable ; l’équipe peut associer le vendeur à l’examen.</p>
+<h2 id="effects">5. Effets du remboursement</h2>
+<p>Un remboursement accepté est effectué par le même moyen de paiement lorsque c’est possible. La licence associée est révoquée et la clé de licence désactivée. Les commissions liées à la vente peuvent être ajustées côté vendeur.</p>
+<h2 id="cancel">6. Annulation de commande</h2>
+<p>Une commande non encore payée peut être abandonnée à tout moment. Une commande payée ne peut être annulée que selon les cas de remboursement ci-dessus.</p>
+<h2 id="disputes">7. Litiges</h2>
+<p>Si vous contestez notre décision, écrivez-nous via la page de <a href="{% url 'core:legal' 'report' %}">réclamation</a>. Évitez de contester un paiement auprès de votre banque avant de nous avoir contactés : nous pouvons souvent résoudre le problème plus vite.</p>
+{% else %}
+<p class="legal-lead">Digital products are delivered immediately. This policy explains when a refund or cancellation is possible.</p>
+<h2 id="general">1. Principle</h2>
+<p>A digital product is generally non-refundable once downloaded or activated, except in the cases below or where applicable law requires otherwise. Your mandatory consumer rights are not affected.</p>
+<h2 id="eligible">2. When we refund</h2>
+<ul><li>The product differs materially from its description (features, compatibility, version).</li><li>The product is defective and the seller cannot fix it within a reasonable time.</li><li>The file is inaccessible or corrupted and cannot be replaced.</li><li>Duplicate payment or billing error.</li><li>Any other case required by the law of your country.</li></ul>
+<h2 id="not-eligible">3. Exclusions</h2>
+<ul><li>Change of mind after download or license activation, unless the law provides otherwise.</li><li>Incompatibility with an environment you did not check although requirements were stated.</li><li>Misuse of the product or requests for features that were not advertised.</li></ul>
+<h2 id="how">4. How to request a refund</h2>
+<p>Contact support from the <a href="{% url 'core:contact' %}">contact page</a> with your order number, a description of the problem and screenshots if possible. Request period: <mark class="todo">To be completed by INDPNS: period, e.g. 14 days after purchase</mark>. We reply within a reasonable time; the team may involve the seller in the review.</p>
+<h2 id="effects">5. Effects of a refund</h2>
+<p>An accepted refund is made to the original payment method where possible. The related license is revoked and the license key deactivated. Commissions linked to the sale may be adjusted on the seller side.</p>
+<h2 id="cancel">6. Order cancellation</h2>
+<p>An unpaid order can be abandoned at any time. A paid order can only be cancelled in the refund cases above.</p>
+<h2 id="disputes">7. Disputes</h2>
+<p>If you disagree with our decision, write to us through the <a href="{% url 'core:legal' 'report' %}">claims page</a>. Please contact us before disputing a payment with your bank: we can often fix the problem faster.</p>
+{% endif %}

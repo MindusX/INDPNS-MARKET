@@ -1,2 +1,26 @@
 {% load i18n %}{% get_current_language as L %}
-{% if L == "fr" %}<p>Nous utilisons des cookies essentiels (session, sécurité, langue) et le stockage local pour votre préférence de thème. Nous n'utilisons pas de cookies publicitaires.</p>{% else %}<p>We use essential cookies (session, security, language) and local storage for your theme preference. We do not use advertising cookies.</p>{% endif %}
+{% if L == "fr" %}
+<p class="legal-lead">Cette politique explique quels cookies et technologies similaires INDPNS Market utilise. Nous n’utilisons pas de cookies publicitaires.</p>
+<h2 id="what">1. Qu’est-ce qu’un cookie ?</h2>
+<p>Un cookie est un petit fichier enregistré sur votre appareil. Le stockage local du navigateur (localStorage) joue un rôle comparable pour conserver certaines préférences.</p>
+<h2 id="used">2. Ce que nous utilisons</h2>
+<table><thead><tr><th>Élément</th><th>Finalité</th><th>Type</th><th>Durée indicative</th></tr></thead><tbody><tr><td>Cookie de session</td><td>Vous maintenir connecté</td><td>Essentiel</td><td>Session / selon les réglages</td></tr><tr><td>Cookie CSRF</td><td>Protéger les formulaires contre les requêtes frauduleuses</td><td>Essentiel</td><td>Environ 1 an ou session</td></tr><tr><td>Cookie de langue</td><td>Mémoriser la langue choisie</td><td>Essentiel / préférence</td><td>Environ 1 an</td></tr><tr><td>localStorage « thème », « menu »</td><td>Mémoriser le thème clair/sombre et l’état du menu du tableau de bord</td><td>Préférence</td><td>Jusqu’à effacement</td></tr><tr><td>Cache du service worker</td><td>Accélérer le chargement des fichiers statiques et afficher la page hors ligne ; jamais de données de compte ni de paiement</td><td>Essentiel</td><td>Jusqu’à mise à jour</td></tr></tbody></table>
+<h2 id="third">3. Services tiers</h2>
+<p><mark class="todo">À compléter par INDPNS : préciser si des outils de mesure d’audience, de paiement ou d’authentification tiers (par exemple connexion Google ou GitHub) déposent leurs propres cookies, et mettre à jour ce tableau</mark>. Si de tels cookies non essentiels sont ajoutés, un mécanisme de consentement sera mis en place avant leur dépôt.</p>
+<h2 id="manage">4. Gérer vos choix</h2>
+<p>Vous pouvez supprimer ou bloquer les cookies dans les réglages de votre navigateur. Bloquer les cookies essentiels peut empêcher la connexion ou l’utilisation des formulaires. Vous pouvez effacer le stockage local depuis les outils de votre navigateur.</p>
+<h2 id="more">5. En savoir plus</h2>
+<p>Voir la <a href="{% url 'core:legal' 'privacy' %}">politique de confidentialité</a>.</p>
+{% else %}
+<p class="legal-lead">This policy explains which cookies and similar technologies INDPNS Market uses. We do not use advertising cookies.</p>
+<h2 id="what">1. What is a cookie?</h2>
+<p>A cookie is a small file stored on your device. Browser local storage (localStorage) plays a similar role for keeping some preferences.</p>
+<h2 id="used">2. What we use</h2>
+<table><thead><tr><th>Item</th><th>Purpose</th><th>Type</th><th>Indicative duration</th></tr></thead><tbody><tr><td>Session cookie</td><td>Keeps you signed in</td><td>Essential</td><td>Session / per settings</td></tr><tr><td>CSRF cookie</td><td>Protects forms against forged requests</td><td>Essential</td><td>About 1 year or session</td></tr><tr><td>Language cookie</td><td>Remembers your chosen language</td><td>Essential / preference</td><td>About 1 year</td></tr><tr><td>localStorage “theme”, “sidebar”</td><td>Remembers light/dark theme and dashboard menu state</td><td>Preference</td><td>Until cleared</td></tr><tr><td>Service worker cache</td><td>Speeds up static files and shows the offline page; never account or payment data</td><td>Essential</td><td>Until updated</td></tr></tbody></table>
+<h2 id="third">3. Third-party services</h2>
+<p><mark class="todo">To be completed by INDPNS: state whether analytics, payment or sign-in providers (for example Google or GitHub sign-in) set their own cookies, and update this table</mark>. If non-essential cookies are added, a consent mechanism will be put in place before they are set.</p>
+<h2 id="manage">4. Managing your choices</h2>
+<p>You can delete or block cookies in your browser settings. Blocking essential cookies may prevent sign-in or form use. You can clear local storage from your browser tools.</p>
+<h2 id="more">5. More information</h2>
+<p>See the <a href="{% url 'core:legal' 'privacy' %}">privacy policy</a>.</p>
+{% endif %}

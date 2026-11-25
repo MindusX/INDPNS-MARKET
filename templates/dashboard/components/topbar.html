@@ -1,5 +1,6 @@
 {% load i18n static core_tags %}
 <header class="topbar">
+  {% include "components/menu_button.html" %}
   <button class="icon-btn hide-mobile" type="button" data-sidebar-toggle aria-label="{% trans 'Toggle sidebar' %}">{% icon "panel" 20 %}</button>
   <a class="brand" href="{% url 'core:home' %}" style="display:none" id="mobile-brand"><img src="{% static 'images/logo/logo-mark.svg' %}" alt="" width="30" height="30"></a>
   <form class="search" action="{% url 'products:search' %}" method="get" role="search">{% icon "search" 16 %}<label class="sr-only" for="dq">{% trans "Search" %}</label><input id="dq" type="search" name="q" placeholder="{% trans 'Search the marketplace…' %}"></form>

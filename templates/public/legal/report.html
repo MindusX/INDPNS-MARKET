@@ -1,2 +1,26 @@
 {% load i18n %}{% get_current_language as L %}
-{% if L == "fr" %}<p>Pour signaler un produit, utilisez le bouton Signaler sur sa page. Pour tout autre abus, contactez-nous avec des liens et une description. Nous examinons les signalements et pouvons suspendre le contenu.</p>{% else %}<p>To report a product, use the Report button on its page. For other abuse, contact us with links and a description. We review reports and may suspend content.</p>{% endif %}
+{% if L == "fr" %}
+<p class="legal-lead">Utilisez cette page pour signaler un contenu, déposer une réclamation ou nous écrire sur un sujet juridique.</p>
+<h2 id="report">1. Signaler un produit ou un contenu</h2>
+<p>Sur la page d’un produit, utilisez le bouton « Signaler ». Pour tout autre abus, écrivez-nous avec des liens et une description précise. Nous examinons les signalements et pouvons suspendre ou retirer le contenu.</p>
+<h2 id="claims">2. Réclamations et litiges</h2>
+<p>Pour une réclamation sur une commande, un remboursement, un compte ou une décision de modération, <a href="{% url 'core:contact' %}">contactez le support</a> en indiquant : votre e-mail de compte, le numéro de commande ou l’adresse du produit concerné, et le résultat attendu. Nous répondons dans un délai raisonnable.</p>
+<h2 id="rights">3. Droits d’auteur et marques</h2>
+<p>Pour une atteinte à des droits d’auteur ou de marque, suivez la procédure décrite dans <a href="{% url 'core:legal' 'ip' %}#infringement">Propriété intellectuelle et licences</a>.</p>
+<h2 id="privacy">4. Données personnelles</h2>
+<p>Pour exercer vos droits sur vos données, voir la <a href="{% url 'core:legal' 'privacy' %}#rights">politique de confidentialité</a>.</p>
+<h2 id="contact">5. Coordonnées juridiques</h2>
+<ul><li>E-mail juridique : <mark class="todo">À compléter par INDPNS : e-mail</mark></li><li>Adresse postale : <mark class="todo">À compléter par INDPNS : adresse</mark></li><li>Représentant pour les autorités : <mark class="todo">À compléter par INDPNS : nom et fonction</mark></li></ul><p>À défaut, utilisez le <a href="{% url 'core:contact' %}">formulaire de contact</a>.</p>
+{% else %}
+<p class="legal-lead">Use this page to report content, file a claim or write to us about a legal matter.</p>
+<h2 id="report">1. Reporting a product or content</h2>
+<p>On a product page, use the “Report” button. For any other abuse, write to us with links and a precise description. We review reports and may suspend or remove content.</p>
+<h2 id="claims">2. Claims and disputes</h2>
+<p>For a claim about an order, refund, account or moderation decision, <a href="{% url 'core:contact' %}">contact support</a> and include: your account email, the order number or product address, and the outcome you expect. We reply within a reasonable time.</p>
+<h2 id="rights">3. Copyright and trademarks</h2>
+<p>For copyright or trademark infringement, follow the procedure described in <a href="{% url 'core:legal' 'ip' %}#infringement">Intellectual property & licenses</a>.</p>
+<h2 id="privacy">4. Personal data</h2>
+<p>To exercise your data rights, see the <a href="{% url 'core:legal' 'privacy' %}#rights">privacy policy</a>.</p>
+<h2 id="contact">5. Legal contact details</h2>
+<ul><li>Legal email: <mark class="todo">To be completed by INDPNS: email</mark></li><li>Postal address: <mark class="todo">To be completed by INDPNS: address</mark></li><li>Representative for authorities: <mark class="todo">To be completed by INDPNS: name and title</mark></li></ul><p>Otherwise, use the <a href="{% url 'core:contact' %}">contact form</a>.</p>
+{% endif %}

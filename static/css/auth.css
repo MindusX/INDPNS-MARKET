@@ -1,12 +1,14 @@
 .auth-split { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); background: var(--color-bg); }
-.auth-aside { position: relative; overflow: hidden; background: linear-gradient(135deg, #2563EB, #4F46E5); color: #fff; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; }
+.auth-aside { position: relative; overflow: hidden; background: linear-gradient(135deg, #1E3A8A, #2563EB); color: #fff; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; }
 .auth-aside::before { content: ""; position: absolute; width: 520px; height: 520px; border-radius: 50%; background: rgba(255,255,255,.08); right: -160px; top: -160px; }
+.auth-aside::after { content: ""; position: absolute; left: 0; bottom: 0; width: 38%; height: 6px; background: var(--color-yellow); }
 .auth-aside .brand, .auth-aside .brand:hover { color: #fff; position: relative; }
 .auth-aside .brand-text b { color: rgba(255,255,255,.75); }
 .auth-aside img.art { position: relative; width: min(460px, 100%); margin: 24px auto; }
 .auth-aside blockquote { position: relative; margin: 0; font-size: 1.25rem; line-height: 1.4; font-weight: 600; letter-spacing: -.02em; max-width: 26ch; }
 .auth-aside ul { position: relative; list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; color: rgba(255,255,255,.88); font-size: .92rem; }
 .auth-aside li { display: flex; gap: 8px; align-items: center; }
+.auth-aside li .icon { color: var(--color-yellow); }
 .auth-panel { display: flex; flex-direction: column; min-height: 100vh; }
 .auth-top { display: flex; justify-content: space-between; align-items: center; padding: 20px 28px; }
 .auth-top .brand { display: none; }
@@ -24,3 +26,11 @@
 .auth-state { text-align: center; }
 .auth-state img { width: 150px; margin: 0 auto 12px; }
 @media (max-width: 900px) { .auth-split { grid-template-columns: 1fr; } .auth-aside { display: none; } .auth-top .brand { display: inline-flex; } }
+
+.auth-legal { margin: 14px 0 0; text-align: center; font-size: .84rem; color: var(--color-text-muted); }
+.auth-legal a { text-decoration: underline; text-underline-offset: 3px; }
+.auth-top { gap: 10px; }
+.auth-top .brand { margin-left: 4px; }
+@media (max-width: 900px) { .auth-top .brand { margin-left: 0; } }
+.auth-footer { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; }
+.auth-footer a { margin: 0; }

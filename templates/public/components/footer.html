@@ -13,34 +13,38 @@
         <a class="brand" href="{% url 'core:home' %}" aria-label="INDPNS Market">{% include "components/brand.html" %}</a>
         <p>{% trans "The marketplace for professional digital products: source code, templates, plugins, SDKs and AI tools." %}</p>
         <a class="footer-status" href="{% url 'core:healthz' %}" data-status data-state="loading" data-ok="{% trans 'All systems operational' %}" data-err="{% trans 'Service issue detected' %}" aria-live="polite"><span class="sdot"></span><span class="stext">{% trans "Checking status…" %}</span></a>
-        <div class="footer-pills"><span>{% icon "shield" 13 %} {% trans "Moderated listings" %}</span><span>{% icon "key" 13 %} {% trans "Clear licenses" %}</span><span>{% icon "download" 13 %} {% trans "Signed downloads" %}</span></div>
       </div>
       <div class="footer-cols" role="navigation" aria-label="{% trans 'Footer navigation' %}">
         <details class="fcol" open><summary>{% trans "Marketplace" %} {% icon "chevron" 16 %}</summary><ul>
-          <li><a href="{% url 'products:explore' %}">{% trans "Discover" %}</a></li><li><a href="{% url 'products:popular' %}">{% trans "Popular" %}</a></li>
-          <li><a href="{% url 'products:new' %}">{% trans "New releases" %}</a></li><li><a href="{% url 'products:top_rated' %}">{% trans "Top rated" %}</a></li>
+          <li><a href="{% url 'core:home' %}">{% trans "Home" %}</a></li><li><a href="{% url 'products:explore' %}">{% trans "Explore products" %}</a></li>
+          <li><a href="{% url 'products:popular' %}">{% trans "Popular" %}</a></li><li><a href="{% url 'products:new' %}">{% trans "New releases" %}</a></li>
           <li><a href="{% url 'products:free' %}">{% trans "Free products" %}</a></li><li><a href="{% url 'sellers:list' %}">{% trans "Sellers" %}</a></li></ul></details>
         <details class="fcol" open><summary>{% trans "Categories" %} {% icon "chevron" 16 %}</summary><ul>
           {% for c in NAV_CATEGORIES|slice:":6" %}<li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>{% empty %}<li><a href="{% url 'products:explore' %}">{% trans "All products" %}</a></li>{% endfor %}</ul></details>
         <details class="fcol" open><summary>{% trans "Sell" %} {% icon "chevron" 16 %}</summary><ul>
           <li><a href="{% url 'core:how_to_sell' %}">{% trans "How to sell" %}</a></li><li><a href="{% url 'sellers:pricing' %}">{% trans "Pricing" %}</a></li>
-          <li><a href="{% url 'core:affiliate' %}">{% trans "Affiliate program" %}</a></li><li><a href="{% url 'core:legal' 'seller-terms' %}">{% trans "Seller terms" %}</a></li>
+          <li><a href="{% url 'core:affiliate' %}">{% trans "Affiliate program" %}</a></li><li><a href="{% url 'core:legal' 'seller-terms' %}">{% trans "Seller policy" %}</a></li>
           <li><a href="{% url 'core:download' %}">{% trans "Install the app" %}</a></li></ul></details>
         <details class="fcol" open><summary>{% trans "Help" %} {% icon "chevron" 16 %}</summary><ul>
           <li><a href="{% url 'core:help' %}">{% trans "Help center" %}</a></li><li><a href="{% url 'core:how_to_buy' %}">{% trans "How to buy" %}</a></li>
           <li><a href="{% url 'core:license_guide' %}">{% trans "License guide" %}</a></li><li><a href="{% url 'core:faq' %}">{% trans "FAQ" %}</a></li>
-          <li><a href="{% url 'core:docs' %}">{% trans "Documentation" %}</a></li><li><a href="{% url 'core:contact' %}">{% trans "Contact" %}</a></li></ul></details>
+          <li><a href="{% url 'core:contact' %}">{% trans "Contact" %}</a></li><li><a href="{% url 'core:about' %}">{% trans "About" %}</a></li></ul></details>
+        <details class="fcol" open><summary>{% trans "Legal" %} {% icon "chevron" 16 %}</summary><ul>
+          <li><a href="{% url 'core:legal' 'privacy' %}">{% trans "Privacy policy" %}</a></li>
+          <li><a href="{% url 'core:legal' 'terms' %}#legal-notice">{% trans "Legal notice" %}</a></li>
+          <li><a href="{% url 'core:legal' 'terms' %}#terms-of-use">{% trans "Terms of Use" %}</a></li>
+          <li><a href="{% url 'core:legal' 'terms' %}#terms-of-sale">{% trans "Terms of Sale" %}</a></li>
+          <li><a href="{% url 'core:legal' 'cookies' %}">{% trans "Cookie policy" %}</a></li>
+          <li><a href="{% url 'core:legal' 'refund' %}">{% trans "Refunds & cancellation" %}</a></li>
+          <li><a href="{% url 'core:legal' 'ip' %}">{% trans "Intellectual property & licenses" %}</a></li></ul></details>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© <span data-year>{% now "Y" %}</span> INDPNS. {% trans "All rights reserved." %}</span>
-      <ul><li><a href="{% url 'core:about' %}">{% trans "About" %}</a></li><li><a href="{% url 'core:legal' 'privacy' %}">{% trans "Privacy" %}</a></li><li><a href="{% url 'core:legal' 'terms' %}">{% trans "Terms" %}</a></li>
-        <li><a href="{% url 'core:legal' 'refund' %}">{% trans "Refunds" %}</a></li><li><a href="{% url 'core:legal' 'cookies' %}">{% trans "Cookies" %}</a></li><li><a href="{% url 'core:legal' 'ip' %}">{% trans "Intellectual property" %}</a></li></ul>
+      <p>© <span data-year>{% now "Y" %}</span> INDPNS. {% trans "All rights reserved." %}</p>
       <div class="footer-controls">
         <button class="icon-btn" type="button" data-theme-toggle aria-label="{% trans 'Toggle dark mode' %}">{% icon "moon" 18 %}</button>
         <button class="btn btn-sm" type="button" data-totop>{% icon "chevron" 14 %} {% trans "Back to top" %}</button>
       </div>
     </div>
-    <div class="footer-mark" aria-hidden="true">INDPNS</div>
   </div>
 </footer>

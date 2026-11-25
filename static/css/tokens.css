@@ -1,4 +1,7 @@
-/* INDPNS Market — design tokens (toutes les couleurs vivent ici). Clair = #F8F9FA ; sombre = gris neutre clair. */
+/* INDPNS Market — design tokens (toutes les couleurs vivent ici).
+   Identité : gris clair #F8F9FA + blanc + bleu (principal) + jaune #FACC15 (accent secondaire, avec modération).
+   Règle d'accessibilité : le jaune sert de FOND (texte #1F2937 dessus, contraste > 10:1) ou de repère graphique ;
+   jamais de texte jaune sur fond clair, jamais de texte blanc sur jaune. Le texte blanc se pose sur --color-accent (#2563EB, 5,2:1). */
 :root {
   --color-bg: #F8F9FA;
   --color-surface: #FFFFFF;
@@ -6,11 +9,12 @@
   --color-surface-3: #E9ECEF;
   --color-border: #E5E7EB;
   --color-border-strong: #CBD1D8;
-  --color-text: #111827;
+  --color-text: #1F2937;
   --color-text-muted: #6B7280;
   --color-accent: #2563EB;
   --color-accent-hover: #1D4ED8;
-  --color-accent-2: #3B82F6;
+  --color-accent-2: #3B82F6;           /* bleu de marque : focus, repères, grands aplats */
+  --color-brand: #3B82F6;
   --color-accent-soft: #EFF4FF;
   --color-on-accent: #FFFFFF;
   --color-link: #2563EB;
@@ -22,17 +26,24 @@
   --color-danger-soft: #FEF2F2;
   --color-overlay: rgba(17, 24, 39, .55);
   --color-star: #F59E0B;
+  --color-yellow: #FACC15;             /* accent secondaire */
+  --color-yellow-hover: #EAB308;
+  --color-yellow-soft: #FEF9C3;
+  --color-yellow-ink: #854D0E;         /* texte jaune sur fond clair (contraste 7:1) */
+  --color-on-yellow: #1F2937;
   --color-code-bg: #0F172A;
 
   --radius-sm: 6px; --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px;
   --shadow-sm: 0 1px 2px rgba(17, 24, 39, .06);
   --shadow-md: 0 8px 24px rgba(17, 24, 39, .10);
+  --shadow-lg: 0 24px 60px rgba(17, 24, 39, .22);
   --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --ease: cubic-bezier(.2, .6, .2, 1);
   --t-fast: 150ms; --t-base: 220ms;
   --container: 1200px;
   --nav-h: 64px;
+  --menu-w: 340px;
   --sidebar-w: 264px; --sidebar-w-collapsed: 72px; --topbar-h: 60px;
   --img-filter: none;
 }
@@ -47,7 +58,7 @@
   --color-border-strong: #565C66;
   --color-text: #F1F3F5;
   --color-text-muted: #AEB5BF;
-  --color-accent: #3B73E8;
+  --color-accent: #3366D6;
   --color-accent-hover: #5B8DEF;
   --color-accent-2: #5B8DEF;
   --color-accent-soft: #263552;
@@ -61,6 +72,12 @@
   --color-danger-soft: #422A2D;
   --color-overlay: rgba(10, 12, 16, .65);
   --color-code-bg: #181A1E;
+  --color-yellow: #FACC15;
+  --color-yellow-hover: #FDE047;
+  --color-yellow-soft: #3A3417;
+  --color-yellow-ink: #FDE68A;
+  --color-on-yellow: #1F2937;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, .35);
   --shadow-md: 0 10px 28px rgba(0, 0, 0, .45);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, .6);
 }

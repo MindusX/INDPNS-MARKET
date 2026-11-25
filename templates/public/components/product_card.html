@@ -2,7 +2,7 @@
 <article class="card pcard">
   <a class="pcard-cover" href="{{ p.get_absolute_url }}" tabindex="-1" aria-hidden="true">
     <img src="{% if p.cover %}{{ p.cover.url }}{% else %}{% static 'images/cats/placeholder-cover.svg' %}{% endif %}" alt="" loading="lazy" width="640" height="400">
-    <span class="pcard-tags">{% if p.is_free %}<span class="badge">{% trans "Free" %}</span>{% endif %}{% if p.category %}<span class="badge">{{ p.category.name }}</span>{% endif %}</span>
+    <span class="pcard-tags">{% if p.is_free %}<span class="badge">{% trans "Free" %}</span>{% else %}<span class="badge badge-premium">{% trans "Premium" %}</span>{% endif %}{% if p.category %}<span class="badge">{{ p.category.name }}</span>{% endif %}</span>
   </a>
   <button type="button" class="fav-btn {% if p.pk in fav_ids %}active{% endif %}" data-fav-url="{% url 'products:favorite' p.slug %}" data-auth="{% if user.is_authenticated %}1{% else %}0{% endif %}"
           data-login-url="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}" data-error="{% trans 'Something went wrong' %}" data-added="{% trans 'Added to favorites' %}" data-removed="{% trans 'Removed from favorites' %}"

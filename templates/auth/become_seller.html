@@ -2,5 +2,6 @@
 {% load i18n static %}
 {% block title %}{% trans "Open your shop" %}{% endblock %}
 {% block content %}<h1>{% trans "Open your shop" %}</h1><p class="sub">{% trans "You keep your buyer account. The Starter plan is free." %}</p>
-<form method="post" novalidate>{% csrf_token %}{% include "auth/_form.html" %}<button class="btn btn-primary btn-block btn-lg" type="submit">{% trans "Create my shop" %}</button></form>
+<form method="post" novalidate>{% csrf_token %}{% include "auth/_form.html" %}<button class="btn btn-primary btn-block btn-lg" type="submit">{% trans "Create my shop" %}</button>
+  <p class="auth-legal">{% trans "By opening a shop you agree to the" %} <a href="{% url 'core:legal' 'seller-terms' %}">{% trans "Seller policy" %}</a> {% trans "and the" %} <a href="{% url 'core:legal' 'ip' %}">{% trans "Intellectual property & licenses" %}</a>.</p></form>
 <p class="auth-foot"><a href="{% url 'sellers:pricing' %}">{% trans "See seller pricing" %}</a></p>{% endblock %}

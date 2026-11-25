@@ -1,6 +1,6 @@
 /* INDPNS Market — service worker. Hors-ligne : pages statiques uniquement.
    Jamais de cache pour : comptes, dashboard, fichiers acheteurs, paiements, admin, API. */
-const VERSION = "indpns-v2";
+const VERSION = "indpns-v3";
 const PRECACHE = ["/offline/"];
 const NEVER = [/^\/dashboard/, /^\/accounts/, /^\/files/, /^\/payments/, /^\/checkout/, /^\/api/, /^\/admin/, /^\/media/, /^\/healthz/];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(PRECACHE)).then(() => self.skipWaiting())); });

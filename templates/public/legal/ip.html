@@ -1,2 +1,34 @@
 {% load i18n %}{% get_current_language as L %}
-{% if L == "fr" %}<p>Les vendeurs conservent la propriété intellectuelle de leurs produits et accordent aux acheteurs la licence achetée. Les acheteurs ne peuvent pas revendre ou redistribuer les produits au-delà de leur licence. Signalez toute violation via la page Signalement.</p>{% else %}<p>Sellers retain the intellectual property of their products and grant buyers the license purchased. Buyers may not resell or redistribute products except as their license allows. Report infringements using the Report content page.</p>{% endif %}
+{% if L == "fr" %}
+<p class="legal-lead">Cette page décrit les droits de propriété intellectuelle sur la plateforme et sur les produits, ainsi que les licences accordées aux acheteurs.</p>
+<h2 id="ownership">1. Propriété</h2>
+<p>Les vendeurs conservent la propriété intellectuelle de leurs produits et accordent aux acheteurs la licence achetée. La marque, le logo et l’interface de INDPNS Market appartiennent à INDPNS ou à ses concédants.</p>
+<h2 id="licenses">2. Licences des produits numériques</h2>
+<p>Chaque produit propose une ou plusieurs licences. Les droits et restrictions exacts sont affichés sur la page produit avant l’achat.</p><table><thead><tr><th>Licence</th><th>Usage prévu</th><th>Limites typiques</th></tr></thead><tbody><tr><td>Personal</td><td>Une personne, projets non commerciaux</td><td>Pas d’usage générant des revenus, pas de revente ni de redistribution</td></tr><tr><td>Commercial</td><td>Un produit final commercial</td><td>Pas de revente du produit seul ; un seul produit final</td></tr><tr><td>Extended</td><td>Produit final vendu à de nombreux utilisateurs</td><td>Pas de redistribution du produit tel quel</td></tr></tbody></table><p>En cas de différence, les conditions affichées sur la page du produit prévalent. Les licences sont personnelles et non transférables, sauf mention contraire.</p>
+<h2 id="downloads">3. Téléchargements et clés</h2>
+<p>Les fichiers sont fournis par liens sécurisés et temporaires, avec une clé de licence. Vous ne devez pas partager votre clé, vos liens de téléchargement ni les fichiers au-delà de ce que votre licence autorise.</p>
+<h2 id="buyers">4. Obligations des acheteurs</h2>
+<ul><li>Respecter la licence achetée et les licences tierces incluses dans le produit.</li><li>Ne pas revendre, sous-licencier, publier ou redistribuer le produit en dehors de votre licence.</li><li>Conserver vos clés et fichiers de manière sécurisée.</li></ul>
+<h2 id="infringement">5. Droits d’auteur et signalement d’infraction</h2>
+<p>Nous prenons au sérieux les atteintes aux droits d’auteur. Si vous pensez qu’un contenu enfreint vos droits, utilisez le bouton « Signaler » du produit ou la <a href="{% url 'core:legal' 'report' %}">page de réclamation</a> en indiquant : votre identité et vos coordonnées, l’œuvre concernée, l’adresse du contenu litigieux, une déclaration de bonne foi et de l’exactitude de votre demande. Procédure détaillée : <mark class="todo">À compléter par INDPNS : procédure de notification et de contre-notification, adresse du point de contact</mark>.</p><p>Nous pouvons retirer ou suspendre un contenu, informer le vendeur et clôturer les comptes qui enfreignent de manière répétée.</p>
+<h2 id="prohibited">6. Contenus interdits</h2>
+<ul><li>Contenus contrefaits, piratés ou dont le vendeur n’a pas les droits.</li><li>Logiciels malveillants, spywares, outils destinés à la fraude ou au vol de données.</li><li>Contenus illicites, haineux, violents ou portant atteinte à la vie privée.</li><li>Produits utilisant des marques ou des œuvres de tiers sans autorisation.</li></ul>
+<h2 id="trademarks">7. Marques</h2>
+<p>Les marques citées appartiennent à leurs titulaires. Leur mention sur la plateforme n’implique ni partenariat ni approbation.</p>
+{% else %}
+<p class="legal-lead">This page describes intellectual property rights on the platform and on products, and the licenses granted to buyers.</p>
+<h2 id="ownership">1. Ownership</h2>
+<p>Sellers retain the intellectual property of their products and grant buyers the license purchased. The INDPNS Market name, logo and interface belong to INDPNS or its licensors.</p>
+<h2 id="licenses">2. Digital product licenses</h2>
+<p>Each product offers one or more licenses. The exact rights and restrictions are shown on the product page before purchase.</p><table><thead><tr><th>License</th><th>Intended use</th><th>Typical limits</th></tr></thead><tbody><tr><td>Personal</td><td>One person, non-commercial projects</td><td>No revenue-generating use, no resale or redistribution</td></tr><tr><td>Commercial</td><td>One commercial end product</td><td>No resale of the product on its own; one end product</td></tr><tr><td>Extended</td><td>End product sold to many users</td><td>No redistribution of the product as-is</td></tr></tbody></table><p>If they differ, the terms shown on the product page prevail. Licenses are personal and non-transferable unless stated otherwise.</p>
+<h2 id="downloads">3. Downloads and keys</h2>
+<p>Files are delivered through secure, time-limited links with a license key. You must not share your key, download links or files beyond what your license allows.</p>
+<h2 id="buyers">4. Buyer obligations</h2>
+<ul><li>Comply with the license purchased and with third-party licenses included in the product.</li><li>Do not resell, sublicense, publish or redistribute the product outside your license.</li><li>Keep your keys and files secure.</li></ul>
+<h2 id="infringement">5. Copyright and infringement reports</h2>
+<p>We take copyright infringement seriously. If you believe content infringes your rights, use the product’s “Report” button or the <a href="{% url 'core:legal' 'report' %}">claims page</a> and include: your identity and contact details, the work concerned, the address of the content, and a statement of good faith and accuracy. Detailed procedure: <mark class="todo">To be completed by INDPNS: notice and counter-notice procedure, contact address</mark>.</p><p>We may remove or suspend content, inform the seller and close accounts that repeatedly infringe.</p>
+<h2 id="prohibited">6. Prohibited content</h2>
+<ul><li>Counterfeit or pirated content, or content the seller has no rights to.</li><li>Malware, spyware, or tools meant for fraud or data theft.</li><li>Unlawful, hateful, violent or privacy-violating content.</li><li>Products using third-party trademarks or works without permission.</li></ul>
+<h2 id="trademarks">7. Trademarks</h2>
+<p>Trademarks mentioned belong to their owners. Mentioning them on the platform does not imply partnership or endorsement.</p>
+{% endif %}
