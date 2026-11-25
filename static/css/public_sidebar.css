@@ -1,0 +1,63 @@
+/* INDPNS Market — barre latérale PUBLIQUE (components/public_sidebar.html).
+   Pages sans connexion + authentification. Le tableau de bord garde sidebar.css / components/sidebar.html.
+   Piloté par js/modules/public_sidebar.js. Fermé : visibility:hidden + inert.
+   Ouvert : couvre TOUTE la fenêtre — largeur (100vw) et hauteur (100dvh). */
+html.psb-lock { overflow: hidden; padding-right: var(--psb-scrollbar, 0px); }
+
+.psb {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh; height: 100dvh; max-width: none; max-height: none;
+  z-index: 2100; display: flex; flex-direction: column;
+  background: var(--color-surface); color: var(--color-text);
+  visibility: hidden; opacity: 0; pointer-events: none;
+  transform: translateX(-32px);
+  transition: opacity .24s var(--ease), transform .24s var(--ease), visibility 0s linear .24s;
+}
+.psb.is-open { visibility: visible; opacity: 1; pointer-events: auto; transform: none; transition-delay: 0s; }
+.psb:focus { outline: 0; }
+
+.psb-top { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(12px + env(safe-area-inset-top)) clamp(16px, 4vw, 56px) 12px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); }
+.psb-top::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--color-yellow); }
+.psb-close { border: 1px solid var(--color-border); background: var(--color-surface); border-radius: var(--radius-md); }
+.psb-close:hover { border-color: var(--color-accent-2); color: var(--color-link); }
+
+.psb-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; padding: 0 clamp(16px, 4vw, 56px) env(safe-area-inset-bottom); background: var(--color-bg); }
+.psb-layout { flex: 1 0 auto; width: 100%; max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: clamp(24px, 5vw, 72px); padding: clamp(24px, 5vh, 56px) 0; align-content: start; }
+
+.psb-intro { display: flex; flex-direction: column; gap: 20px; }
+.psb-tagline { margin: 0; font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.2; }
+.psb-search { display: flex; align-items: center; gap: 10px; padding: 6px 14px; border: 1px solid var(--color-border-strong); border-radius: 12px; background: var(--color-surface); }
+.psb-search:focus-within { border-color: var(--color-accent-2); box-shadow: 0 0 0 4px var(--color-accent-soft); }
+.psb-search > .icon { color: var(--color-text-muted); flex: none; }
+.psb-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--color-text); font: inherit; padding: 10px 2px; }
+.psb-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.psb-nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px clamp(20px, 3vw, 44px); align-content: start; }
+.psb-col { display: flex; flex-direction: column; min-width: 0; }
+.psb-col h2 { margin: 0 0 8px; font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--color-link); }
+.psb-col > a { position: relative; padding: 10px 0; border-bottom: 1px solid var(--color-border); font-size: 1.05rem; font-weight: 600; letter-spacing: -.015em; color: var(--color-text); overflow-wrap: anywhere; transition: color var(--t-fast) var(--ease), padding-left var(--t-fast) var(--ease); }
+.psb-col > a:hover { color: var(--color-link); padding-left: 6px; }
+.psb-col > a[aria-current="page"] { color: var(--color-link); padding-left: 12px; }
+.psb-col > a[aria-current="page"]::before { content: ""; position: absolute; left: 0; top: 50%; width: 4px; height: 18px; margin-top: -9px; border-radius: 2px; background: var(--color-yellow); }
+.psb-empty { padding: 10px 0; color: var(--color-text-muted); font-size: .9rem; }
+
+.psb-foot { flex: none; width: 100%; max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; padding: 20px 0 28px; border-top: 1px solid var(--color-border); }
+.psb-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.psb-lang { display: flex; gap: 4px; }
+.psb-lang button { padding: 6px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text); font: inherit; font-size: .8rem; font-weight: 600; cursor: pointer; }
+.psb-lang button[aria-current="true"] { border-color: var(--color-accent-2); color: var(--color-link); background: var(--color-accent-soft); }
+.psb-legal { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; font-size: .82rem; }
+.psb-legal a { color: var(--color-text-muted); }
+.psb-legal a:hover { color: var(--color-link); }
+
+@media (max-width: 860px) {
+  .psb-layout { grid-template-columns: 1fr; padding-top: 20px; }
+  .psb-nav { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+}
+@media (max-width: 520px) {
+  .psb-nav { grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+  .psb-col > a { font-size: .98rem; }
+  .psb-cta .btn { flex: 1 1 140px; }
+  .psb-foot { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) { .psb { transition: none; transform: none; } .psb-col > a { transition: none; } }

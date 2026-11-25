@@ -11,6 +11,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="{% static 'css/public.css' %}">
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/public_sidebar.css' %}">
   {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -26,6 +27,7 @@
   </main>
   {% include "public/components/footer.html" %}
 </div>
+{% include "components/public_sidebar.html" %}
 <script type="module" src="{% static 'js/main.js' %}"></script>
 {% block extra_js %}{% endblock %}
 </body>

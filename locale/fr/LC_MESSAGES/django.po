@@ -785,3 +785,15 @@ msgstr "la licence du produit et la politique de"
 
 msgid "Link copied"
 msgstr "Lien copié"
+
+msgid "Our mission"
+msgstr "Notre mission"
+
+msgid "Professional digital products, delivered with clear licenses."
+msgstr "Des produits numériques professionnels, livrés avec des licences claires."
+
+msgid "Refund policy"
+msgstr "Politique de remboursement"
+
+msgid "Report content"
+msgstr "Signaler un contenu"

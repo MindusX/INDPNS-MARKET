@@ -1,0 +1,98 @@
+{% load i18n core_tags %}
+{% comment %}
+  Barre latérale PUBLIQUE d'INDPNS Market — réservée aux pages accessibles sans connexion
+  (templates qui étendent public/base.html + pages d'authentification via auth/base_auth.html).
+  Les pages sécurisées (tableau de bord) gardent components/sidebar.html : ce fichier n'y est JAMAIS inclus.
+  Ouverte, elle couvre toute la fenêtre (100vw × 100dvh). Bouton d'ouverture : components/public_menu_button.html ([data-psb-open]).
+  Comportement : static/js/modules/public_sidebar.js · styles : static/css/public_sidebar.css.
+  Sécurité : uniquement des liens vers des pages publiques ; aucun lien vers /dashboard/, /files/ ou /checkout/.
+  Le contrôle d'accès reste 100 % côté backend.
+{% endcomment %}
+{% with view=request.resolver_match.view_name %}
+<div class="psb" id="public-sidebar" role="dialog" aria-modal="true" aria-label="{% trans 'Main menu' %}" tabindex="-1" data-psb>
+  <header class="psb-top">
+    <a class="brand" href="{% url 'core:home' %}" aria-label="INDPNS Market">{% include "components/brand.html" %}</a>
+    <button class="icon-btn psb-close" type="button" data-psb-close aria-label="{% trans 'Close menu' %}">{% icon "x" 22 %}</button>
+  </header>
+
+  <div class="psb-scroll">
+    <div class="psb-layout">
+      <div class="psb-intro">
+        <p class="psb-tagline">{% trans "Professional digital products, delivered with clear licenses." %}</p>
+        <form class="psb-search" action="{% url 'products:search' %}" method="get" role="search">
+          {% icon "search" 20 %}
+          <label class="sr-only" for="psb-q">{% trans "Search products…" %}</label>
+          <input id="psb-q" type="search" name="q" placeholder="{% trans 'Search products…' %}" maxlength="100" autocomplete="off">
+        </form>
+        <div class="psb-cta">
+          {% if user.is_authenticated %}
+          <a class="btn btn-primary" href="{% url 'dashboard:home' %}">{% trans "Dashboard" %}</a>
+          {% else %}
+          <a class="btn btn-primary" href="{% url 'accounts:login' %}">{% trans "Log in" %}</a>
+          <a class="btn" href="{% url 'accounts:register' %}">{% trans "Sign up" %}</a>
+          {% endif %}
+          <a class="btn btn-accent" href="{% url 'core:how_to_sell' %}">{% trans "How to sell" %}</a>
+        </div>
+      </div>
+
+      <nav class="psb-nav" aria-label="{% trans 'Site navigation' %}">
+        <section class="psb-col" aria-labelledby="psb-h-market">
+          <h2 id="psb-h-market">{% trans "Marketplace" %}</h2>
+          <a href="{% url 'core:home' %}" {% if view == 'core:home' %}aria-current="page"{% endif %}>{% trans "Home" %}</a>
+          <a href="{% url 'products:explore' %}" {% if view == 'products:explore' %}aria-current="page"{% endif %}>{% trans "Explore products" %}</a>
+          <a href="{% url 'products:popular' %}">{% trans "Popular" %}</a>
+          <a href="{% url 'products:new' %}">{% trans "New" %}</a>
+          <a href="{% url 'products:top_rated' %}">{% trans "Top rated" %}</a>
+          <a href="{% url 'products:free' %}">{% trans "Free products" %}</a>
+          <a href="{% url 'products:premium' %}">{% trans "Premium products" %}</a>
+          <a href="{% url 'sellers:list' %}" {% if view == 'sellers:list' %}aria-current="page"{% endif %}>{% trans "Sellers" %}</a>
+        </section>
+
+        <section class="psb-col" aria-labelledby="psb-h-cats">
+          <h2 id="psb-h-cats">{% trans "Categories" %}</h2>
+          {% for c in NAV_CATEGORIES %}<a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+          {% empty %}<span class="psb-empty">{% trans "No categories yet" %}</span>{% endfor %}
+        </section>
+
+        <section class="psb-col" aria-labelledby="psb-h-sell">
+          <h2 id="psb-h-sell">{% trans "Sell" %}</h2>
+          <a href="{% url 'core:how_to_sell' %}">{% trans "How to sell" %}</a>
+          <a href="{% url 'sellers:pricing' %}" {% if view == 'sellers:pricing' %}aria-current="page"{% endif %}>{% trans "Pricing" %}</a>
+          <a href="{% url 'core:affiliate' %}">{% trans "Affiliate program" %}</a>
+          <a href="{% url 'core:legal' 'seller-terms' %}">{% trans "Seller policy" %}</a>
+        </section>
+
+        <section class="psb-col" aria-labelledby="psb-h-help">
+          <h2 id="psb-h-help">{% trans "Help & company" %}</h2>
+          <a href="{% url 'core:help' %}">{% trans "Help center" %}</a>
+          <a href="{% url 'core:how_to_buy' %}">{% trans "How to buy" %}</a>
+          <a href="{% url 'core:license_guide' %}">{% trans "License guide" %}</a>
+          <a href="{% url 'core:faq' %}">{% trans "FAQ" %}</a>
+          <a href="{% url 'core:docs' %}">{% trans "Documentation" %}</a>
+          <a href="{% url 'core:about' %}">{% trans "About" %}</a>
+          <a href="{% url 'core:mission' %}">{% trans "Our mission" %}</a>
+          <a href="{% url 'core:contact' %}">{% trans "Support" %}</a>
+          <a href="{% url 'core:download' %}">{% trans "Install the app" %}</a>
+        </section>
+      </nav>
+    </div>
+
+    <footer class="psb-foot">
+      <div class="psb-tools">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="{% trans 'Toggle dark mode' %}">{% icon "moon" 20 %}</button>
+        <form action="{% url 'set_language' %}" method="post" class="psb-lang">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+          {% get_available_languages as LANGUAGES %}{% get_current_language as LANG %}{% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}" {% if code == LANG %}aria-current="true"{% endif %}>{{ code|upper }}</button>{% endfor %}
+        </form>
+      </div>
+      <p class="psb-legal">
+        <a href="{% url 'core:legal' 'privacy' %}">{% trans "Privacy" %}</a>
+        <a href="{% url 'core:legal' 'terms' %}">{% trans "Terms" %}</a>
+        <a href="{% url 'core:legal' 'cookies' %}">{% trans "Cookies" %}</a>
+        <a href="{% url 'core:legal' 'refund' %}">{% trans "Refund policy" %}</a>
+        <a href="{% url 'core:legal' 'ip' %}">{% trans "Intellectual property" %}</a>
+        <a href="{% url 'core:legal' 'report' %}">{% trans "Report content" %}</a>
+      </p>
+    </footer>
+  </div>
+</div>
+{% endwith %}
