@@ -194,9 +194,6 @@
 @media(max-width:600px) { .market-search .market-search-btn { padding:0; } }
 
 /* Barre d'outils + barre latérale de l'accueil (plein écran à l'ouverture) */
-.market-toolbar { display:flex;align-items:center;padding:14px 0 0; }
-.market-menu-btn { display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border:1px solid var(--color-border);border-radius:10px;background:var(--color-surface);color:var(--color-text);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer;transition:border-color .18s; }
-.market-menu-btn:hover { border-color:var(--color-accent-2);color:var(--color-link); }
 .home-sidebar-lock { overflow:hidden; }
 .home-sidebar { position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;z-index:2000;display:flex;flex-direction:column;background:var(--color-surface);color:var(--color-text);overflow-y:auto;opacity:0;transform:translateX(-100%);transition:transform .25s ease,opacity .25s ease; }
 .home-sidebar[hidden] { display:none; }
