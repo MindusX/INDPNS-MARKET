@@ -4,11 +4,19 @@
 {% block meta_description %}{% trans "Discover software, source code, templates, plugins, AI tools and digital products from independent creators around the world." %}{% endblock %}
 {% block main_class %}market-home{% endblock %}
 {% block content %}
+{% include "public/components/home_sidebar.html" %}
 <div class="market-home-page">
   <div class="market-announcement">
     <span class="market-announcement-dot"></span>
     {% trans "Discover software, tools and resources made for your next big idea." %}
     <a href="{% url 'products:explore' %}">{% trans "Explore the marketplace" %} →</a>
+  </div>
+
+  <div class="market-toolbar">
+    <button class="market-menu-btn" type="button" data-home-sidebar-open aria-controls="home-sidebar" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <span>{% trans "Menu" %}</span>
+    </button>
   </div>
 
   <section class="market-intro" aria-labelledby="market-title">
@@ -20,7 +28,7 @@
         {% icon "search" 20 %}
         <label class="sr-only" for="market-home-q">{% trans "Search the marketplace" %}</label>
         <input id="market-home-q" type="search" name="q" placeholder="{% trans 'What are you looking for today?' %}" maxlength="100" autocomplete="off">
-        <button class="btn btn-primary market-search-submit" type="submit" aria-label="{% trans 'Search' %}" title="{% trans 'Search' %}">{% icon "search" 19 %}</button>
+        <button class="btn btn-primary market-search-btn" type="submit" aria-label="{% trans 'Search' %}" title="{% trans 'Search' %}">{% icon "search" 20 %}</button>
       </form>
       {% if categories %}
       <div class="market-trending">
