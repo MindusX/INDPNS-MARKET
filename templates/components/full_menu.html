@@ -1,0 +1,86 @@
+{% load i18n core_tags %}
+{% comment %}
+  Menu plein écran des pages publiques et d'authentification (ouvert par le bouton menu de la barre horizontale : [data-sidebar-open]).
+  Remplace components/sidebar.html sur ces pages (le tableau de bord garde l'ancienne barre latérale).
+  Comportement : static/js/modules/fullmenu.js · styles : static/css/fullmenu.css.
+  Sécurité : affichage de liens uniquement ; le contrôle d'accès reste côté backend.
+{% endcomment %}
+<div class="fm" id="full-menu" role="dialog" aria-modal="true" aria-label="{% trans 'Main menu' %}" tabindex="-1" data-fullmenu>
+  <header class="fm-top">
+    <a class="brand" href="{% url 'core:home' %}" aria-label="INDPNS Market">{% include "components/brand.html" %}</a>
+    <button class="icon-btn fm-close" type="button" data-fullmenu-close aria-label="{% trans 'Close menu' %}">{% icon "x" 22 %}</button>
+  </header>
+
+  <div class="fm-scroll">
+    <div class="fm-body">
+      <form class="fm-search" action="{% url 'products:search' %}" method="get" role="search">
+        {% icon "search" 20 %}
+        <label class="sr-only" for="fm-q">{% trans "Search products…" %}</label>
+        <input id="fm-q" type="search" name="q" placeholder="{% trans 'Search products…' %}" maxlength="100" autocomplete="off">
+      </form>
+
+      {% if not user.is_authenticated %}
+      <div class="fm-auth">
+        <a class="btn btn-primary" href="{% url 'accounts:login' %}">{% trans "Log in" %}</a>
+        <a class="btn" href="{% url 'accounts:register' %}">{% trans "Sign up" %}</a>
+      </div>
+      {% endif %}
+
+      <div class="fm-cols">
+        <nav class="fm-col" aria-label="{% trans 'Marketplace' %}">
+          <h2>{% trans "Marketplace" %}</h2>
+          <a href="{% url 'core:home' %}">{% trans "Home" %}</a>
+          <a href="{% url 'products:explore' %}">{% trans "Explore products" %}</a>
+          <a href="{% url 'products:popular' %}">{% trans "Popular" %}</a>
+          <a href="{% url 'products:new' %}">{% trans "New" %}</a>
+          <a href="{% url 'products:top_rated' %}">{% trans "Top rated" %}</a>
+          <a href="{% url 'products:premium' %}">{% trans "Premium products" %}</a>
+          <a href="{% url 'sellers:list' %}">{% trans "Sellers" %}</a>
+          <a href="{% url 'sellers:pricing' %}">{% trans "Pricing" %}</a>
+        </nav>
+
+        <nav class="fm-col" aria-label="{% trans 'Categories' %}">
+          <h2>{% trans "Categories" %}</h2>
+          {% for c in NAV_CATEGORIES %}<a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+          {% empty %}<span class="fm-empty">{% trans "No categories yet" %}</span>{% endfor %}
+        </nav>
+
+        <nav class="fm-col" aria-label="{% trans 'Help & company' %}">
+          <h2>{% trans "Help & company" %}</h2>
+          <a href="{% url 'core:about' %}">{% trans "About" %}</a>
+          <a href="{% url 'core:help' %}">{% trans "Help center" %}</a>
+          <a href="{% url 'core:faq' %}">{% trans "FAQ" %}</a>
+          <a href="{% url 'core:contact' %}">{% trans "Support" %}</a>
+        </nav>
+
+        {% if user.is_authenticated %}
+        <nav class="fm-col" aria-label="{% trans 'My account' %}">
+          <h2>{% trans "My account" %}</h2>
+          <a href="{% url 'dashboard:home' %}">{% trans "Dashboard" %}</a>
+          <a href="{% url 'dashboard:buyer_orders' %}">{% trans "My purchases" %}</a>
+          <a href="{% url 'dashboard:buyer_library' %}">{% trans "My downloads" %}</a>
+          <a href="{% url 'dashboard:buyer_favorites' %}">{% trans "My favorites" %}</a>
+          <a href="{% url 'dashboard:buyer_notifications' %}">{% trans "Notifications" %}{% if unread_notifications %} <span class="fm-count">{{ unread_notifications }}</span>{% endif %}</a>
+          <a href="{% url 'dashboard:buyer_profile' %}">{% trans "Profile & settings" %}</a>
+          {% if user.is_seller %}<a href="{% url 'dashboard:seller_home' %}">{% trans "Seller overview" %}</a>{% endif %}
+          {% if user.is_internal %}<a href="{% url 'dashboard:admin_home' %}">{% trans "Admin overview" %}</a>{% endif %}
+        </nav>
+        {% endif %}
+      </div>
+
+      <div class="fm-foot">
+        <a class="btn btn-accent" href="{% if user.is_authenticated and user.is_seller %}{% url 'dashboard:seller_home' %}{% else %}{% url 'accounts:become_seller' %}{% endif %}">{% if user.is_authenticated and user.is_seller %}{% trans "Open seller space" %}{% else %}{% trans "Become a seller" %}{% endif %}</a>
+        <div class="fm-tools">
+          <button class="icon-btn" type="button" data-theme-toggle {% if user.is_authenticated %}data-save-url="{% url 'dashboard:set_theme' %}"{% endif %} aria-label="{% trans 'Toggle dark mode' %}">{% icon "moon" 20 %}</button>
+          <form action="{% url 'set_language' %}" method="post" class="fm-lang">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}">
+            {% get_available_languages as LANGUAGES %}{% get_current_language as LANG %}{% for code, name in LANGUAGES %}<button type="submit" name="language" value="{{ code }}" {% if code == LANG %}aria-current="true"{% endif %}>{{ code|upper }}</button>{% endfor %}
+          </form>
+          {% if user.is_authenticated %}
+          <form action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="btn btn-sm" type="submit">{% icon "logout" 16 %} {% trans "Log out" %}</button></form>
+          {% endif %}
+        </div>
+        <p class="fm-legal"><a href="{% url 'core:legal' 'privacy' %}">{% trans "Privacy" %}</a><a href="{% url 'core:legal' 'terms' %}">{% trans "Terms" %}</a><a href="{% url 'core:legal' 'cookies' %}">{% trans "Cookies" %}</a></p>
+      </div>
+    </div>
+  </div>
+</div>
