@@ -6,7 +6,6 @@
   <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/public.css' %}">
   <link rel="stylesheet" href="{% static 'css/auth.css' %}">
-  <link rel="stylesheet" href="{% static 'css/public_sidebar.css' %}">
 </head>
 <body>
 <div class="auth-split">
@@ -23,7 +22,7 @@
     {% include "auth/components/auth_footer.html" %}
   </div>
 </div>
-{% include "components/public_sidebar.html" %}
+{% include "components/full_menu.html" %}
 <script type="module" src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
