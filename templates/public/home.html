@@ -20,7 +20,7 @@
         {% icon "search" 20 %}
         <label class="sr-only" for="market-home-q">{% trans "Search the marketplace" %}</label>
         <input id="market-home-q" type="search" name="q" placeholder="{% trans 'What are you looking for today?' %}" maxlength="100" autocomplete="off">
-        <button class="btn btn-primary" type="submit">{% trans "Search" %}</button>
+        <button class="btn btn-primary market-search-submit" type="submit" aria-label="{% trans 'Search' %}" title="{% trans 'Search' %}">{% icon "search" 19 %}</button>
       </form>
       {% if categories %}
       <div class="market-trending">
