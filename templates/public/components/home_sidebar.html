@@ -52,8 +52,14 @@
 (function () {
   var sb = document.getElementById('home-sidebar');
   if (!sb) return;
-  var openers = document.querySelectorAll('[data-home-sidebar-open]');
   var lastFocus = null;
+  // Bouton menu EXISTANT de la navbar (en haut à gauche) : premier élément de .navbar-inner
+  function navMenuBtn() {
+    var inner = document.querySelector('.navbar-inner');
+    var first = inner && inner.firstElementChild;
+    return (first && !first.matches('.brand, nav, form')) ? first : null;
+  }
+  var openers = [];
   function setOpen(open) {
     if (open) {
       lastFocus = document.activeElement;
@@ -69,9 +75,17 @@
       if (lastFocus && lastFocus.focus) lastFocus.focus();
     }
     sb.setAttribute('aria-hidden', open ? 'false' : 'true');
-    openers.forEach(function (b) { b.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+    var b = navMenuBtn(); if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
-  openers.forEach(function (b) { b.addEventListener('click', function () { setOpen(true); }); });
+  // Phase de capture : on prend le clic avant l'ancien comportement du bouton
+  document.addEventListener('click', function (e) {
+    var b = navMenuBtn();
+    if (b && b.contains(e.target)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      setOpen(!sb.classList.contains('is-open'));
+    }
+  }, true);
   sb.querySelectorAll('[data-home-sidebar-close]').forEach(function (b) { b.addEventListener('click', function () { setOpen(false); }); });
   sb.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && sb.classList.contains('is-open')) setOpen(false); });
