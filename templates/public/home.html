@@ -3,8 +3,15 @@
 {% block title %}{{ SITE_NAME }} — {% trans "Discover digital products" %}{% endblock %}
 {% block meta_description %}{% trans "Discover software, source code, templates, plugins, AI tools and digital products from independent creators around the world." %}{% endblock %}
 {% block main_class %}market-home{% endblock %}
+{% block extra_head %}
+<link rel="preload" as="image" type="image/webp" href="{% static 'images/hero/space-hero.webp' %}" imagesrcset="{% static 'images/hero/space-hero-sm.webp' %} 900w, {% static 'images/hero/space-hero.webp' %} 1672w" imagesizes="100vw" fetchpriority="high">
+{% endblock %}
 {% block content %}
 <div class="market-home-page">
+  <div class="market-hero">
+    <div class="market-hero-bg" aria-hidden="true">
+      <img src="{% static 'images/hero/space-hero.webp' %}" srcset="{% static 'images/hero/space-hero-sm.webp' %} 900w, {% static 'images/hero/space-hero.webp' %} 1672w" sizes="100vw" width="1672" height="941" alt="" fetchpriority="high" decoding="async">
+    </div>
   <div class="market-announcement">
     <span class="market-announcement-dot"></span>
     {% trans "Discover software, tools and resources made for your next big idea." %}
@@ -36,6 +43,7 @@
       <a href="{% url 'products:explore' %}">{% trans "Browse all products" %} →</a>
     </div>
   </section>
+  </div>
 
   {% if categories %}
   <nav class="market-category-nav" aria-label="{% trans 'Browse categories' %}">
