@@ -23,10 +23,10 @@
   {% endif %}
 
   <header class="pp-hero">
-    <div class="pp-cover">{% if profile.cover %}<img src="{{ profile.cover.url }}" alt="" width="1500" height="500" fetchpriority="high" decoding="async">{% endif %}</div>
+    <div class="pp-cover">{% if profile.cover %}<img src="{{ profile.cover.url }}" alt="" width="1500" height="500" fetchpriority="high" decoding="async" onerror="this.hidden=true">{% endif %}</div>
     <div class="pp-card">
       <div class="pp-top">
-        <div class="pp-avatar">{% if profile.avatar %}<img src="{{ profile.avatar.url }}" alt="{{ profile.display_name }}" width="512" height="512" decoding="async">{% else %}<span aria-hidden="true">{{ profile.avatar_initial }}</span>{% endif %}</div>
+        <div class="pp-avatar"><span aria-hidden="true">{{ profile.avatar_initial }}</span>{% if profile.avatar %}<img src="{{ profile.avatar.url }}" alt="{{ profile.display_name }}" width="512" height="512" decoding="async" onerror="this.hidden=true">{% endif %}</div>
         <div class="pp-actions">
           {% if is_owner %}<a class="btn btn-primary" href="{% url 'dashboard:buyer_profile' %}">{% trans "Edit profile" %}</a>{% endif %}
           {% if shop %}<a class="btn" href="{{ shop.get_absolute_url }}">{% icon "store" 16 %} {% trans "Visit shop" %}</a>{% endif %}

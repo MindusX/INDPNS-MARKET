@@ -16,6 +16,15 @@ from .conftest_helpers import make_product, make_seller, make_user, seed
 TMP_MEDIA = tempfile.mkdtemp(prefix="indpns-test-media-")
 
 
+def read_field(fieldfile):
+    """Contenu binaire d'un champ image, quel que soit le stockage (disque ou base de données)."""
+    fieldfile.open("rb")
+    try:
+        return fieldfile.read()
+    finally:
+        fieldfile.close()
+
+
 def png(size=(800, 600), fmt="PNG", name="photo.png", color=(30, 90, 200)):
     buf = io.BytesIO()
     Image.new("RGB", size, color).save(buf, fmt)
@@ -92,12 +101,12 @@ class ProfileFormTests(TestCase):
         u = f.save()
         self.assertTrue(u.avatar.name.startswith("profiles/avatars/") and u.avatar.name.endswith(".webp"))
         self.assertNotIn("photo", u.avatar.name)                      # le nom d'origine n'est jamais conservé
-        with Image.open(u.avatar.path) as img:
+        with Image.open(io.BytesIO(read_field(u.avatar))) as img:
             self.assertEqual((img.size, img.format), ((512, 512), "WEBP"))
 
     def test_cover_is_cropped_to_banner_ratio(self):
         u = self.form(files={"cover": png((2400, 1500))}).save()
-        with Image.open(u.cover.path) as img:
+        with Image.open(io.BytesIO(read_field(u.cover))) as img:
             self.assertEqual(img.size, (1500, 500))
 
     def test_exif_metadata_is_stripped(self):
@@ -108,8 +117,7 @@ class ProfileFormTests(TestCase):
         f = self.form(files={"avatar": SimpleUploadedFile("a.jpg", buf.getvalue(), content_type="image/jpeg")})
         self.assertTrue(f.is_valid(), f.errors)
         u = f.save()
-        with open(u.avatar.path, "rb") as fh:
-            self.assertNotIn(b"SecretCamera", fh.read())
+        self.assertNotIn(b"SecretCamera", read_field(u.avatar))
 
     def test_fake_image_rejected(self):
         fake = SimpleUploadedFile("evil.png", b"<?php system($_GET['c']); ?>", content_type="image/png")
@@ -129,16 +137,17 @@ class ProfileFormTests(TestCase):
 
     def test_replacing_and_removing_images_deletes_old_files(self):
         u = self.form(files={"avatar": png()}).save()
-        old = u.avatar.path
+        old, storage = u.avatar.name, u.avatar.storage
+        self.assertTrue(storage.exists(old))
         u = self.form(files={"avatar": png(color=(200, 50, 50))}, user=User.objects.get(pk=u.pk)).save()
-        self.assertNotEqual(old, u.avatar.path)
-        self.assertFalse(__import__("os").path.exists(old))
-        newest = u.avatar.path
+        self.assertNotEqual(old, u.avatar.name)
+        self.assertFalse(storage.exists(old))
+        newest = u.avatar.name
         f = self.form(base_data(remove_avatar="on"), user=User.objects.get(pk=u.pk))
         self.assertTrue(f.is_valid(), f.errors)
         u = f.save()
         self.assertFalse(u.avatar)
-        self.assertFalse(__import__("os").path.exists(newest))
+        self.assertFalse(storage.exists(newest))
 
     def test_keeping_form_untouched_keeps_images(self):
         u = self.form(files={"avatar": png()}).save()

@@ -6,12 +6,13 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
 from django.db import connection
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseNotModified, JsonResponse
 from django.shortcuts import redirect, render
 from django.template import TemplateDoesNotExist
 from django.templatetags.static import static
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_safe
 
 from apps.catalog.models import Category
 from apps.products.models import Favorite, Product
@@ -134,3 +135,31 @@ def error_404(request, exception=None):
 
 def error_500(request):
     return render(request, "errors/500.html", status=500)
+
+
+@require_safe
+def stored_media(request, name):
+    """Sert les médias publics stockés en base (/media/<nom>). Les noms sont aléatoires (uuid) : cache immuable d'un an.
+    Défense en profondeur : seuls les vrais types image sont affichés ; tout le reste est forcé en téléchargement ;
+    la CSP « sandbox » neutralise tout script, même dans un SVG."""
+    from .models import StoredFile
+
+    row = StoredFile.objects.filter(name=name).first()
+    if row is None:
+        if settings.DEBUG:      # développement : repli sur le disque (MEDIA_ROOT)
+            from django.views.static import serve
+            return serve(request, name, document_root=settings.MEDIA_ROOT)
+        raise Http404
+    etag = f'"{row.pk}-{row.size}"'
+    if request.headers.get("If-None-Match") == etag:
+        resp = HttpResponseNotModified()
+    else:
+        is_image = (row.content_type or "").startswith("image/") and row.content_type != "image/svg+xml"
+        resp = HttpResponse(bytes(row.content), content_type=row.content_type if is_image else "application/octet-stream")
+        if not is_image:
+            resp["Content-Disposition"] = "attachment"
+    resp["ETag"] = etag
+    resp["Cache-Control"] = "public, max-age=31536000, immutable"
+    resp["X-Content-Type-Options"] = "nosniff"
+    resp["Content-Security-Policy"] = "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox"
+    return resp

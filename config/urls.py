@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+
+from apps.core import views as core_views
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
@@ -18,6 +20,8 @@ urlpatterns = [
     path("", include("apps.sellers.urls")),
     path("", include("apps.core.urls")),
 ]
+if not settings.S3_ENABLED:     # sans S3 : les médias publics sont stockés en base et servis par Django (voir apps/core/storage.py)
+    urlpatterns.insert(0, re_path(r"^media/(?P<name>.+)$", core_views.stored_media, name="stored_media"))
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

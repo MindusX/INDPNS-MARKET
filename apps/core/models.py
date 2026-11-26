@@ -29,3 +29,17 @@ class ContactMessage(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+
+class StoredFile(models.Model):
+    """Fichier PUBLIC (images de profil, couvertures, logos…) stocké dans la base de données.
+    Sert de stockage par défaut quand aucun S3 n'est configuré : le disque de Render est éphémère (effacé à chaque
+    déploiement), la base Neon, elle, est persistante. Voir apps/core/storage.py (DatabaseStorage)."""
+    name = models.CharField(max_length=300, unique=True)
+    content = models.BinaryField()
+    content_type = models.CharField(max_length=100, blank=True)
+    size = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

@@ -14,6 +14,11 @@ function initImages(form) {
     const err = form.querySelector(`[data-pf-error="${kind}"]`);
     const remove = form.querySelector(`[data-pf-remove="${kind}"]`);
     let blobUrl = null;
+    if (img) {                                        // image enregistrée introuvable : placeholder plutôt qu'icône « image cassée »
+      const broken = () => { if (!blobUrl) box.classList.remove("has-image"); };
+      img.addEventListener("error", broken);
+      if (img.getAttribute("src") && img.complete && img.naturalWidth === 0) broken();
+    }
     const showError = (msg) => { if (!err) return; err.textContent = msg || ""; err.hidden = !msg; };
 
     input.addEventListener("change", () => {
