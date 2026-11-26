@@ -1,9 +1,23 @@
+import uuid
+
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
+from .profile_rules import validate_username
+
 ROLE_ORDER = ["buyer", "seller", "moderator", "support", "admin", "superadmin"]
+
+
+def avatar_upload_to(instance, filename):
+    # Nom aléatoire : le nom de fichier fourni par l'utilisateur n'est jamais conservé (voir accounts/images.py).
+    return f"profiles/avatars/{uuid.uuid4().hex}.webp"
+
+
+def cover_upload_to(instance, filename):
+    return f"profiles/covers/{uuid.uuid4().hex}.webp"
 
 
 class UserManager(BaseUserManager):
@@ -39,6 +53,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     preferred_language = models.CharField(max_length=5, default="en")
     theme = models.CharField(max_length=8, choices=THEME_CHOICES, default="light")
     totp_enabled = models.BooleanField(default=False)   # 2FA TOTP : champ réservé (non implémenté)
+
+    # ----- Profil public (partageable : /u/<username>/) -----
+    username = models.CharField(max_length=30, unique=True, null=True, blank=True, default=None, validators=[validate_username],
+                                help_text="Identifiant public : indpns.com/u/<identifiant>")
+    avatar = models.ImageField(upload_to=avatar_upload_to, blank=True)
+    cover = models.ImageField(upload_to=cover_upload_to, blank=True)
+    headline = models.CharField(max_length=100, blank=True)
+    bio = models.TextField(max_length=600, blank=True)
+    location = models.CharField(max_length=80, blank=True)
+    website = models.URLField(blank=True)
+    github = models.CharField(max_length=39, blank=True)
+    twitter = models.CharField(max_length=15, blank=True)
+    linkedin = models.CharField(max_length=100, blank=True)
+    profile_public = models.BooleanField(default=False)   # opt-in : rien n'est public tant que l'utilisateur ne l'a pas choisi
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
@@ -55,6 +83,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.display_name or self.email.split("@")[0]
+
+    @property
+    def has_public_page(self):
+        """Vrai si le lien public existe ET est ouvert à tous."""
+        return bool(self.username and self.profile_public and self.is_active)
+
+    def get_public_url(self):
+        return reverse("profiles:detail", args=[self.username]) if self.username else ""
+
+    @property
+    def avatar_initial(self):
+        return (self.get_short_name() or "?")[:1].upper()
 
     def has_role_at_least(self, role):
         if self.is_superuser:

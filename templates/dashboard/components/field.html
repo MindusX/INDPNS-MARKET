@@ -1,0 +1,2 @@
+{% comment %}Champ de formulaire standard (libellé, aide, erreurs). Usage : {% include "dashboard/components/field.html" with field=form.bio %}{% endcomment %}
+<div class="field{% if field.errors %} has-error{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}{{ field.errors }}</div>

@@ -13,6 +13,7 @@ urlpatterns = [
     path("checkout/", include("apps.orders.urls")),
     path("files/", include("apps.orders.urls_downloads")),
     path("api/v1/", include("apps.products.api_urls")),
+    path("", include("apps.accounts.public_urls")),   # profils publics : /u/<username>/
     path("", include("apps.products.urls")),
     path("", include("apps.sellers.urls")),
     path("", include("apps.core.urls")),

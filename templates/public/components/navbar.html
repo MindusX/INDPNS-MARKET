@@ -33,12 +33,14 @@
       {% if user.is_authenticated %}
         <a class="icon-btn hide-mobile" href="{% url 'dashboard:buyer_notifications' %}" aria-label="{% trans 'Notifications' %}">{% icon "bell" 20 %}{% if unread_notifications %}<span class="dot">{{ unread_notifications }}</span>{% endif %}</a>
         <div class="dropdown">
-          <button class="icon-btn" type="button" data-dropdown aria-label="{% trans 'Account' %}" aria-expanded="false">{% icon "user" 20 %}</button>
+          <button class="icon-btn" type="button" data-dropdown aria-label="{% trans 'Account' %}" aria-expanded="false">{% if user.avatar %}<img src="{{ user.avatar.url }}" alt="" width="30" height="30" style="width:30px;height:30px;border-radius:50%;object-fit:cover">{% else %}{% icon "user" 20 %}{% endif %}</button>
           <div class="dropdown-menu">
             <div style="padding:8px 10px"><strong>{{ user.get_short_name }}</strong><div class="muted" style="font-size:.8rem">{{ user.email }}</div></div><div class="sep"></div>
             <a href="{% url 'dashboard:home' %}">{% icon "dashboard" 16 %} {% trans "Dashboard" %}</a>
             <a href="{% url 'dashboard:buyer_library' %}">{% icon "download" 16 %} {% trans "My library" %}</a>
             <a href="{% url 'dashboard:buyer_favorites' %}">{% icon "heart" 16 %} {% trans "Favorites" %}</a>
+            <a href="{% url 'dashboard:buyer_profile' %}">{% icon "settings" 16 %} {% trans "Profile & settings" %}</a>
+            {% if user.username %}<a href="{{ user.get_public_url }}">{% icon "user" 16 %} {% trans "My public profile" %}</a>{% endif %}
             <div class="sep"></div>
             <form action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button type="submit">{% icon "logout" 16 %} {% trans "Log out" %}</button></form>
           </div>

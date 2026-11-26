@@ -1,14 +1,18 @@
-# Image d'arrière-plan de la page d'accueil — INDPNS Market
+# Profil avancé + lien public partageable — INDPNS Market
 
-Copier le contenu du zip PAR-DESSUS le projet, aux mêmes chemins. Aucun fichier Python, route ou migration modifié.
+Copier le contenu du zip PAR-DESSUS le projet (mêmes chemins).
 
-## Créés (2)
-- static/images/hero/space-hero.webp      (1672x941, 129 Ko — l'original pesait 1,7 Mo)
-- static/images/hero/space-hero-sm.webp   (900x507, 49 Ko — servi automatiquement sur mobile)
-
-## Modifiés (2)
-- templates/public/home.html  -> préchargement de l'image + bloc .market-hero (image derrière l'annonce et l'intro)
-- static/css/home.css         -> bloc ajouté en fin de fichier (le reste est inchangé)
-
-## Après déploiement
+## Après copie (obligatoire : nouveaux champs sur User)
+python manage.py makemigrations accounts
+python manage.py migrate
 python manage.py collectstatic --noinput
+python manage.py test tests.test_profiles
+
+## Nouveautés
+- Page Profil & paramètres : photo, couverture, nom, identifiant, accroche, bio, localisation, site, GitHub / X / LinkedIn, visibilité.
+- Lien public : /u/<identifiant>/ (privé par défaut, l'utilisateur l'active). Boutons Copier / Partager.
+- Images ré-encodées en WebP (recadrage, EXIF supprimé, nom aléatoire) ; refus des faux fichiers, SVG, GIF.
+- Avatar affiché dans la barre du dashboard et le menu du site.
+
+## Attention production
+Sans stockage S3 configuré, les images vont sur le disque local de Render (éphémère, perdu à chaque déploiement). Configurez S3 (variables AWS_*) pour conserver les photos.

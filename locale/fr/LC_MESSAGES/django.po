@@ -797,3 +797,225 @@ msgstr "Politique de remboursement"
 
 msgid "Report content"
 msgstr "Signaler un contenu"
+
+msgid "%(name)s on INDPNS Market"
+msgstr "%(name)s sur INDPNS Market"
+
+msgid "A short line under your name, e.g. “Full-stack developer & UI designer”."
+msgstr "Une courte ligne sous votre nom, p. ex. « Développeur full-stack et designer UI »."
+
+msgid "About you"
+msgstr "À propos de vous"
+
+msgid "Account preferences"
+msgstr "Préférences du compte"
+
+msgid "Add a short bio in your settings so visitors know who you are."
+msgstr "Ajoutez une courte biographie dans vos paramètres pour que les visiteurs sachent qui vous êtes."
+
+msgid "Add your website and social profiles. Paste a username or a full URL."
+msgstr "Ajoutez votre site web et vos réseaux. Collez un identifiant ou une URL complète."
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Change cover"
+msgstr "Changer la couverture"
+
+msgid "Change photo"
+msgstr "Changer la photo"
+
+msgid "Choose a username above, then turn on “Make my profile public” to get your link."
+msgstr "Choisissez un identifiant ci-dessus, puis activez « Rendre mon profil public » pour obtenir votre lien."
+
+msgid "Choose a username to make your profile public."
+msgstr "Choisissez un identifiant pour rendre votre profil public."
+
+msgid "City or country (optional)."
+msgstr "Ville ou pays (facultatif)."
+
+msgid "Copy"
+msgstr "Copier"
+
+msgid "Copy link"
+msgstr "Copier le lien"
+
+msgid "Cover image"
+msgstr "Image de couverture"
+
+msgid "Display name"
+msgstr "Nom affiché"
+
+msgid "Edit profile"
+msgstr "Modifier le profil"
+
+msgid "Enter your username or the full URL of your profile."
+msgstr "Saisissez votre identifiant ou l’URL complète de votre profil."
+
+msgid "GitHub"
+msgstr "GitHub"
+
+msgid "Headline"
+msgstr "Accroche"
+
+msgid "Image too large (max 5 MB)."
+msgstr "Image trop lourde (5 Mo maximum)."
+
+msgid "Image too small: minimum %(w)s × %(h)s pixels."
+msgstr "Image trop petite : minimum %(w)s × %(h)s pixels."
+
+msgid "Images must be JPG, PNG or WebP."
+msgstr "Les images doivent être au format JPG, PNG ou WebP."
+
+msgid "JPG, PNG or WebP, up to 5 MB. Photo: square, at least 128 px. Cover: wide 3:1 format, 1500 × 500 px recommended."
+msgstr "JPG, PNG ou WebP, 5 Mo maximum. Photo : carrée, 128 px minimum. Couverture : format large 3:1, 1500 × 500 px recommandé."
+
+msgid "Latest products"
+msgstr "Derniers produits"
+
+msgid "LinkedIn"
+msgstr "LinkedIn"
+
+msgid "Links"
+msgstr "Liens"
+
+msgid "Location"
+msgstr "Localisation"
+
+msgid "Make my profile public"
+msgstr "Rendre mon profil public"
+
+msgid "My public profile"
+msgstr "Mon profil public"
+
+msgid "Only http:// and https:// links are allowed."
+msgstr "Seuls les liens http:// et https:// sont autorisés."
+
+msgid "Only you can see this page. Turn on “Make my profile public” in your settings to share it."
+msgstr "Vous seul voyez cette page. Activez « Rendre mon profil public » dans vos paramètres pour la partager."
+
+msgid "Only your name, photo, cover, bio, location and links are shown. Your email address is never displayed."
+msgstr "Seuls votre nom, photo, couverture, biographie, localisation et liens sont affichés. Votre adresse e-mail n’est jamais montrée."
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgid "Open settings"
+msgstr "Ouvrir les paramètres"
+
+msgid "Paris, France"
+msgstr "Paris, France"
+
+msgid "Please enter at least 2 characters."
+msgstr "Veuillez saisir au moins 2 caractères."
+
+msgid "Please fix the highlighted fields."
+msgstr "Veuillez corriger les champs signalés."
+
+msgid "Preview my profile"
+msgstr "Prévisualiser mon profil"
+
+msgid "Private preview"
+msgstr "Aperçu privé"
+
+msgid "Profile images"
+msgstr "Images du profil"
+
+msgid "Profile photo"
+msgstr "Photo de profil"
+
+msgid "Public identity"
+msgstr "Identité publique"
+
+msgid "Published products"
+msgstr "Produits publiés"
+
+msgid "Remove"
+msgstr "Supprimer"
+
+msgid "Remove my cover"
+msgstr "Supprimer ma couverture"
+
+msgid "Remove my photo"
+msgstr "Supprimer ma photo"
+
+msgid "Save changes"
+msgstr "Enregistrer les modifications"
+
+msgid "Share"
+msgstr "Partager"
+
+msgid "Shop"
+msgstr "Boutique"
+
+msgid "Signed in as"
+msgstr "Connecté en tant que"
+
+msgid "Tell visitors who you are and what you build. Plain text, up to 600 characters."
+msgstr "Dites aux visiteurs qui vous êtes et ce que vous créez. Texte simple, 600 caractères maximum."
+
+msgid "This file is not a valid image."
+msgstr "Ce fichier n’est pas une image valide."
+
+msgid "This image is corrupted or cannot be read."
+msgstr "Cette image est corrompue ou illisible."
+
+msgid "This image is too large. Please use one under 40 megapixels."
+msgstr "Cette image est trop grande. Utilisez-en une de moins de 40 mégapixels."
+
+msgid "This is what visitors see on your public profile."
+msgstr "Voici ce que les visiteurs voient sur votre profil public."
+
+msgid "This member hasn't written a bio yet."
+msgstr "Ce membre n’a pas encore écrit de biographie."
+
+msgid "This username does not look valid."
+msgstr "Cet identifiant ne semble pas valide."
+
+msgid "This username is already taken."
+msgstr "Cet identifiant est déjà pris."
+
+msgid "This username is reserved. Please choose another one."
+msgstr "Cet identifiant est réservé. Veuillez en choisir un autre."
+
+msgid "Use %(min)s–%(max)s characters: lowercase letters, numbers, hyphens or underscores. Start and end with a letter or number."
+msgstr "Utilisez %(min)s à %(max)s caractères : minuscules, chiffres, tirets ou underscores. Commencez et terminez par une lettre ou un chiffre."
+
+msgid "Username"
+msgstr "Identifiant"
+
+msgid "Username or profile URL."
+msgstr "Identifiant ou URL du profil."
+
+msgid "View all in shop"
+msgstr "Tout voir dans la boutique"
+
+msgid "View public profile"
+msgstr "Voir le profil public"
+
+msgid "Visibility & sharing"
+msgstr "Visibilité et partage"
+
+msgid "Visit shop"
+msgstr "Voir la boutique"
+
+msgid "Website"
+msgstr "Site web"
+
+msgid "What you do, in one line"
+msgstr "Ce que vous faites, en une ligne"
+
+msgid "X (Twitter)"
+msgstr "X (Twitter)"
+
+msgid "Your profile is currently private. Only you can open your link."
+msgstr "Votre profil est actuellement privé. Vous seul pouvez ouvrir votre lien."
+
+msgid "Your profile is private by default. Turn it on to get a link you can share anywhere."
+msgstr "Votre profil est privé par défaut. Activez-le pour obtenir un lien à partager partout."
+
+msgid "Your public link"
+msgstr "Votre lien public"
+
+msgid "Your public link: 3–30 characters, lowercase letters, numbers, - or _. Changing it breaks links you already shared."
+msgstr "Votre lien public : 3 à 30 caractères, minuscules, chiffres, - ou _. Le modifier casse les liens déjà partagés."

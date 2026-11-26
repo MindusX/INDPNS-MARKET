@@ -17,6 +17,7 @@ from apps.commissions.models import LedgerEntry
 from apps.commissions.services import platform_revenue, seller_available, seller_balance
 from apps.core.models import AuditLog
 from apps.core.permissions import seller_required, staff_role_required
+from apps.core.ratelimit import ratelimit
 from apps.core.services import audit
 from apps.licenses.models import License
 from apps.moderation.services import ModerationError, decide
@@ -120,13 +121,19 @@ def buyer_security(request):
 
 
 @login_required
+@ratelimit("profile", limit=40, window=600)
 def buyer_profile(request):
-    form = ProfileForm(request.POST or None, instance=request.user)
+    """Profil avancé : identité publique, photo, couverture, liens, visibilité (multipart)."""
+    form = ProfileForm(request.POST or None, request.FILES or None, instance=request.user)
     if request.method == "POST" and form.is_valid():
-        form.save()
+        user = form.save()
+        audit(user, "user.profile_updated", user, request, public=user.profile_public)
         messages.success(request, _("Profile saved."))
         return redirect("dashboard:buyer_profile")
-    return render(request, "dashboard/buyer/profile.html", context(request, "buyer", form=form))
+    if request.method == "POST":
+        messages.error(request, _("Please fix the highlighted fields."))
+    return render(request, "dashboard/buyer/profile.html", context(request, "buyer", form=form, profile_user=request.user,
+                   profile_url=request.build_absolute_uri(request.user.get_public_url()) if request.user.username else ""))
 
 
 # ======================= SELLER =======================

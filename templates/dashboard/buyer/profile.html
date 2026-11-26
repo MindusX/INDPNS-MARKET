@@ -1,5 +1,108 @@
 {% extends "dashboard/base_dashboard.html" %}
-{% load i18n core_tags %}
+{% load i18n static core_tags %}
 {% block title %}{% trans "Profile" %}{% endblock %}
-{% block content %}<div class="page-head"><h1>{% trans "Profile & settings" %}</h1></div>
-<form class="card form-card" method="post" novalidate>{% csrf_token %}{% include "auth/_form.html" %}<p class="muted">{{ user.email }}</p><button class="btn btn-primary" type="submit">{% trans "Save" %}</button></form>{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/profile.css' %}">{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1>{% trans "Profile & settings" %}</h1>
+  {% if profile_user.username %}<a class="btn" href="{{ profile_user.get_public_url }}" target="_blank" rel="noopener">{% if profile_user.profile_public %}{% trans "View public profile" %}{% else %}{% trans "Preview my profile" %}{% endif %}</a>{% endif %}
+</div>
+
+<form class="pf" method="post" enctype="multipart/form-data" novalidate data-pf data-msg-type="{% trans 'Images must be JPG, PNG or WebP.' %}" data-msg-size="{% trans 'Image too large (max 5 MB).' %}">
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="message error">{{ form.non_field_errors }}</div>{% endif %}
+
+  {# ---------- Images : couverture + photo ---------- #}
+  <section class="card pf-card pf-hero" aria-labelledby="pf-h-images">
+    <h2 class="sr-only" id="pf-h-images">{% trans "Profile images" %}</h2>
+    <div class="pf-cover pf-media{% if profile_user.cover %} has-image{% endif %}" data-pf-box="cover">
+      <img src="{% if profile_user.cover %}{{ profile_user.cover.url }}{% endif %}" data-pf-img data-orig="{% if profile_user.cover %}{{ profile_user.cover.url }}{% endif %}" alt="">
+      <div class="pf-cover-actions">
+        <label class="btn btn-sm pf-file">{% icon "plus" 16 %}<span>{% trans "Change cover" %}</span>{{ form.cover }}</label>
+        {% if profile_user.cover %}<label class="pf-remove">{{ form.remove_cover }}<span>{% trans "Remove" %}</span></label>{% endif %}
+      </div>
+    </div>
+    <div class="pf-avatar-row">
+      <div class="pf-avatar pf-media{% if profile_user.avatar %} has-image{% endif %}" data-pf-box="avatar">
+        <img src="{% if profile_user.avatar %}{{ profile_user.avatar.url }}{% endif %}" data-pf-img data-orig="{% if profile_user.avatar %}{{ profile_user.avatar.url }}{% endif %}" alt="">
+        <span class="pf-initial" aria-hidden="true">{{ profile_user.avatar_initial }}</span>
+      </div>
+      <div class="pf-avatar-actions">
+        <label class="btn btn-sm pf-file">{% icon "user" 16 %}<span>{% trans "Change photo" %}</span>{{ form.avatar }}</label>
+        {% if profile_user.avatar %}<label class="pf-remove">{{ form.remove_avatar }}<span>{% trans "Remove" %}</span></label>{% endif %}
+      </div>
+      <p class="pf-hint">{% blocktrans %}JPG, PNG or WebP, up to 5 MB. Photo: square, at least 128 px. Cover: wide 3:1 format, 1500 × 500 px recommended.{% endblocktrans %}</p>
+    </div>
+    <div class="pf-img-errors">
+      <p class="pf-error" data-pf-error="avatar" role="alert" hidden></p><p class="pf-error" data-pf-error="cover" role="alert" hidden></p>
+      {{ form.avatar.errors }}{{ form.cover.errors }}
+    </div>
+  </section>
+
+  {# ---------- Identité ---------- #}
+  <section class="card pf-card" aria-labelledby="pf-h-id">
+    <h2 id="pf-h-id">{% trans "Public identity" %}</h2>
+    <p class="sub">{% trans "This is what visitors see on your public profile." %}</p>
+    {% include "dashboard/components/field.html" with field=form.display_name %}
+    <div class="field{% if form.username.errors %} has-error{% endif %}">
+      <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+      <div class="pf-handle"><span class="pf-handle-prefix">{{ request.get_host }}/u/</span>{{ form.username }}</div>
+      {% if form.username.help_text %}<div class="help">{{ form.username.help_text }}</div>{% endif %}{{ form.username.errors }}
+    </div>
+    {% include "dashboard/components/field.html" with field=form.headline %}
+    <div class="field{% if form.bio.errors %} has-error{% endif %}">
+      <label for="{{ form.bio.id_for_label }}">{{ form.bio.label }}</label>{{ form.bio }}
+      <div class="pf-bio-foot"><span class="help">{{ form.bio.help_text }}</span><span class="pf-count" data-pf-count aria-live="off">0 / 600</span></div>{{ form.bio.errors }}
+    </div>
+    {% include "dashboard/components/field.html" with field=form.location %}
+  </section>
+
+  {# ---------- Liens ---------- #}
+  <section class="card pf-card" aria-labelledby="pf-h-links">
+    <h2 id="pf-h-links">{% trans "Links" %}</h2>
+    <p class="sub">{% trans "Add your website and social profiles. Paste a username or a full URL." %}</p>
+    <div class="pf-grid2">
+      {% include "dashboard/components/field.html" with field=form.website %}
+      {% include "dashboard/components/field.html" with field=form.github %}
+      {% include "dashboard/components/field.html" with field=form.twitter %}
+      {% include "dashboard/components/field.html" with field=form.linkedin %}
+    </div>
+  </section>
+
+  {# ---------- Visibilité & partage ---------- #}
+  <section class="card pf-card" aria-labelledby="pf-h-share">
+    <h2 id="pf-h-share">{% trans "Visibility & sharing" %}</h2>
+    <p class="sub">{% trans "Your profile is private by default. Turn it on to get a link you can share anywhere." %}</p>
+    <div class="field field-check"><label>{{ form.profile_public }} <span>{{ form.profile_public.label }}</span></label>{{ form.profile_public.errors }}</div>
+    <p class="help" style="margin-top:-6px">{% trans "Only your name, photo, cover, bio, location and links are shown. Your email address is never displayed." %}</p>
+    {% if profile_user.has_public_page %}
+    <div class="pf-share" data-pf-share-box>
+      <label for="pf-share-url">{% trans "Your public link" %}</label>
+      <div class="pf-share-row">
+        <input id="pf-share-url" type="text" readonly value="{{ profile_url }}" onfocus="this.select()">
+        <button class="btn" type="button" data-copy="{{ profile_url }}" data-done="{% trans 'Link copied' %}">{% trans "Copy" %}</button>
+        <button class="btn" type="button" data-share data-done="{% trans 'Link copied' %}" data-url="{{ profile_url }}" data-title="{{ profile_user.display_name }}" data-text="{{ profile_user.headline }}">{% trans "Share" %}</button>
+        <a class="btn btn-primary" href="{{ profile_user.get_public_url }}" target="_blank" rel="noopener">{% trans "Open" %}</a>
+      </div>
+    </div>
+    {% elif profile_user.username %}
+    <p class="pf-note">{% trans "Your profile is currently private. Only you can open your link." %}</p>
+    {% else %}
+    <p class="pf-note">{% trans "Choose a username above, then turn on “Make my profile public” to get your link." %}</p>
+    {% endif %}
+  </section>
+
+  {# ---------- Préférences ---------- #}
+  <section class="card pf-card" aria-labelledby="pf-h-pref">
+    <h2 id="pf-h-pref">{% trans "Account preferences" %}</h2>
+    <p class="sub">{% trans "Signed in as" %} <strong>{{ profile_user.email }}</strong></p>
+    {% include "dashboard/components/field.html" with field=form.preferred_language %}
+    <div class="field field-check"><label>{{ form.marketing_consent }} <span>{{ form.marketing_consent.label }}</span></label>{{ form.marketing_consent.errors }}</div>
+  </section>
+
+  <div class="pf-savebar">
+    <a class="btn" href="{% url 'dashboard:buyer_profile' %}">{% trans "Cancel" %}</a>
+    <button class="btn btn-primary" type="submit">{% trans "Save changes" %}</button>
+  </div>
+</form>
+{% endblock %}

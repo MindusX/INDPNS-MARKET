@@ -3,7 +3,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.sessions.models import Session
-from django.shortcuts import redirect, render
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
@@ -101,3 +102,33 @@ def close_other_sessions(request):
     audit(request.user, "user.sessions_closed", request.user, request)
     messages.success(request, _("All other sessions were closed."))
     return redirect("dashboard:buyer_security")
+
+
+def public_profile(request, username):
+    """Profil public partageable : /u/<username>/ — accessible sans connexion.
+    Visible uniquement si le propriétaire l'a rendu public ; le propriétaire peut toujours le prévisualiser."""
+    from apps.products.models import Product
+
+    profile = get_object_or_404(User.objects.select_related("shop"), username__iexact=username, is_active=True)
+    is_owner = request.user.is_authenticated and request.user.pk == profile.pk
+    if not profile.profile_public and not is_owner:
+        raise Http404
+    if username != profile.username:                      # lien canonique en minuscules
+        return redirect(profile.get_public_url(), permanent=profile.profile_public)
+
+    shop = profile.shop if profile.is_seller and profile.shop.is_active else None
+    products, product_count = [], 0
+    if shop:
+        qs = Product.objects.public().filter(shop=shop)
+        product_count = qs.count()
+        products = list(qs.with_stats().order_by("-created_at")[:8]) if product_count else []
+
+    image = profile.cover or profile.avatar
+    summary = " ".join((profile.bio or profile.headline or "").split())
+    description = (summary[:157] + "…") if len(summary) > 160 else (summary or _("%(name)s on INDPNS Market") % {"name": profile.display_name})
+    return render(request, "public/profile.html", {
+        "profile": profile, "is_owner": is_owner, "is_private_preview": not profile.profile_public,
+        "shop": shop, "products": products, "product_count": product_count,
+        "profile_url": request.build_absolute_uri(profile.get_public_url()), "meta_description": description,
+        "og_image": request.build_absolute_uri(image.url) if image else "",
+    })

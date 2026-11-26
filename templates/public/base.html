@@ -7,7 +7,7 @@
   <meta name="description" content="{% block meta_description %}{% trans "Professional marketplace for software, source code, templates, plugins and AI tools." %}{% endblock %}">
   <meta property="og:site_name" content="INDPNS Market">
   <meta property="og:title" content="{% block og_title %}{{ SITE_NAME }}{% endblock %}">
-  <meta property="og:image" content="{{ SITE_URL }}{% static 'images/og-image.png' %}">
+  <meta property="og:image" content="{% block og_image %}{{ SITE_URL }}{% static 'images/og-image.png' %}{% endblock %}">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="{% static 'css/public.css' %}">
   <link rel="stylesheet" href="{% static 'css/home.css' %}">

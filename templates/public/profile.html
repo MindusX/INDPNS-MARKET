@@ -1,0 +1,85 @@
+{% extends "public/base.html" %}
+{% load i18n static core_tags %}
+{% block title %}{{ profile.display_name }}{% if profile.headline %} — {{ profile.headline }}{% endif %} · {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block og_title %}{{ profile.display_name }} · {{ SITE_NAME }}{% endblock %}
+{% block og_image %}{% if og_image %}{{ og_image }}{% else %}{{ SITE_URL }}{% static 'images/og-image.png' %}{% endif %}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="canonical" href="{{ profile_url }}">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="{{ profile_url }}">
+<meta property="og:description" content="{{ meta_description }}">
+{% if is_private_preview %}<meta name="robots" content="noindex, nofollow">{% endif %}
+{% endblock %}
+
+{% block content %}
+<article class="pp">
+  {% if is_private_preview %}
+  <div class="pp-notice" role="status">
+    <strong>{% trans "Private preview" %}</strong> — {% trans "Only you can see this page. Turn on “Make my profile public” in your settings to share it." %}
+    <a href="{% url 'dashboard:buyer_profile' %}">{% trans "Open settings" %}</a>
+  </div>
+  {% endif %}
+
+  <header class="pp-hero">
+    <div class="pp-cover">{% if profile.cover %}<img src="{{ profile.cover.url }}" alt="" width="1500" height="500" fetchpriority="high" decoding="async">{% endif %}</div>
+    <div class="pp-card">
+      <div class="pp-top">
+        <div class="pp-avatar">{% if profile.avatar %}<img src="{{ profile.avatar.url }}" alt="{{ profile.display_name }}" width="512" height="512" decoding="async">{% else %}<span aria-hidden="true">{{ profile.avatar_initial }}</span>{% endif %}</div>
+        <div class="pp-actions">
+          {% if is_owner %}<a class="btn btn-primary" href="{% url 'dashboard:buyer_profile' %}">{% trans "Edit profile" %}</a>{% endif %}
+          {% if shop %}<a class="btn" href="{{ shop.get_absolute_url }}">{% icon "store" 16 %} {% trans "Visit shop" %}</a>{% endif %}
+          {% if not is_private_preview %}
+          <button class="btn" type="button" data-share data-done="{% trans 'Link copied' %}" data-url="{{ profile_url }}" data-title="{{ profile.display_name }}" data-text="{{ profile.headline }}">{% trans "Share" %}</button>
+          <button class="btn" type="button" data-copy="{{ profile_url }}" data-done="{% trans 'Link copied' %}">{% trans "Copy link" %}</button>
+          {% endif %}
+        </div>
+      </div>
+
+      <h1 class="pp-name">{{ profile.display_name }}
+        {% if shop %}<span class="badge badge-soft-yellow">{% trans "Seller" %}</span>{% if shop.verification_status == "verified" %} <span class="badge badge-success">{% trans "Verified seller" %}</span>{% endif %}{% endif %}
+      </h1>
+      <p class="pp-handle">@{{ profile.username }}</p>
+      {% if profile.headline %}<p class="pp-headline">{{ profile.headline }}</p>{% endif %}
+
+      <ul class="pp-meta">
+        {% if profile.location %}<li>{% icon "globe" 16 %} <span>{{ profile.location }}</span></li>{% endif %}
+        <li>{% icon "user" 16 %} <span>{% blocktrans with d=profile.date_joined|date:"F Y" %}Member since {{ d }}{% endblocktrans %}</span></li>
+      </ul>
+
+      {% if profile.website or profile.github or profile.twitter or profile.linkedin %}
+      <ul class="pp-links" aria-label="{% trans 'Links' %}">
+        {% if profile.website %}<li><a href="{{ profile.website }}" target="_blank" rel="nofollow noopener noreferrer ugc">{% icon "globe" 16 %} <span>{{ profile.website|cut:"https://"|cut:"http://"|cut:"www."|truncatechars:34 }}</span></a></li>{% endif %}
+        {% if profile.github %}<li><a href="https://github.com/{{ profile.github|urlencode:'' }}" target="_blank" rel="nofollow noopener noreferrer ugc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg> <span>GitHub</span></a></li>{% endif %}
+        {% if profile.twitter %}<li><a href="https://x.com/{{ profile.twitter|urlencode:'' }}" target="_blank" rel="nofollow noopener noreferrer ugc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg> <span>X</span></a></li>{% endif %}
+        {% if profile.linkedin %}<li><a href="https://www.linkedin.com/in/{{ profile.linkedin|urlencode:'' }}" target="_blank" rel="nofollow noopener noreferrer ugc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg> <span>LinkedIn</span></a></li>{% endif %}
+      </ul>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="pp-grid{% if shop %} has-side{% endif %}">
+    <section class="card pp-box" aria-labelledby="pp-about">
+      <h2 id="pp-about">{% trans "About" %}</h2>
+      {% if profile.bio %}<div class="pp-bio">{{ profile.bio|linebreaks }}</div>
+      {% else %}<p class="muted">{% if is_owner %}{% trans "Add a short bio in your settings so visitors know who you are." %}{% else %}{% trans "This member hasn't written a bio yet." %}{% endif %}</p>{% endif %}
+    </section>
+    {% if shop %}
+    <aside class="card pp-box pp-stats" aria-label="{% trans 'Seller overview' %}">
+      <dl>
+        <div><dt>{% trans "Published products" %}</dt><dd>{{ product_count }}</dd></div>
+        <div><dt>{% trans "Shop" %}</dt><dd><a href="{{ shop.get_absolute_url }}">{{ shop.name }}</a></dd></div>
+      </dl>
+    </aside>
+    {% endif %}
+  </div>
+
+  {% if products %}
+  <section class="pp-products" aria-labelledby="pp-products-h">
+    <div class="pp-products-head"><h2 id="pp-products-h">{% trans "Latest products" %}</h2><a href="{{ shop.get_absolute_url }}">{% trans "View all in shop" %} →</a></div>
+    <div class="grid grid-products">{% for p in products %}{% include "public/components/product_card.html" %}{% endfor %}</div>
+  </section>
+  {% endif %}
+</article>
+{% endblock %}
