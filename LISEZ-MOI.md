@@ -1,18 +1,20 @@
-# Profil avancé + lien public partageable — INDPNS Market
+# Migration automatique au démarrage
 
-Copier le contenu du zip PAR-DESSUS le projet (mêmes chemins).
+Désormais, à CHAQUE démarrage du service (docker-entrypoint.sh, et scripts/predeploy.sh sur Render natif) :
+  migrate  ->  sync_schema  ->  seed_initial  ->  gunicorn
 
-## Après copie (obligatoire : nouveaux champs sur User)
-python manage.py makemigrations accounts
-python manage.py migrate
-python manage.py collectstatic --noinput
-python manage.py test tests.test_profiles
+`sync_schema` compare les modèles Django à la base et CRÉE les tables et colonnes manquantes.
+Additif uniquement (jamais de suppression ni de modification), idempotent, avec le schema_editor de Django.
+Elle règle l'erreur "column accounts_user.username does not exist" et toutes les futures du même type.
 
-## Nouveautés
-- Page Profil & paramètres : photo, couverture, nom, identifiant, accroche, bio, localisation, site, GitHub / X / LinkedIn, visibilité.
-- Lien public : /u/<identifiant>/ (privé par défaut, l'utilisateur l'active). Boutons Copier / Partager.
-- Images ré-encodées en WebP (recadrage, EXIF supprimé, nom aléatoire) ; refus des faux fichiers, SVG, GIF.
-- Avatar affiché dans la barre du dashboard et le menu du site.
+Logs au démarrage :  "Schéma à jour : rien à synchroniser."  ou  "Synchronisé (11) : colonne accounts_user.username, ..."
 
-## Attention production
-Sans stockage S3 configuré, les images vont sur le disque local de Render (éphémère, perdu à chaque déploiement). Configurez S3 (variables AWS_*) pour conserver les photos.
+## Installation
+1. Copier le zip sur le projet (mêmes chemins) et redéployer. Rien d'autre à faire : le site se répare au démarrage.
+2. Si vous aviez déjà copié l'ancien correctif, supprimez apps/accounts/management/commands/ensure_profile_schema.py (remplacé).
+3. Optionnel : python manage.py test tests.test_sync_schema
+
+scripts/fix_profile_columns.sql reste disponible pour réparer immédiatement via Neon sans attendre le redéploiement.
+
+Limite : les changements destructifs ou de type (renommer/supprimer/modifier une colonne) restent à faire avec une vraie migration
+commitée ; sync_schema ne s'en occupe volontairement pas.
