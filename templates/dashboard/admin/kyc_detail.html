@@ -1,0 +1,45 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n static core_tags %}
+{% block title %}{% trans "Identity check" %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/connect.css' %}">{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% trans "Identity check" %} #{{ v.pk }}</h1><a class="btn" href="{% url 'dashboard:admin_kyc' %}">← {% trans "Back to the list" %}</a></div>
+
+<div class="cx-review">
+  <section class="card cx-section"><h2>{{ v.full_name }}</h2>
+    <dl class="cx-dl">
+      <div><dt>{% trans "Shop" %}</dt><dd>{{ v.shop.name }} <span class="muted">({{ v.shop.user.email }})</span></dd></div>
+      <div><dt>{% trans "Date of birth" %}</dt><dd>{{ v.date_of_birth|date:"DATE_FORMAT" }}</dd></div>
+      <div><dt>{% trans "Nationality" %}</dt><dd>{{ v.nationality }}</dd></div>
+      <div><dt>{% trans "Address" %}</dt><dd>{{ v.address_line1 }}{% if v.address_line2 %}, {{ v.address_line2 }}{% endif %}<br>{{ v.postal_code }} {{ v.city }}{% if v.region %}, {{ v.region }}{% endif %} — {{ v.country }}</dd></div>
+      {% if v.phone %}<div><dt>{% trans "Phone" %}</dt><dd>{{ v.phone }}</dd></div>{% endif %}
+      <div><dt>{% trans "Document" %}</dt><dd>{{ v.get_doc_type_display }} — {{ v.doc_country }}</dd></div>
+      <div><dt>{% trans "Submitted" %}</dt><dd>{{ v.submitted_at|date:"DATETIME_FORMAT" }}</dd></div>
+      <div><dt>{% trans "Status" %}</dt><dd><span class="badge{% if v.status == 'approved' %} badge-success{% elif v.status == 'rejected' %} badge-danger{% endif %}">{{ v.get_status_display }}</span></dd></div>
+      {% if v.reviewed_by %}<div><dt>{% trans "Reviewed by" %}</dt><dd>{{ v.reviewed_by.display_name }} · {{ v.reviewed_at|date:"DATETIME_FORMAT" }}</dd></div>{% endif %}
+      {% if v.rejection_reason %}<div><dt>{% trans "Reason" %}</dt><dd>{{ v.rejection_reason }}</dd></div>{% endif %}
+    </dl>
+    <h3 class="cx-sub">{% trans "Reviewer checklist" %}</h3>
+    <ul class="cx-tips"><li>{% trans "The name and date of birth match the document." %}</li><li>{% trans "The document is valid, unaltered and readable." %}</li><li>{% trans "The selfie shows the same person holding the same document." %}</li></ul>
+  </section>
+
+  <section class="card cx-section"><h2>{% trans "Documents" %}</h2>
+    <div class="cx-docs">
+    {% with f=documents.front b=documents.back s=documents.selfie %}
+      {% if f %}<figure><figcaption>{% trans "Document — front" %}</figcaption>{% if f.is_purged %}<p class="muted">{% trans "Deleted" %}</p>{% else %}<a href="{% url 'dashboard:admin_kyc_document' v.pk f.pk %}" target="_blank" rel="noopener"><img src="{% url 'dashboard:admin_kyc_document' v.pk f.pk %}" alt="{% trans 'Document — front' %}" loading="lazy"></a>{% endif %}</figure>{% endif %}
+      {% if b %}<figure><figcaption>{% trans "Document — back" %}</figcaption>{% if b.is_purged %}<p class="muted">{% trans "Deleted" %}</p>{% else %}<a href="{% url 'dashboard:admin_kyc_document' v.pk b.pk %}" target="_blank" rel="noopener"><img src="{% url 'dashboard:admin_kyc_document' v.pk b.pk %}" alt="{% trans 'Document — back' %}" loading="lazy"></a>{% endif %}</figure>{% endif %}
+      {% if s %}<figure><figcaption>{% trans "Selfie holding your document" %}</figcaption>{% if s.is_purged %}<p class="muted">{% trans "Deleted" %}</p>{% else %}<a href="{% url 'dashboard:admin_kyc_document' v.pk s.pk %}" target="_blank" rel="noopener"><img src="{% url 'dashboard:admin_kyc_document' v.pk s.pk %}" alt="{% trans 'Selfie holding your document' %}" loading="lazy"></a>{% endif %}</figure>{% endif %}
+    {% endwith %}
+    </div></section>
+</div>
+
+{% if v.status == "pending" %}
+<section class="card cx-section cx-decision"><h2>{% trans "Decision" %}</h2>
+  <form method="post" class="cx-decide">{% csrf_token %}
+    <div><button class="btn btn-primary" name="action" value="approve" data-confirm="{% trans 'Approve this identity? The seller will be able to request payouts.' %}">{% trans "Approve" %}</button></div>
+    <div class="cx-reject"><label for="reason">{% trans "Reason for rejection (shown to the seller)" %}</label>
+      <textarea id="reason" name="reason" rows="3" maxlength="1000" placeholder="{% trans 'e.g. The photo is blurry. Please upload a clearer picture of the front of your document.' %}"></textarea>
+      <button class="btn cx-danger" name="action" value="reject">{% trans "Reject" %}</button></div>
+  </form></section>
+{% endif %}
+{% endblock %}

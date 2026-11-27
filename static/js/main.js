@@ -11,5 +11,6 @@ import { initLegal } from "./modules/legal.js";
 import { initFullMenu } from "./modules/fullmenu.js";
 import { initPublicSidebar } from "./modules/public_sidebar.js";
 import { initProfile } from "./modules/profile.js";
+import { initConnect } from "./modules/connect.js";
 
-initTheme(); initNav(); initFavorites(); initPricing(); initGallery(); initFilters(); initPWA(); initUI(); initSidebar(); initLegal(); initFullMenu(); initPublicSidebar(); initProfile();
+initTheme(); initNav(); initFavorites(); initPricing(); initGallery(); initFilters(); initPWA(); initUI(); initSidebar(); initLegal(); initFullMenu(); initPublicSidebar(); initProfile(); initConnect();

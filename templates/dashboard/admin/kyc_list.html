@@ -1,0 +1,20 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n static core_tags %}
+{% block title %}{% trans "Identity checks" %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/connect.css' %}">{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% trans "Identity checks" %}</h1></div>
+<div class="notice notice-info cx-notice">{% trans "Identity documents are encrypted. Every time you open one, the access is recorded in the audit log." %}</div>
+<nav class="cx-filters" aria-label="{% trans 'Filter' %}">
+  <a class="cx-chip{% if status == 'pending' %} on{% endif %}" href="?status=pending">{% trans "Pending" %}</a>
+  <a class="cx-chip{% if status == 'approved' %} on{% endif %}" href="?status=approved">{% trans "Approved" %}</a>
+  <a class="cx-chip{% if status == 'rejected' %} on{% endif %}" href="?status=rejected">{% trans "Rejected" %}</a>
+  <a class="cx-chip{% if status == 'all' %} on{% endif %}" href="?status=all">{% trans "All" %}</a>
+</nav>
+<div class="card table-wrap"><table class="table"><thead><tr><th>{% trans "Shop" %}</th><th>{% trans "Name" %}</th><th>{% trans "Country" %}</th><th>{% trans "Document" %}</th><th>{% trans "Submitted" %}</th><th>{% trans "Status" %}</th><th></th></tr></thead><tbody>
+{% for v in page %}<tr><td>{{ v.shop.name }}</td><td>{{ v.full_name }}</td><td>{{ v.country }}</td><td>{{ v.get_doc_type_display }}</td><td>{{ v.submitted_at|date:"DATE_FORMAT" }}</td>
+<td><span class="badge{% if v.status == 'approved' %} badge-success{% elif v.status == 'rejected' %} badge-danger{% endif %}">{{ v.get_status_display }}</span></td>
+<td><a class="btn btn-sm{% if v.status == 'pending' %} btn-primary{% endif %}" href="{% url 'dashboard:admin_kyc_detail' v.pk %}">{% if v.status == 'pending' %}{% trans "Review" %}{% else %}{% trans "View" %}{% endif %}</a></td></tr>
+{% empty %}<tr><td colspan="7" class="muted">{% trans "No identity checks" %}</td></tr>{% endfor %}</tbody></table></div>
+{% include "dashboard/components/pagination.html" %}
+{% endblock %}

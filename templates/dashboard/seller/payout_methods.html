@@ -1,0 +1,62 @@
+{% extends "dashboard/base_dashboard.html" %}
+{% load i18n static core_tags %}
+{% block title %}{% trans "Payout methods" %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/connect.css' %}">{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% trans "Payout methods" %}</h1><a class="btn" href="{% url 'dashboard:seller_payouts' %}">{% trans "Go to payouts" %}</a></div>
+
+<p class="cx-lead">{% trans "Choose where to receive your earnings. You are redirected to the provider's secure page to sign in or enter your details — we never see your password, card number or bank details." %}</p>
+
+{% if not shop.is_payout_eligible %}
+<div class="notice cx-notice">{% trans "Payouts also require a verified identity." %} <a href="{% url 'dashboard:seller_verification' %}">{% trans "Verify my identity" %}</a></div>
+{% endif %}
+{% if has_usable %}<div class="notice notice-info cx-notice">{% trans "A payout method is connected. Your payouts will be sent to your default method." %}</div>{% endif %}
+
+<div class="cx-grid">
+  {# ---------- PayPal ---------- #}
+  <section class="card cx-card" aria-labelledby="cx-paypal">
+    <div class="cx-head"><span class="cx-logo cx-logo-paypal" aria-hidden="true">P</span>
+      <div><h2 id="cx-paypal">PayPal</h2><p class="muted">{% trans "Receive your earnings in your PayPal account." %}</p></div>
+      {% if paypal %}<span class="badge badge-success">{% trans "Connected" %}</span>{% endif %}</div>
+    {% if paypal %}
+    <div class="cx-account"><strong>{{ paypal.label }}</strong>{% if paypal.is_default %} <span class="badge badge-soft-yellow">{% trans "Default" %}</span>{% endif %}</div>
+    <form method="post" class="cx-actions">{% csrf_token %}<input type="hidden" name="method_id" value="{{ paypal.pk }}">
+      {% if not paypal.is_default %}<button class="btn btn-sm" name="action" value="make_default">{% trans "Make default" %}</button>{% endif %}
+      <button class="btn btn-sm" name="action" value="connect_paypal" {% if not paypal_ready %}disabled{% endif %}>{% trans "Reconnect" %}</button>
+      <button class="btn btn-sm cx-danger" name="action" value="disconnect" data-confirm="{% trans 'Disconnect this payout method?' %}">{% trans "Disconnect" %}</button></form>
+    {% else %}
+    <ul class="cx-points"><li>{% trans "Sign in to PayPal and approve the connection" %}</li><li>{% trans "Your PayPal email must be confirmed" %}</li><li>{% trans "No password is shared with us" %}</li></ul>
+    <form method="post" class="cx-actions">{% csrf_token %}<button class="btn btn-primary cx-connect cx-paypal" name="action" value="connect_paypal" {% if not paypal_ready %}disabled{% endif %}>{% trans "Connect with PayPal" %}</button></form>
+    {% if not paypal_ready %}<p class="cx-unavailable">{% trans "Not available yet: the administrator must enable PayPal." %}</p>{% endif %}
+    {% endif %}
+  </section>
+
+  {# ---------- Carte / compte bancaire (Stripe Connect) ---------- #}
+  <section class="card cx-card" aria-labelledby="cx-card">
+    <div class="cx-head"><span class="cx-logo cx-logo-card" aria-hidden="true">{% icon "wallet" 22 %}</span>
+      <div><h2 id="cx-card">{% trans "Bank card or bank account" %}</h2><p class="muted">{% trans "Receive your earnings on a debit card or a bank account, through our secure payment partner (Stripe)." %}</p></div>
+      {% if stripe_method %}{% if stripe_method.status == "connected" %}<span class="badge badge-success">{% trans "Connected" %}</span>{% elif stripe_method.status == "restricted" %}<span class="badge badge-soft-yellow">{% trans "Under review" %}</span>{% else %}<span class="badge">{% trans "Setup incomplete" %}</span>{% endif %}{% endif %}</div>
+    {% if stripe_method %}
+    <div class="cx-account"><strong>{{ stripe_method.label }}</strong>{% if stripe_method.is_default %} <span class="badge badge-soft-yellow">{% trans "Default" %}</span>{% endif %}
+      {% if stripe_method.currency %}<span class="muted"> · {{ stripe_method.currency }}</span>{% endif %}</div>
+    {% if stripe_method.status == "pending" %}<p class="muted">{% trans "Finish the secure setup to start receiving payouts." %}</p>
+    {% elif stripe_method.status == "restricted" %}<p class="muted">{% trans "Your account is being reviewed by our payment partner. Refresh the status in a moment." %}</p>{% endif %}
+    <form method="post" class="cx-actions">{% csrf_token %}<input type="hidden" name="method_id" value="{{ stripe_method.pk }}">
+      {% if stripe_method.status != "connected" %}<button class="btn btn-primary btn-sm" name="action" value="connect_stripe" {% if not stripe_ready %}disabled{% endif %}>{% trans "Continue setup" %}</button>{% else %}<button class="btn btn-sm" name="action" value="connect_stripe" {% if not stripe_ready %}disabled{% endif %}>{% trans "Update details" %}</button>{% endif %}
+      <button class="btn btn-sm" name="action" value="refresh_stripe">{% trans "Refresh status" %}</button>
+      {% if stripe_method.is_usable and not stripe_method.is_default %}<button class="btn btn-sm" name="action" value="make_default">{% trans "Make default" %}</button>{% endif %}
+      <button class="btn btn-sm cx-danger" name="action" value="disconnect" data-confirm="{% trans 'Disconnect this payout method?' %}">{% trans "Disconnect" %}</button></form>
+    {% else %}
+    <ul class="cx-points"><li>{% trans "Add a debit card or a bank account on a secure page" %}</li><li>{% trans "Visa, Mastercard and bank accounts depending on your country" %}</li><li>{% trans "We only keep the last 4 digits" %}</li></ul>
+    <form method="post" class="cx-actions">{% csrf_token %}<button class="btn btn-primary cx-connect" name="action" value="connect_stripe" {% if not stripe_ready %}disabled{% endif %}>{% trans "Connect a card or bank account" %}</button></form>
+    {% if not stripe_ready %}<p class="cx-unavailable">{% trans "Not available yet: the administrator must enable card payouts." %}</p>{% endif %}
+    {% endif %}
+  </section>
+</div>
+
+<section class="card cx-security"><h2>{% trans "How your information is protected" %}</h2>
+<ul><li>{% trans "The connection happens on the provider's own website, like “Continue with Facebook”." %}</li>
+<li>{% trans "We never store your PayPal password, full card number or bank account number." %}</li>
+<li>{% trans "Only one shop can use a given PayPal or bank account." %}</li>
+<li>{% trans "You can disconnect a method at any time." %}</li></ul></section>
+{% endblock %}

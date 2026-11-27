@@ -1091,3 +1091,567 @@ msgstr "Échec de l’envoi. Veuillez réessayer."
 
 msgid "Zoom"
 msgstr "Zoom"
+
+msgid "A payout method is connected. Your payouts will be sent to your default method."
+msgstr "Un moyen de paiement est connecté. Vos retraits seront envoyés sur votre moyen par défaut."
+
+msgid "A reason is required."
+msgstr "Un motif est obligatoire."
+
+msgid "Add a debit card or a bank account on a secure page"
+msgstr "Ajoutez une carte de débit ou un compte bancaire sur une page sécurisée"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Address line 2"
+msgstr "Complément d’adresse"
+
+msgid "All four corners visible, no glare, text readable."
+msgstr "Les quatre coins visibles, sans reflet, texte lisible."
+
+msgid "Amount"
+msgstr "Montant"
+
+msgid "Amount exceeds your available balance."
+msgstr "Le montant dépasse votre solde disponible."
+
+msgid "Approve this identity? The seller will be able to request payouts."
+msgstr "Approuver cette identité ? Le vendeur pourra demander des retraits."
+
+msgid "Approved"
+msgstr "Approuvé"
+
+msgid "Approving writes the ledger debit. Sending the money is done through your payment provider; record its reference with “Mark paid”. No automatic transfer is performed by this application."
+msgstr "L’approbation enregistre le débit au registre. L’envoi de l’argent se fait via votre prestataire de paiement ; notez sa référence avec « Marquer comme payé ». Aucun virement automatique n’est effectué par cette application."
+
+msgid "Available for payout"
+msgstr "Disponible pour un retrait"
+
+msgid "Back to the list"
+msgstr "Retour à la liste"
+
+msgid "Bank card / account"
+msgstr "Carte / compte bancaire"
+
+msgid "Bank card / account (setup in progress)"
+msgstr "Carte / compte bancaire (configuration en cours)"
+
+msgid "Bank card connection is not available yet."
+msgstr "La connexion d’une carte bancaire n’est pas encore disponible."
+
+msgid "Bank card or bank account"
+msgstr "Carte bancaire ou compte bancaire"
+
+msgid "Change"
+msgstr "Modifier"
+
+msgid "Choose where to receive your earnings. You are redirected to the provider's secure page to sign in or enter your details — we never see your password, card number or bank details."
+msgstr "Choisissez où recevoir vos gains. Vous êtes redirigé vers la page sécurisée du prestataire pour vous connecter ou saisir vos informations — nous ne voyons jamais votre mot de passe, votre numéro de carte ni vos coordonnées bancaires."
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Connect a card or bank account"
+msgstr "Connecter une carte ou un compte bancaire"
+
+msgid "Connect a payout method"
+msgstr "Connecter un moyen de paiement"
+
+msgid "Connect a payout method (PayPal or bank card) to receive your earnings."
+msgstr "Connectez un moyen de paiement (PayPal ou carte bancaire) pour recevoir vos gains."
+
+msgid "Connect a payout method first (PayPal or bank card)."
+msgstr "Connectez d’abord un moyen de paiement (PayPal ou carte bancaire)."
+
+msgid "Connect now"
+msgstr "Connecter maintenant"
+
+msgid "Connect with PayPal"
+msgstr "Se connecter avec PayPal"
+
+msgid "Connected"
+msgstr "Connecté"
+
+msgid "Continue setup"
+msgstr "Continuer la configuration"
+
+msgid "Could not reach the provider. Please try again in a moment."
+msgstr "Impossible de joindre le prestataire. Veuillez réessayer dans un instant."
+
+msgid "Country"
+msgstr "Pays"
+
+msgid "Country of residence"
+msgstr "Pays de résidence"
+
+msgid "Date of birth"
+msgstr "Date de naissance"
+
+msgid "Default"
+msgstr "Par défaut"
+
+msgid "Default payout method updated."
+msgstr "Moyen de paiement par défaut mis à jour."
+
+msgid "Deleted"
+msgstr "Supprimé"
+
+msgid "Destination"
+msgstr "Destination"
+
+msgid "Disconnect"
+msgstr "Déconnecter"
+
+msgid "Disconnect this payout method?"
+msgstr "Déconnecter ce moyen de paiement ?"
+
+msgid "Document"
+msgstr "Document"
+
+msgid "Document type"
+msgstr "Type de document"
+
+msgid "Document — back"
+msgstr "Document — verso"
+
+msgid "Document — front"
+msgstr "Document — recto"
+
+msgid "Documents"
+msgstr "Documents"
+
+msgid "Enter a valid phone number, e.g. +33 6 12 34 56 78."
+msgstr "Saisissez un numéro de téléphone valide, p. ex. +33 6 12 34 56 78."
+
+msgid "Enter a valid postal code."
+msgstr "Saisissez un code postal valide."
+
+msgid "Exactly as written on your identity document."
+msgstr "Exactement comme sur votre pièce d’identité."
+
+msgid "File too large (max %(mb)s MB)."
+msgstr "Fichier trop lourd (%(mb)s Mo maximum)."
+
+msgid "File too large (max 10 MB)."
+msgstr "Fichier trop lourd (10 Mo maximum)."
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgid "Finish the secure setup to start receiving payouts."
+msgstr "Terminez la configuration sécurisée pour commencer à recevoir des retraits."
+
+msgid "Go to payouts"
+msgstr "Aller aux retraits"
+
+msgid "How your information is protected"
+msgstr "Comment vos informations sont protégées"
+
+msgid "I certify that this information is accurate and I consent to its processing to verify my identity."
+msgstr "Je certifie que ces informations sont exactes et j’accepte leur traitement pour vérifier mon identité."
+
+msgid "Identity check"
+msgstr "Vérification d’identité"
+
+msgid "Identity checks"
+msgstr "Vérifications d’identité"
+
+msgid "Identity document"
+msgstr "Pièce d’identité"
+
+msgid "Identity documents are encrypted. Every time you open one, the access is recorded in the audit log."
+msgstr "Les pièces d’identité sont chiffrées. Chaque ouverture est enregistrée dans le journal d’audit."
+
+msgid "Identity verification"
+msgstr "Vérification d’identité"
+
+msgid "Identity verification is temporarily unavailable. Please contact support."
+msgstr "La vérification d’identité est temporairement indisponible. Veuillez contacter le support."
+
+msgid "Identity verification: action needed"
+msgstr "Vérification d’identité : action requise"
+
+msgid "Identity verified"
+msgstr "Identité vérifiée"
+
+msgid "Identity verified."
+msgstr "Identité vérifiée."
+
+msgid "Issuing country"
+msgstr "Pays de délivrance"
+
+msgid "JPG, PNG or WebP photo, up to 10 MB."
+msgstr "Photo JPG, PNG ou WebP, 10 Mo maximum."
+
+msgid "Legal first name"
+msgstr "Prénom légal"
+
+msgid "Legal last name"
+msgstr "Nom légal"
+
+msgid "Like every online marketplace, we must confirm who is behind a shop before sending money. It takes about 5 minutes."
+msgstr "Comme toute place de marché en ligne, nous devons confirmer qui se cache derrière une boutique avant de verser de l’argent. Cela prend environ 5 minutes."
+
+msgid "Make default"
+msgstr "Définir par défaut"
+
+msgid "Mark paid"
+msgstr "Marquer comme payé"
+
+msgid "Minimum payout is %(m)s."
+msgstr "Le retrait minimum est de %(m)s."
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Nationality"
+msgstr "Nationalité"
+
+msgid "No identity checks"
+msgstr "Aucune vérification d’identité"
+
+msgid "No password is shared with us"
+msgstr "Aucun mot de passe n’est partagé avec nous"
+
+msgid "No payouts"
+msgstr "Aucun retrait"
+
+msgid "No payouts yet"
+msgstr "Aucun retrait pour le moment"
+
+msgid "Not available yet: the administrator must enable PayPal."
+msgstr "Pas encore disponible : l’administrateur doit activer PayPal."
+
+msgid "Not available yet: the administrator must enable card payouts."
+msgstr "Pas encore disponible : l’administrateur doit activer les retraits par carte."
+
+msgid "Not needed for a passport"
+msgstr "Inutile pour un passeport"
+
+msgid "Only approved payouts can be marked as paid."
+msgstr "Seuls les retraits approuvés peuvent être marqués comme payés."
+
+msgid "Only one shop can use a given PayPal or bank account."
+msgstr "Un compte PayPal ou bancaire ne peut être utilisé que par une seule boutique."
+
+msgid "PayPal account connected."
+msgstr "Compte PayPal connecté."
+
+msgid "PayPal connection cancelled."
+msgstr "Connexion PayPal annulée."
+
+msgid "PayPal connection is not available yet."
+msgstr "La connexion PayPal n’est pas encore disponible."
+
+msgid "PayPal did not confirm the connection. Please try again."
+msgstr "PayPal n’a pas confirmé la connexion. Veuillez réessayer."
+
+msgid "PayPal did not return your account details. Please try again."
+msgstr "PayPal n’a pas renvoyé les informations de votre compte. Veuillez réessayer."
+
+msgid "Payout method disconnected."
+msgstr "Moyen de paiement déconnecté."
+
+msgid "Payout methods"
+msgstr "Moyens de paiement"
+
+msgid "Payout sent"
+msgstr "Retrait envoyé"
+
+msgid "Payouts also require a verified identity."
+msgstr "Les retraits exigent aussi une identité vérifiée."
+
+msgid "Payouts are disabled until your identity is verified (KYC). They are never sent before verification."
+msgstr "Les retraits sont désactivés tant que votre identité n’est pas vérifiée (KYC). Ils ne sont jamais envoyés avant la vérification."
+
+msgid "Payouts are sent to"
+msgstr "Les retraits sont envoyés vers"
+
+msgid "Payouts enabled"
+msgstr "Retraits activés"
+
+msgid "Payouts require a verified identity (KYC). Complete verification first."
+msgstr "Les retraits exigent une identité vérifiée (KYC). Terminez d’abord la vérification."
+
+msgid "Pending"
+msgstr "En attente"
+
+msgid "Personal details"
+msgstr "Informations personnelles"
+
+msgid "Phone"
+msgstr "Téléphone"
+
+msgid "Phone (optional)"
+msgstr "Téléphone (facultatif)"
+
+msgid "Please correct the issue and submit your documents again below."
+msgstr "Veuillez corriger le problème et renvoyer vos documents ci-dessous."
+
+msgid "Please enter a valid date of birth."
+msgstr "Veuillez saisir une date de naissance valide."
+
+msgid "Postal code"
+msgstr "Code postal"
+
+msgid "Provider reference"
+msgstr "Référence du prestataire"
+
+msgid "Reason"
+msgstr "Motif"
+
+msgid "Reason for rejection (shown to the seller)"
+msgstr "Motif du refus (affiché au vendeur)"
+
+msgid "Receive your earnings in your PayPal account."
+msgstr "Recevez vos gains sur votre compte PayPal."
+
+msgid "Receive your earnings on a debit card or a bank account, through our secure payment partner (Stripe)."
+msgstr "Recevez vos gains sur une carte de débit ou un compte bancaire, via notre partenaire de paiement sécurisé (Stripe)."
+
+msgid "Reconnect"
+msgstr "Reconnecter"
+
+msgid "Refresh status"
+msgstr "Actualiser le statut"
+
+msgid "Rejected"
+msgstr "Refusé"
+
+msgid "Request rejected. The seller was notified."
+msgstr "Demande refusée. Le vendeur a été prévenu."
+
+msgid "Request shop verification"
+msgstr "Demander la vérification de la boutique"
+
+msgid "Requested"
+msgstr "Demandé le"
+
+msgid "Review"
+msgstr "Examiner"
+
+msgid "Review by our team"
+msgstr "Examen par notre équipe"
+
+msgid "Reviewed by"
+msgstr "Examiné par"
+
+msgid "Reviewer checklist"
+msgstr "Liste de contrôle"
+
+msgid "Select a country…"
+msgstr "Sélectionnez un pays…"
+
+msgid "Selfie holding your document"
+msgstr "Selfie avec votre document"
+
+msgid "Send to"
+msgstr "Envoyer à"
+
+msgid "Send your documents"
+msgstr "Envoyer vos documents"
+
+msgid "Sending…"
+msgstr "Envoi…"
+
+msgid "Setup incomplete"
+msgstr "Configuration incomplète"
+
+msgid "Setup is not finished yet. Complete the remaining steps to receive payouts."
+msgstr "La configuration n’est pas terminée. Complétez les étapes restantes pour recevoir des retraits."
+
+msgid "Shop verification"
+msgstr "Vérification de la boutique"
+
+msgid "Shop verification badge"
+msgstr "Badge de boutique vérifiée"
+
+msgid "Sign in to PayPal and approve the connection"
+msgstr "Connectez-vous à PayPal et autorisez la connexion"
+
+msgid "State / region"
+msgstr "Région / état"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Submit for verification"
+msgstr "Envoyer pour vérification"
+
+msgid "Submitted"
+msgstr "Envoyé le"
+
+msgid "Submitted on %(d)s. We will notify you here and by notification as soon as the review is done."
+msgstr "Envoyé le %(d)s. Nous vous préviendrons ici dès que l’examen sera terminé."
+
+msgid "Tap to take or choose a photo"
+msgstr "Touchez pour prendre ou choisir une photo"
+
+msgid "Thank you. You can now request payouts."
+msgstr "Merci. Vous pouvez maintenant demander des retraits."
+
+msgid "The connection happens on the provider's own website, like “Continue with Facebook”."
+msgstr "La connexion se fait sur le site du prestataire, comme « Continuer avec Facebook »."
+
+msgid "The connection request expired or is invalid. Please try again."
+msgstr "La demande de connexion a expiré ou n’est pas valide. Veuillez réessayer."
+
+msgid "The document is valid, unaltered and readable."
+msgstr "Le document est valide, non modifié et lisible."
+
+msgid "The image is too small to be readable (minimum %(px)s px on the short side)."
+msgstr "L’image est trop petite pour être lisible (minimum %(px)s px sur le petit côté)."
+
+msgid "The name and date of birth match the document."
+msgstr "Le nom et la date de naissance correspondent au document."
+
+msgid "The provider refused the request. Please try again."
+msgstr "Le prestataire a refusé la demande. Veuillez réessayer."
+
+msgid "The selfie shows the same person holding the same document."
+msgstr "Le selfie montre la même personne tenant le même document."
+
+msgid "The shop is not KYC-verified."
+msgstr "La boutique n’a pas d’identité vérifiée (KYC)."
+
+msgid "This PayPal account is already connected to another shop."
+msgstr "Ce compte PayPal est déjà connecté à une autre boutique."
+
+msgid "This document has been deleted."
+msgstr "Ce document a été supprimé."
+
+msgid "This file is not a valid image. Upload a JPG, PNG or WebP photo."
+msgstr "Ce fichier n’est pas une image valide. Envoyez une photo JPG, PNG ou WebP."
+
+msgid "This file is required."
+msgstr "Ce fichier est obligatoire."
+
+msgid "This image is too large. Please use one under 50 megapixels."
+msgstr "Cette image est trop grande. Utilisez-en une de moins de 50 mégapixels."
+
+msgid "This payout was already processed."
+msgstr "Ce retrait a déjà été traité."
+
+msgid "This request was already processed."
+msgstr "Cette demande a déjà été traitée."
+
+msgid "Under review"
+msgstr "En cours d’examen"
+
+msgid "Unexpected response from the provider."
+msgstr "Réponse inattendue du prestataire."
+
+msgid "Update details"
+msgstr "Mettre à jour les informations"
+
+msgid "Upload a JPG, PNG or WebP photo (PDF files are not accepted)."
+msgstr "Envoyez une photo JPG, PNG ou WebP (les fichiers PDF ne sont pas acceptés)."
+
+msgid "Use a valid, unexpired government-issued document."
+msgstr "Utilisez un document officiel valide et non expiré."
+
+msgid "Use letters only, exactly as written on your document."
+msgstr "Utilisez uniquement des lettres, exactement comme sur votre document."
+
+msgid "Verification requested."
+msgstr "Vérification demandée."
+
+msgid "Verification steps"
+msgstr "Étapes de la vérification"
+
+msgid "Verify my identity"
+msgstr "Vérifier mon identité"
+
+msgid "Verify your identity to receive payouts"
+msgstr "Vérifiez votre identité pour recevoir vos retraits"
+
+msgid "View"
+msgstr "Voir"
+
+msgid "Visa, Mastercard and bank accounts depending on your country"
+msgstr "Visa, Mastercard et comptes bancaires selon votre pays"
+
+msgid "We could not read your account status. Please try again."
+msgstr "Nous n’avons pas pu lire l’état de votre compte. Veuillez réessayer."
+
+msgid "We could not start the secure setup with our payment provider. Please try again."
+msgstr "Nous n’avons pas pu démarrer la configuration sécurisée avec notre prestataire de paiement. Veuillez réessayer."
+
+msgid "We could not verify your identity"
+msgstr "Nous n’avons pas pu vérifier votre identité"
+
+msgid "We never store your PayPal password, full card number or bank account number."
+msgstr "Nous ne conservons jamais votre mot de passe PayPal, votre numéro de carte complet ni votre numéro de compte bancaire."
+
+msgid "We only keep the last 4 digits"
+msgstr "Nous ne conservons que les 4 derniers chiffres"
+
+msgid "You can disconnect a method at any time."
+msgstr "Vous pouvez déconnecter un moyen de paiement à tout moment."
+
+msgid "You cannot submit a new request right now."
+msgstr "Vous ne pouvez pas envoyer de nouvelle demande pour le moment."
+
+msgid "You must be at least 18 years old to receive payouts."
+msgstr "Vous devez avoir au moins 18 ans pour recevoir des retraits."
+
+msgid "Your PayPal email address is not confirmed. Confirm it on PayPal, then connect again."
+msgstr "Votre adresse e-mail PayPal n’est pas confirmée. Confirmez-la sur PayPal, puis reconnectez-vous."
+
+msgid "Your PayPal email must be confirmed"
+msgstr "Votre e-mail PayPal doit être confirmé"
+
+msgid "Your account is being reviewed by our payment partner. Refresh the status in a moment."
+msgstr "Votre compte est en cours d’examen par notre partenaire de paiement. Actualisez le statut dans un instant."
+
+msgid "Your account is not ready to receive payouts yet."
+msgstr "Votre compte n’est pas encore prêt à recevoir des retraits."
+
+msgid "Your bank card / account is connected."
+msgstr "Votre carte / compte bancaire est connecté."
+
+msgid "Your documents are being reviewed"
+msgstr "Vos documents sont en cours d’examen"
+
+msgid "Your documents are encrypted, used only to verify your identity and viewed only by authorised staff. They are never shown publicly."
+msgstr "Vos documents sont chiffrés, utilisés uniquement pour vérifier votre identité et consultés seulement par le personnel autorisé. Ils ne sont jamais affichés publiquement."
+
+msgid "Your documents were sent. We will review them shortly."
+msgstr "Vos documents ont été envoyés. Nous allons les examiner rapidement."
+
+msgid "Your face and the document must be clearly visible"
+msgstr "Votre visage et le document doivent être bien visibles"
+
+msgid "Your identity has been verified. You can now request payouts."
+msgstr "Votre identité a été vérifiée. Vous pouvez maintenant demander des retraits."
+
+msgid "Your identity is already verified."
+msgstr "Votre identité est déjà vérifiée."
+
+msgid "Your identity is verified"
+msgstr "Votre identité est vérifiée"
+
+msgid "Your verification is already being reviewed."
+msgstr "Votre vérification est déjà en cours d’examen."
+
+msgid "bank"
+msgstr "banque"
+
+msgid "card"
+msgstr "carte"
+
+msgid "e.g. The photo is blurry. Please upload a clearer picture of the front of your document."
+msgstr "p. ex. La photo est floue. Veuillez envoyer une photo plus nette du recto de votre document."
+
+msgid "Pending review"
+msgstr "En attente d’examen"
+
+msgid "Passport"
+msgstr "Passeport"
+
+msgid "National ID card"
+msgstr "Carte nationale d’identité"
+
+msgid "Driver's licence"
+msgstr "Permis de conduire"

@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
 
@@ -68,3 +69,61 @@ class Shop(models.Model):
     @property
     def is_payout_eligible(self):
         return self.kyc_status == "verified" and self.is_active
+
+
+class IdentityVerification(models.Model):
+    """Dossier de vérification d'identité (KYC) d'un vendeur — comme sur les autres places de marché.
+    Une seule demande « en attente » à la fois ; après un refus, le vendeur peut en soumettre une nouvelle.
+    Les images (recto, verso, selfie) sont dans KycDocument, CHIFFRÉES, et jamais servies publiquement."""
+    STATUS = [("pending", _("Pending review")), ("approved", _("Approved")), ("rejected", _("Rejected"))]
+    DOC_TYPES = [("passport", _("Passport")), ("national_id", _("National ID card")), ("driver_license", _("Driver's licence"))]
+
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="identity_checks")
+    status = models.CharField(max_length=10, choices=STATUS, default="pending", db_index=True)
+    first_name = models.CharField(max_length=80)
+    last_name = models.CharField(max_length=80)
+    date_of_birth = models.DateField()
+    nationality = models.CharField(max_length=2)
+    address_line1 = models.CharField(max_length=120)
+    address_line2 = models.CharField(max_length=120, blank=True)
+    city = models.CharField(max_length=80)
+    region = models.CharField(max_length=80, blank=True)
+    postal_code = models.CharField(max_length=20, blank=True)
+    country = models.CharField(max_length=2)
+    phone = models.CharField(max_length=30, blank=True)
+    doc_type = models.CharField(max_length=16, choices=DOC_TYPES)
+    doc_country = models.CharField(max_length=2)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    reviewed_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
+    reviewed_at = models.DateTimeField(null=True, blank=True)
+    rejection_reason = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ["-submitted_at"]
+        constraints = [models.UniqueConstraint(fields=["shop"], condition=models.Q(status="pending"), name="one_pending_identity_per_shop")]
+
+    def __str__(self):
+        return f"KYC {self.pk} — {self.shop} ({self.status})"
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
+
+
+class KycDocument(models.Model):
+    """Image d'une pièce d'identité. `data` = JPEG CHIFFRÉ (Fernet). Jamais exposée par une URL publique :
+    seuls les administrateurs peuvent la voir, via une vue authentifiée qui écrit une entrée d'audit à chaque consultation."""
+    KINDS = [("front", _("Document — front")), ("back", _("Document — back")), ("selfie", _("Selfie holding your document"))]
+
+    verification = models.ForeignKey(IdentityVerification, on_delete=models.CASCADE, related_name="documents")
+    kind = models.CharField(max_length=8, choices=KINDS)
+    data = models.BinaryField(null=True, blank=True, editable=False)
+    mime = models.CharField(max_length=40, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["verification", "kind"], name="one_document_per_kind")]
+
+    @property
+    def is_purged(self):
+        return not self.data

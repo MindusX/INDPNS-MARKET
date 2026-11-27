@@ -218,6 +218,15 @@ STRIPE_WEBHOOK_SECRET = env("STRIPE_WEBHOOK_SECRET")
 PAYPAL_CLIENT_ID = env("PAYPAL_CLIENT_ID")
 PAYPAL_CLIENT_SECRET = env("PAYPAL_CLIENT_SECRET")
 PAYPAL_WEBHOOK_ID = env("PAYPAL_WEBHOOK_ID")
+PAYPAL_SANDBOX = env_bool("PAYPAL_SANDBOX", False)       # True = environnement de test PayPal (sandbox)
+
+# Vérification d'identité (KYC) : les pièces d'identité sont CHIFFRÉES en base (Fernet).
+# KYC_ENCRYPTION_KEY : clé(s) Fernet séparées par des virgules (la 1re chiffre, toutes déchiffrent = rotation).
+#   Générer : python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+# À défaut, la clé est dérivée de SECRET_KEY. Sans aucune des deux (SECRET_KEY éphémère), l'envoi de documents est désactivé.
+KYC_ENCRYPTION_KEY = env("KYC_ENCRYPTION_KEY")
+KYC_KEY_CONFIGURED = bool(env("KYC_ENCRYPTION_KEY") or env("SECRET_KEY"))
+KYC_PURGE_DOCS_ON_APPROVAL = env_bool("KYC_PURGE_DOCS_ON_APPROVAL", False)   # True = supprime les images dès que le dossier est approuvé
 PAYOUT_HOLD_DAYS = env_int("PAYOUT_HOLD_DAYS", 14)
 MIN_PAYOUT_AMOUNT = env("MIN_PAYOUT_AMOUNT", "20.00")
 SUBSCRIPTIONS_ENABLED = env_bool("SUBSCRIPTIONS_ENABLED", False)   # facturation d'abonnements vendeurs : non implémentée

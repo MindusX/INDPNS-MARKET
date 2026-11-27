@@ -1,8 +1,72 @@
 {% extends "dashboard/base_dashboard.html" %}
-{% load i18n core_tags %}
-{% block title %}{% trans "Verification" %}{% endblock %}
-{% block content %}<div class="page-head"><h1>{% trans "Verification" %}</h1></div>
-<div class="card form-card"><p>{% trans "Shop verification" %}: <span class="badge">{{ shop.get_verification_status_display }}</span></p>
-<p>{% trans "Identity (KYC) for payouts" %}: <span class="badge">{{ shop.get_kyc_status_display }}</span></p>
-<p class="muted">{% trans "KYC is performed by the payment provider and recorded by our team. No payout is ever sent without it." %}</p>
-{% if shop.verification_status == "none" or shop.verification_status == "rejected" %}<form method="post">{% csrf_token %}<button class="btn btn-primary" type="submit">{% trans "Request shop verification" %}</button></form>{% endif %}</div>{% endblock %}
+{% load i18n static core_tags %}
+{% block title %}{% trans "Identity verification" %}{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'css/connect.css' %}">{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% trans "Identity verification" %}</h1></div>
+
+{# ---------- Statut ---------- #}
+{% if shop.kyc_status == "verified" %}
+<div class="card cx-status cx-ok"><span class="cx-status-icon" aria-hidden="true">{% icon "shield" 26 %}</span>
+  <div><h2>{% trans "Your identity is verified" %}</h2><p>{% trans "Thank you. You can now request payouts." %}</p>
+  <a class="btn btn-primary btn-sm" href="{% url 'dashboard:seller_payout_methods' %}">{% trans "Connect a payout method" %}</a></div></div>
+{% elif shop.kyc_status == "pending" %}
+<div class="card cx-status cx-wait"><span class="cx-status-icon" aria-hidden="true">{% icon "shield" 26 %}</span>
+  <div><h2>{% trans "Your documents are being reviewed" %}</h2><p>{% blocktrans with d=latest.submitted_at|date:"DATE_FORMAT" %}Submitted on {{ d }}. We will notify you here and by notification as soon as the review is done.{% endblocktrans %}</p></div></div>
+{% elif shop.kyc_status == "rejected" %}
+<div class="card cx-status cx-bad"><span class="cx-status-icon" aria-hidden="true">{% icon "shield" 26 %}</span>
+  <div><h2>{% trans "We could not verify your identity" %}</h2>{% if latest.rejection_reason %}<p><strong>{% trans "Reason" %}:</strong> {{ latest.rejection_reason }}</p>{% endif %}<p>{% trans "Please correct the issue and submit your documents again below." %}</p></div></div>
+{% else %}
+<div class="card cx-status"><span class="cx-status-icon" aria-hidden="true">{% icon "shield" 26 %}</span>
+  <div><h2>{% trans "Verify your identity to receive payouts" %}</h2><p>{% trans "Like every online marketplace, we must confirm who is behind a shop before sending money. It takes about 5 minutes." %}</p></div></div>
+{% endif %}
+
+<ol class="cx-steps" aria-label="{% trans 'Verification steps' %}">
+  <li class="{% if shop.kyc_status != 'none' %}done{% else %}current{% endif %}">{% trans "Send your documents" %}</li>
+  <li class="{% if shop.kyc_status == 'pending' %}current{% elif shop.kyc_status == 'verified' or shop.kyc_status == 'rejected' %}done{% endif %}">{% trans "Review by our team" %}</li>
+  <li class="{% if shop.kyc_status == 'verified' %}done{% endif %}">{% trans "Payouts enabled" %}</li>
+</ol>
+
+{% if not kyc_available %}<div class="notice cx-notice">{% trans "Identity verification is temporarily unavailable. Please contact support." %}</div>{% endif %}
+
+{# ---------- Formulaire ---------- #}
+{% if form and kyc_available %}
+<form class="cx-form" method="post" enctype="multipart/form-data" novalidate data-kyc-form
+      data-msg-type="{% trans 'Upload a JPG, PNG or WebP photo (PDF files are not accepted).' %}" data-msg-size="{% trans 'File too large (max 10 MB).' %}" data-sending="{% trans 'Sending…' %}">
+  {% csrf_token %}<input type="hidden" name="action" value="identity">
+  {% if form.non_field_errors %}<div class="message error">{{ form.non_field_errors }}</div>{% endif %}
+
+  <section class="card cx-section"><h2>1. {% trans "Personal details" %}</h2><p class="sub">{% trans "Exactly as written on your identity document." %}</p>
+    <div class="cx-grid2">{% include "dashboard/components/field.html" with field=form.first_name %}{% include "dashboard/components/field.html" with field=form.last_name %}</div>
+    <div class="cx-grid2">{% include "dashboard/components/field.html" with field=form.date_of_birth %}{% include "dashboard/components/field.html" with field=form.nationality %}</div>
+    {% include "dashboard/components/field.html" with field=form.phone %}</section>
+
+  <section class="card cx-section"><h2>2. {% trans "Address" %}</h2>
+    {% include "dashboard/components/field.html" with field=form.address_line1 %}{% include "dashboard/components/field.html" with field=form.address_line2 %}
+    <div class="cx-grid2">{% include "dashboard/components/field.html" with field=form.city %}{% include "dashboard/components/field.html" with field=form.region %}</div>
+    <div class="cx-grid2">{% include "dashboard/components/field.html" with field=form.postal_code %}{% include "dashboard/components/field.html" with field=form.country %}</div></section>
+
+  <section class="card cx-section"><h2>3. {% trans "Identity document" %}</h2>
+    <div class="cx-grid2">{% include "dashboard/components/field.html" with field=form.doc_type %}{% include "dashboard/components/field.html" with field=form.doc_country %}</div>
+    <ul class="cx-tips"><li>{% trans "Use a valid, unexpired government-issued document." %}</li><li>{% trans "All four corners visible, no glare, text readable." %}</li><li>{% trans "JPG, PNG or WebP photo, up to 10 MB." %}</li></ul>
+    <div class="cx-drops">
+      <div class="cx-dropwrap"><label class="cx-drop" data-kyc-zone="front">{{ form.front }}<img class="cx-thumb" alt="" hidden><span class="cx-drop-text">{% icon "plus" 20 %}<strong>{% trans "Document — front" %}</strong><small>{% trans "Tap to take or choose a photo" %}</small></span></label><p class="cx-err" data-kyc-error="front" role="alert" hidden></p>{{ form.front.errors }}</div>
+      <div class="cx-dropwrap" data-kyc-back><label class="cx-drop" data-kyc-zone="back">{{ form.back }}<img class="cx-thumb" alt="" hidden><span class="cx-drop-text">{% icon "plus" 20 %}<strong>{% trans "Document — back" %}</strong><small>{% trans "Not needed for a passport" %}</small></span></label><p class="cx-err" data-kyc-error="back" role="alert" hidden></p>{{ form.back.errors }}</div>
+      <div class="cx-dropwrap"><label class="cx-drop" data-kyc-zone="selfie">{{ form.selfie }}<img class="cx-thumb" alt="" hidden><span class="cx-drop-text">{% icon "user" 20 %}<strong>{% trans "Selfie holding your document" %}</strong><small>{% trans "Your face and the document must be clearly visible" %}</small></span></label><p class="cx-err" data-kyc-error="selfie" role="alert" hidden></p>{{ form.selfie.errors }}</div>
+    </div></section>
+
+  <section class="card cx-section">
+    <div class="field field-check{% if form.consent.errors %} has-error{% endif %}"><label>{{ form.consent }} <span>{{ form.consent.label }}</span></label>{{ form.consent.errors }}</div>
+    <p class="help">{% trans "Your documents are encrypted, used only to verify your identity and viewed only by authorised staff. They are never shown publicly." %}</p>
+  </section>
+
+  <div class="cx-savebar"><button class="btn btn-primary" type="submit" data-kyc-submit>{% trans "Submit for verification" %}</button></div>
+</form>
+{% endif %}
+
+{# ---------- Badge « boutique vérifiée » ---------- #}
+<section class="card cx-section" style="margin-top:20px"><h2>{% trans "Shop verification badge" %}</h2>
+  <p>{% trans "Shop verification" %}: <span class="badge">{{ shop.get_verification_status_display }}</span></p>
+  {% if shop.verification_status == "none" or shop.verification_status == "rejected" %}<form method="post">{% csrf_token %}<input type="hidden" name="action" value="shop_verification"><button class="btn" type="submit">{% trans "Request shop verification" %}</button></form>{% endif %}
+</section>
+{% endblock %}

@@ -304,8 +304,9 @@ def seller_payouts(request):
         except (PayoutError, ArithmeticError, ValueError) as e:
             messages.error(request, str(e) if isinstance(e, PayoutError) else _("Invalid amount."))
         return redirect("dashboard:seller_payouts")
+    method = shop.payout_methods.filter(status="connected", payouts_enabled=True).order_by("-is_default", "kind").first()
     return render(request, "dashboard/seller/payouts.html", context(request, "seller", shop=shop, page=paginate(request, Payout.objects.filter(shop=shop)),
-                                                                     available=seller_available(shop)))
+                                                                     available=seller_available(shop), method=method))
 
 
 @seller_required

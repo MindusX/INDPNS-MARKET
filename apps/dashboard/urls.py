@@ -2,6 +2,8 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
 from . import views as v
+from . import views_connect as vc
+from . import views_kyc as vk
 
 app_name = "dashboard"
 
@@ -33,7 +35,11 @@ urlpatterns = [
     path("seller/revenue/", v.seller_revenue, name="seller_revenue"),
     path("seller/payouts/", v.seller_payouts, name="seller_payouts"),
     path("seller/reviews/", v.seller_reviews, name="seller_reviews"),
-    path("seller/verification/", v.seller_verification, name="seller_verification"),
+    path("seller/verification/", vk.seller_verification, name="seller_verification"),
+    path("seller/payout-methods/", vc.seller_payout_methods, name="seller_payout_methods"),
+    path("seller/payout-methods/paypal/callback/", vc.seller_paypal_callback, name="seller_paypal_callback"),
+    path("seller/payout-methods/stripe/return/", vc.seller_stripe_return, name="seller_stripe_return"),
+    path("seller/payout-methods/stripe/refresh/", vc.seller_stripe_refresh, name="seller_stripe_refresh"),
     # admin
     path("admin/", v.admin_home, name="admin_home"),
     path("admin/moderation/", v.admin_moderation, name="admin_moderation"),
@@ -41,6 +47,9 @@ urlpatterns = [
     path("admin/users/", v.admin_users, name="admin_users"),
     path("admin/orders/", v.admin_orders, name="admin_orders"),
     path("admin/payouts/", v.admin_payouts, name="admin_payouts"),
+    path("admin/kyc/", vk.admin_kyc, name="admin_kyc"),
+    path("admin/kyc/<int:pk>/", vk.admin_kyc_detail, name="admin_kyc_detail"),
+    path("admin/kyc/<int:pk>/document/<int:doc_id>/", vk.admin_kyc_document, name="admin_kyc_document"),
     path("admin/reports/", v.admin_reports, name="admin_reports"),
     path("admin/audit/", v.admin_audit, name="admin_audit"),
 ]

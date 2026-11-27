@@ -20,12 +20,15 @@ class PayoutError(Exception):
 def request_payout(shop, amount):
     if not shop.is_payout_eligible:
         raise PayoutError(_("Payouts require a verified identity (KYC). Complete verification first."))
+    method = shop.payout_methods.filter(status="connected", payouts_enabled=True).order_by("-is_default", "kind").first()
+    if method is None:
+        raise PayoutError(_("Connect a payout method first (PayPal or bank card)."))
     amount = Decimal(amount).quantize(Decimal("0.01"))
     if amount < Decimal(settings.MIN_PAYOUT_AMOUNT):
         raise PayoutError(_("Minimum payout is %(m)s.") % {"m": settings.MIN_PAYOUT_AMOUNT})
     if amount > seller_available(shop):
         raise PayoutError(_("Amount exceeds your available balance."))
-    return Payout.objects.create(shop=shop, amount=amount)
+    return Payout.objects.create(shop=shop, amount=amount, method_kind=method.kind, destination=method.label)
 
 
 @transaction.atomic
