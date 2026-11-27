@@ -1,15 +1,10 @@
 from django import forms
-from django.core.exceptions import ValidationError as DjangoValidationError
-from django.core.files.uploadedfile import UploadedFile
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.cache import cache
 from django.utils.translation import gettext_lazy as _
 from urllib.parse import urlparse
 
-from apps.core.files import validate_image_file
-
-from .images import process_profile_image
 from .models import User
 from .profile_rules import (GITHUB_RE, LINKEDIN_RE, TWITTER_RE, USERNAME_MAX, USERNAME_MIN, clean_handle,
                             normalize_username, validate_username)
@@ -82,22 +77,14 @@ class LoginForm(AuthenticationForm):
 
 
 class ProfileForm(forms.ModelForm):
-    """Profil avancé : identité publique, images (avatar + couverture), liens et visibilité.
-    Les images passent par apps/accounts/images.py (validation réelle, recadrage, suppression des métadonnées)."""
-    avatar = forms.ImageField(required=False, label=_("Profile photo"),
-                              widget=forms.FileInput(attrs={"accept": "image/jpeg,image/png,image/webp", "class": "sr-only", "data-pf-file": "avatar"}))
-    cover = forms.ImageField(required=False, label=_("Cover image"),
-                             widget=forms.FileInput(attrs={"accept": "image/jpeg,image/png,image/webp", "class": "sr-only", "data-pf-file": "cover"}))
-    remove_avatar = forms.BooleanField(required=False, label=_("Remove my photo"),
-                                       widget=forms.CheckboxInput(attrs={"data-pf-remove": "avatar"}))
-    remove_cover = forms.BooleanField(required=False, label=_("Remove my cover"),
-                                      widget=forms.CheckboxInput(attrs={"data-pf-remove": "cover"}))
+    """Profil avancé : identité publique, liens et visibilité.
+    Les images (avatar + couverture) ne passent PAS par ce formulaire : comme Mindus Forge, elles sont envoyées en AJAX
+    (apps/accounts/profile_api.py), stockées en base et affichées immédiatement."""
     website = forms.URLField(required=False, assume_scheme="https", label=_("Website"),
                              widget=forms.URLInput(attrs={"placeholder": "https://example.com"}))
 
     class Meta:
         model = User
-        # avatar/cover ne sont volontairement PAS ici : ils sont traités à la main dans save() (jamais de fichier brut stocké).
         fields = ["display_name", "username", "headline", "bio", "location", "website",
                   "github", "twitter", "linkedin", "profile_public", "preferred_language", "marketing_consent"]
         labels = {
@@ -125,11 +112,6 @@ class ProfileForm(forms.ModelForm):
             "linkedin": forms.TextInput(attrs={"placeholder": "your-name", "autocapitalize": "none"}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._processed = {}
-        self._old_files = []
-
     # ---- identité ----
     def clean_display_name(self):
         name = " ".join((self.cleaned_data.get("display_name") or "").split())
@@ -150,7 +132,7 @@ class ProfileForm(forms.ModelForm):
         return " ".join((self.cleaned_data.get("headline") or "").split())
 
     def clean_bio(self):
-        # texte brut : les sauts de ligne sont conservés, les espaces superflus et le HTML ne sont jamais interprétés (échappement à l'affichage)
+        # texte brut : les sauts de ligne sont conservés ; le HTML n'est jamais interprété (échappement à l'affichage)
         bio = (self.cleaned_data.get("bio") or "").replace("\r\n", "\n").strip()
         return "\n".join(line.rstrip() for line in bio.split("\n"))
 
@@ -179,47 +161,8 @@ class ProfileForm(forms.ModelForm):
     def clean_linkedin(self):
         return self._handle("linkedin", LINKEDIN_RE, ("linkedin.com", "fr.linkedin.com", "uk.linkedin.com"))
 
-    # ---- images ----
-    def _clean_image(self, field, kind):
-        f = self.cleaned_data.get(field)
-        if not isinstance(f, UploadedFile):      # rien de nouveau (ou fichier déjà stocké) : on ne retraite pas
-            return f
-        try:
-            validate_image_file(f)
-            self._processed[kind] = process_profile_image(f, kind)
-        except DjangoValidationError as e:
-            raise forms.ValidationError(e.messages)
-        return f
-
-    def clean_avatar(self):
-        return self._clean_image("avatar", "avatar")
-
-    def clean_cover(self):
-        return self._clean_image("cover", "cover")
-
     def clean(self):
         data = super().clean()
         if data.get("profile_public") and "username" not in self.errors and not data.get("username"):
             self.add_error("username", _("Choose a username to make your profile public."))
         return data
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        for kind in ("avatar", "cover"):
-            field = getattr(user, kind)
-            if self._processed.get(kind) is not None:
-                if field:
-                    self._old_files.append(field.name)
-                field.save(self._processed[kind].name, self._processed[kind], save=False)
-            elif self.cleaned_data.get(f"remove_{kind}") and field:
-                self._old_files.append(field.name)
-                setattr(user, kind, "")
-        if commit:
-            user.save()
-            storage = User._meta.get_field("avatar").storage
-            for name in self._old_files:      # on supprime les anciens fichiers seulement après l'enregistrement en base
-                try:
-                    storage.delete(name)
-                except Exception:   # pragma: no cover - ne doit jamais casser l'enregistrement du profil
-                    pass
-        return user

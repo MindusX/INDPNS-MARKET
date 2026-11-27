@@ -8,35 +8,38 @@
   {% if profile_user.username %}<a class="btn" href="{{ profile_user.get_public_url }}" target="_blank" rel="noopener">{% if profile_user.profile_public %}{% trans "View public profile" %}{% else %}{% trans "Preview my profile" %}{% endif %}</a>{% endif %}
 </div>
 
-<form class="pf" method="post" enctype="multipart/form-data" novalidate data-pf data-msg-type="{% trans 'Images must be JPG, PNG or WebP.' %}" data-msg-size="{% trans 'Image too large (max 5 MB).' %}">
+<form class="pf" method="post" novalidate data-pf data-user-id="{{ profile_user.pk }}"
+      data-has-avatar="{{ profile_user.has_avatar|yesno:'1,0' }}" data-has-cover="{{ profile_user.has_cover|yesno:'1,0' }}" data-cover-pos="{{ profile_user.cover_position_y }}"
+      data-api-avatar-upload="{% url 'profiles:upload_avatar' %}" data-api-cover-upload="{% url 'profiles:upload_cover' %}"
+      data-api-avatar-delete="{% url 'profiles:delete_avatar' %}" data-api-cover-delete="{% url 'profiles:delete_cover' %}"
+      data-api-cover-position="{% url 'profiles:cover_position' %}">
   {% csrf_token %}
   {% if form.non_field_errors %}<div class="message error">{{ form.non_field_errors }}</div>{% endif %}
 
-  {# ---------- Images : couverture + photo ---------- #}
+  {# ---------- Images : couverture + photo (envoi AJAX, aperçu immédiat — comme Mindus Forge) ---------- #}
   <section class="card pf-card pf-hero" aria-labelledby="pf-h-images">
     <h2 class="sr-only" id="pf-h-images">{% trans "Profile images" %}</h2>
-    <div class="pf-cover pf-media{% if profile_user.cover %} has-image{% endif %}" data-pf-box="cover">
-      <img src="{% if profile_user.cover %}{{ profile_user.cover.url }}{% endif %}" data-pf-img data-orig="{% if profile_user.cover %}{{ profile_user.cover.url }}{% endif %}" alt="">
+    <div class="pf-cover" id="pf-cover">
+      {% if profile_user.has_cover %}<img class="pf-cover-img" id="pf-cover-img" src="{{ profile_user.cover_url }}" alt="" draggable="false" style="object-position: 50% {{ profile_user.cover_position_y }}%">{% endif %}
       <div class="pf-cover-actions">
-        <label class="btn btn-sm pf-file">{% icon "plus" 16 %}<span>{% trans "Change cover" %}</span>{{ form.cover }}</label>
-        {% if profile_user.cover %}<label class="pf-remove">{{ form.remove_cover }}<span>{% trans "Remove" %}</span></label>{% endif %}
+        <button class="btn btn-sm" type="button" data-pf-act="cover-pick">{% icon "plus" 16 %}<span data-pf-cover-label>{% if profile_user.has_cover %}{% trans "Change cover" %}{% else %}{% trans "Add a cover" %}{% endif %}</span></button>
+        <button class="btn btn-sm" type="button" data-pf-act="cover-repos" data-pf-need="cover" {% if not profile_user.has_cover %}hidden{% endif %}>{% trans "Reposition" %}</button>
+        <button class="btn btn-sm" type="button" data-pf-act="cover-remove" data-pf-need="cover" {% if not profile_user.has_cover %}hidden{% endif %}>{% trans "Remove" %}</button>
       </div>
     </div>
     <div class="pf-avatar-row">
-      <div class="pf-avatar pf-media{% if profile_user.avatar %} has-image{% endif %}" data-pf-box="avatar">
-        <img src="{% if profile_user.avatar %}{{ profile_user.avatar.url }}{% endif %}" data-pf-img data-orig="{% if profile_user.avatar %}{{ profile_user.avatar.url }}{% endif %}" alt="">
+      <div class="pf-avatar" id="pf-avatar-box" data-avatar-slot>
         <span class="pf-initial" aria-hidden="true">{{ profile_user.avatar_initial }}</span>
+        {% if profile_user.has_avatar %}<img data-avatar-img src="{{ profile_user.avatar_url }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit">{% endif %}
       </div>
       <div class="pf-avatar-actions">
-        <label class="btn btn-sm pf-file">{% icon "user" 16 %}<span>{% trans "Change photo" %}</span>{{ form.avatar }}</label>
-        {% if profile_user.avatar %}<label class="pf-remove">{{ form.remove_avatar }}<span>{% trans "Remove" %}</span></label>{% endif %}
+        <button class="btn btn-sm" type="button" data-pf-act="avatar-pick">{% icon "user" 16 %}<span>{% trans "Change photo" %}</span></button>
+        <button class="btn btn-sm" type="button" data-pf-act="avatar-remove" data-pf-need="avatar" {% if not profile_user.has_avatar %}hidden{% endif %}>{% trans "Remove" %}</button>
       </div>
-      <p class="pf-hint">{% blocktrans %}JPG, PNG or WebP, up to 5 MB. Photo: square, at least 128 px. Cover: wide 3:1 format, 1500 × 500 px recommended.{% endblocktrans %}</p>
+      <p class="pf-hint">{% trans "JPG, PNG, WebP or GIF. You can crop your photo and reposition your cover. Changes are saved instantly." %}</p>
     </div>
-    <div class="pf-img-errors">
-      <p class="pf-error" data-pf-error="avatar" role="alert" hidden></p><p class="pf-error" data-pf-error="cover" role="alert" hidden></p>
-      {{ form.avatar.errors }}{{ form.cover.errors }}
-    </div>
+    <input type="file" id="pf-file-avatar" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+    <input type="file" id="pf-file-cover" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
   </section>
 
   {# ---------- Identité ---------- #}
@@ -105,4 +108,5 @@
     <button class="btn btn-primary" type="submit">{% trans "Save changes" %}</button>
   </div>
 </form>
+{{ pf_i18n|json_script:"pf-i18n" }}
 {% endblock %}

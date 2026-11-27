@@ -57,8 +57,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     # ----- Profil public (partageable : /u/<username>/) -----
     username = models.CharField(max_length=30, unique=True, null=True, blank=True, default=None, validators=[validate_username],
                                 help_text="Identifiant public : indpns.com/u/<identifiant>")
-    avatar = models.ImageField(upload_to=avatar_upload_to, blank=True)
-    cover = models.ImageField(upload_to=cover_upload_to, blank=True)
+    # Anciens champs fichier : OBSOLÈTES, conservés uniquement car leurs colonnes existent déjà en base (NOT NULL).
+    # Les images sont désormais stockées en base, comme Mindus Forge : voir ProfileImage et avatar_version/cover_version.
+    avatar = models.ImageField(upload_to=avatar_upload_to, blank=True, editable=False)
+    cover = models.ImageField(upload_to=cover_upload_to, blank=True, editable=False)
+    # Version des images (horodatage en ms ; 0 = aucune). Sert d'URL versionnée (?v=…) : jamais de vieille image en cache.
+    avatar_version = models.BigIntegerField(default=0, editable=False)
+    cover_version = models.BigIntegerField(default=0, editable=False)
+    cover_position_y = models.PositiveSmallIntegerField(default=50, editable=False)   # cadrage vertical de la couverture, 0–100 %
     headline = models.CharField(max_length=100, blank=True)
     bio = models.TextField(max_length=600, blank=True)
     location = models.CharField(max_length=80, blank=True)
@@ -91,6 +97,22 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_public_url(self):
         return reverse("profiles:detail", args=[self.username]) if self.username else ""
+
+    @property
+    def has_avatar(self):
+        return bool(self.avatar_version)
+
+    @property
+    def has_cover(self):
+        return bool(self.cover_version)
+
+    @property
+    def avatar_url(self):
+        return f"{reverse('profiles:avatar', args=[self.pk])}?v={self.avatar_version}" if self.avatar_version else ""
+
+    @property
+    def cover_url(self):
+        return f"{reverse('profiles:cover', args=[self.pk])}?v={self.cover_version}" if self.cover_version else ""
 
     @property
     def avatar_initial(self):
@@ -136,3 +158,16 @@ class UserSession(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+
+class ProfileImage(models.Model):
+    """Octets des images de profil (avatar + couverture), stockés EN BASE comme Mindus Forge : persistants sur Render sans S3.
+    Table séparée de User pour ne jamais charger ces blobs à chaque requête authentifiée (chargés uniquement par la route de service)."""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="images")
+    avatar_data = models.BinaryField(null=True, blank=True)
+    avatar_mime = models.CharField(max_length=40, blank=True)
+    cover_data = models.BinaryField(null=True, blank=True)
+    cover_mime = models.CharField(max_length=40, blank=True)
+
+    def __str__(self):
+        return f"Images de {self.user_id}"

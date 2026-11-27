@@ -1,18 +1,27 @@
-# Correctif : photo de profil et couverture qui ne s'affichent pas
+# Profil INDPNS Market — géré exactement comme Mindus Forge
 
-## Cause
-1. En production, Django ne servait pas /media/ (réservé au mode DEBUG) -> images introuvables (icône "image cassée").
-2. Même servis, les fichiers étaient écrits sur le disque de Render, EFFACÉ à chaque déploiement.
-3. Sur mobile, la carte de couverture avait un padding qui la décalait et la faisait déborder.
+## Ce qui est repris de Mindus Forge
+| Mindus Forge                              | INDPNS Market (ce zip)                                   |
+|-------------------------------------------|----------------------------------------------------------|
+| Images stockées EN BASE (BYTEA)           | Table accounts_profileimage (BinaryField)                |
+| URL versionnée ?v=<horodatage>            | /api/profile/avatar/<id>?v=…  et  /api/profile/cover/<id>?v=… |
+| ETag + cache immuable                     | idem (304 sans recharger l'image)                        |
+| POST /api/profile/upload-avatar | -cover  | idem (multipart, champ « file »)                         |
+| DELETE /api/profile/avatar | cover        | idem                                                     |
+| PUT /api/profile/cover/position           | idem (cadrage vertical 0–100 %)                          |
+| Recadrage photo (zoom, glisser, pincement)| idem, modale « Recadrer votre photo »                    |
+| Aperçu immédiat puis URL serveur          | idem (aperçu local, puis URL versionnée)                 |
+| Repositionnement de la couverture         | idem (glisser-déposer + Enregistrer)                     |
+| Synchronisation entre onglets             | BroadcastChannel                                         |
+| JPEG progressif q88, avatar 800 px, cover 2400 px, alpha aplati, EXIF supprimé | idem |
 
-## Correctif
-- Médias publics (profils, couvertures, logos, visuels produits) stockés dans la base de données (table core_storedfile) :
-  persistants sans S3. Activé automatiquement en production si S3 n'est pas configuré. Avec S3, rien ne change.
-- Nouvelle route /media/<nom> : cache d'un an, X-Content-Type-Options: nosniff, CSP sandbox, seules les vraies images sont affichées.
-- La table core_storedfile est créée automatiquement au démarrage par sync_schema (inclus ici).
-- Mise en page mobile corrigée ; si une image est introuvable, un placeholder (initiale / dégradé) remplace l'icône cassée.
+## Différence volontaire (confidentialité)
+Mindus est un réseau social : photos visibles par tous. Ici, l'image n'est servie que si le profil est PUBLIC,
+ou au propriétaire / à l'équipe (staff). Sinon 404 et l'interface affiche l'initiale.
 
 ## Installation
-Copier le zip sur le projet (mêmes chemins) et redéployer. Aucune commande à lancer.
-Les photos téléversées AVANT ce correctif étaient sur le disque éphémère : elles sont perdues, il faut les téléverser à nouveau.
-Tests : python manage.py test tests.test_db_storage tests.test_profiles tests.test_sync_schema
+Copier le zip sur le projet (mêmes chemins) et redéployer. Rien d'autre :
+sync_schema (déjà installé) crée au démarrage la table accounts_profileimage et les 3 colonnes ajoutées à accounts_user.
+Les anciennes photos (enregistrées sur le disque éphémère) sont perdues : à téléverser à nouveau.
+Tests : python manage.py test tests.test_profiles
+Admin > Utilisateurs > action « Supprimer les photos de profil et de couverture (modération) ».

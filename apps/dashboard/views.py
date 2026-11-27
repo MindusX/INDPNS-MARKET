@@ -120,6 +120,19 @@ def buyer_security(request):
         events=LoginEvent.objects.filter(user=u)[:15]))
 
 
+# Textes affichés par static/js/modules/profile.js (envoi des images, recadrage, cadrage de la couverture)
+def profile_js_texts():
+    return {
+        "photoUpdated": _("Photo updated"), "coverUpdated": _("Cover updated"), "photoRemoved": _("Photo removed"),
+        "coverRemoved": _("Cover removed"), "positionSaved": _("Position saved"), "uploadFailed": _("Upload failed. Please try again."),
+        "invalidImage": _("This file is not a valid image."), "error": _("Something went wrong."), "linkCopied": _("Link copied"),
+        "confirmRemoveAvatar": _("Remove your profile photo?"), "confirmRemoveCover": _("Remove your cover image?"),
+        "cropTitle": _("Crop your photo"), "zoom": _("Zoom"), "cancel": _("Cancel"), "save": _("Save"), "savePhoto": _("Save photo"),
+        "dragHint": _("Drag the image to reposition it"), "noReposition": _("This image is already fully visible."),
+        "changeCover": _("Change cover"), "addCover": _("Add a cover"),
+    }
+
+
 @login_required
 @ratelimit("profile", limit=40, window=600)
 def buyer_profile(request):
@@ -132,7 +145,7 @@ def buyer_profile(request):
         return redirect("dashboard:buyer_profile")
     if request.method == "POST":
         messages.error(request, _("Please fix the highlighted fields."))
-    return render(request, "dashboard/buyer/profile.html", context(request, "buyer", form=form, profile_user=request.user,
+    return render(request, "dashboard/buyer/profile.html", context(request, "buyer", form=form, profile_user=request.user, pf_i18n=profile_js_texts(),
                    profile_url=request.build_absolute_uri(request.user.get_public_url()) if request.user.username else ""))
 
 

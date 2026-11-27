@@ -7,6 +7,6 @@
     <a class="side-link" href="{% url 'products:explore' %}" title="{% trans 'Marketplace' %}">{% icon "store" 20 %}<span class="side-label">{% trans "Marketplace" %}</span></a>
     {% if user.is_staff %}<a class="side-link" href="{% url 'admin:index' %}">{% icon "settings" 20 %}<span class="side-label">Django admin</span></a>{% endif %}
     <form action="{% url 'accounts:logout' %}" method="post">{% csrf_token %}<button class="side-link" style="width:100%;background:none;border:0;font:inherit;cursor:pointer" type="submit">{% icon "logout" 20 %}<span class="side-label">{% trans "Log out" %}</span></button></form>
-    <div class="side-user"><span class="avatar" style="overflow:hidden">{% if user.avatar %}<img src="{{ user.avatar.url }}" alt="" width="34" height="34" style="width:100%;height:100%;object-fit:cover">{% else %}{{ user.avatar_initial }}{% endif %}</span><div><strong style="font-size:.88rem">{{ user.get_short_name }}</strong><small>{{ user.email }}</small></div></div>
+    <div class="side-user"><span class="avatar" data-avatar-slot style="overflow:hidden;position:relative">{{ user.avatar_initial }}{% if user.avatar_url %}<img data-avatar-img src="{{ user.avatar_url }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit">{% endif %}</span><div><strong style="font-size:.88rem">{{ user.get_short_name }}</strong><small>{{ user.email }}</small></div></div>
   </div>
 </aside>

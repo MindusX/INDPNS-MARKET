@@ -1019,3 +1019,75 @@ msgstr "Votre lien public"
 
 msgid "Your public link: 3–30 characters, lowercase letters, numbers, - or _. Changing it breaks links you already shared."
 msgstr "Votre lien public : 3 à 30 caractères, minuscules, chiffres, - ou _. Le modifier casse les liens déjà partagés."
+
+msgid "Add a cover"
+msgstr "Ajouter une couverture"
+
+msgid "Cover removed"
+msgstr "Couverture supprimée"
+
+msgid "Cover updated"
+msgstr "Couverture mise à jour"
+
+msgid "Crop your photo"
+msgstr "Recadrer votre photo"
+
+msgid "Drag the image to reposition it"
+msgstr "Faites glisser l’image pour la repositionner"
+
+msgid "Image too large (max %(mb)s MB)."
+msgstr "Image trop lourde (%(mb)s Mo maximum)."
+
+msgid "Images must be JPG, PNG, WebP or GIF."
+msgstr "Les images doivent être au format JPG, PNG, WebP ou GIF."
+
+msgid "Invalid position."
+msgstr "Position invalide."
+
+msgid "JPG, PNG, WebP or GIF. You can crop your photo and reposition your cover. Changes are saved instantly."
+msgstr "JPG, PNG, WebP ou GIF. Vous pouvez recadrer votre photo et repositionner votre couverture. Les changements sont enregistrés instantanément."
+
+msgid "No file received."
+msgstr "Aucun fichier reçu."
+
+msgid "Photo removed"
+msgstr "Photo supprimée"
+
+msgid "Photo updated"
+msgstr "Photo mise à jour"
+
+msgid "Please sign in."
+msgstr "Veuillez vous connecter."
+
+msgid "Position saved"
+msgstr "Position enregistrée"
+
+msgid "Remove your cover image?"
+msgstr "Supprimer votre image de couverture ?"
+
+msgid "Remove your profile photo?"
+msgstr "Supprimer votre photo de profil ?"
+
+msgid "Reposition"
+msgstr "Repositionner"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Save photo"
+msgstr "Enregistrer la photo"
+
+msgid "Something went wrong."
+msgstr "Une erreur est survenue."
+
+msgid "This image is already fully visible."
+msgstr "Cette image est déjà entièrement visible."
+
+msgid "Upload a cover image first."
+msgstr "Ajoutez d’abord une image de couverture."
+
+msgid "Upload failed. Please try again."
+msgstr "Échec de l’envoi. Veuillez réessayer."
+
+msgid "Zoom"
+msgstr "Zoom"

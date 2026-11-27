@@ -123,12 +123,12 @@ def public_profile(request, username):
         product_count = qs.count()
         products = list(qs.with_stats().order_by("-created_at")[:8]) if product_count else []
 
-    image = profile.cover or profile.avatar
+    image_url = profile.cover_url or profile.avatar_url
     summary = " ".join((profile.bio or profile.headline or "").split())
     description = (summary[:157] + "…") if len(summary) > 160 else (summary or _("%(name)s on INDPNS Market") % {"name": profile.display_name})
     return render(request, "public/profile.html", {
         "profile": profile, "is_owner": is_owner, "is_private_preview": not profile.profile_public,
         "shop": shop, "products": products, "product_count": product_count,
         "profile_url": request.build_absolute_uri(profile.get_public_url()), "meta_description": description,
-        "og_image": request.build_absolute_uri(image.url) if image else "",
+        "og_image": request.build_absolute_uri(image_url) if image_url else "",
     })
