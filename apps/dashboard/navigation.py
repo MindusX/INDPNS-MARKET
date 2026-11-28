@@ -49,8 +49,22 @@ def spaces_for(user):
     return s
 
 
+# Liens vendeur affichés aussi dans l'espace « Acheteur » : un vendeur doit toujours les trouver, où qu'il se trouve.
+SELLER_SHORTCUTS = [
+    _i("dashboard:seller_payout_methods", _("Payout methods"), "wallet"),
+    _i("dashboard:seller_verification", _("Identity verification"), "shield"),
+]
+
+
+def menu_for(space, user):
+    menu = list(MENUS[space])
+    if space == "buyer" and getattr(user, "is_seller", False):
+        menu += SELLER_SHORTCUTS
+    return menu
+
+
 def context(request, space, **extra):
-    ctx = {"space": space, "menu": MENUS[space], "spaces": spaces_for(request.user),
+    ctx = {"space": space, "menu": menu_for(space, request.user), "spaces": spaces_for(request.user),
            "current_view": request.resolver_match.view_name if request.resolver_match else ""}
     ctx.update(extra)
     return ctx

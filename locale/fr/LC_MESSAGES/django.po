@@ -1655,3 +1655,6 @@ msgstr "Carte nationale d’identité"
 
 msgid "Driver's licence"
 msgstr "Permis de conduire"
+
+msgid "Action needed"
+msgstr "Action requise"
